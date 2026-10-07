@@ -1,0 +1,117 @@
+<div class="narrative-blueprint" data-blueprint aria-hidden="true">
+  <div class="narrative-blueprint__frame">
+    <span class="narrative-blueprint__axis narrative-blueprint__axis--horizontal"></span>
+    <span class="narrative-blueprint__axis narrative-blueprint__axis--vertical"></span>
+    <span class="narrative-blueprint__coordinate narrative-blueprint__coordinate--top mono">N—01 / SISTEMA</span>
+    <span class="narrative-blueprint__coordinate narrative-blueprint__coordinate--bottom mono">ESTRUCTURA · INGENIUM</span>
+    <img
+      class="narrative-blueprint__drawing"
+      src="/drawings/ingenium.svg"
+      alt=""
+      width="1254"
+      height="1254"
+      decoding="async"
+    />
+  </div>
+</div>
+
+<style>
+  .narrative-blueprint {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  .narrative-blueprint__frame {
+    position: relative;
+    width: min(72vw, 760px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(246, 243, 236, 0.15);
+  }
+
+  .narrative-blueprint__frame::before,
+  .narrative-blueprint__frame::after {
+    position: absolute;
+    z-index: 1;
+    content: "";
+    background: rgba(246, 243, 236, 0.1);
+  }
+
+  .narrative-blueprint__frame::before {
+    inset: 50% 0 auto;
+    height: 1px;
+  }
+
+  .narrative-blueprint__frame::after {
+    inset: 0 auto 0 50%;
+    width: 1px;
+  }
+
+  .narrative-blueprint__axis {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    background: var(--accent);
+  }
+
+  .narrative-blueprint__axis--horizontal {
+    top: 50%;
+    left: -10px;
+    width: 6px;
+    height: 1px;
+  }
+
+  .narrative-blueprint__axis--vertical {
+    top: -10px;
+    left: 50%;
+    width: 1px;
+    height: 6px;
+  }
+
+  .narrative-blueprint__drawing {
+    position: absolute;
+    inset: 5%;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    opacity: 0.5;
+  }
+
+  .narrative-blueprint__coordinate {
+    position: absolute;
+    z-index: 2;
+    color: rgba(246, 243, 236, 0.55);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .narrative-blueprint__coordinate--top {
+    top: 12px;
+    left: 14px;
+  }
+
+  .narrative-blueprint__coordinate--bottom {
+    right: 14px;
+    bottom: 12px;
+  }
+
+  @media (max-width: 700px) {
+    .narrative-blueprint__frame {
+      width: min(82vw, 540px);
+    }
+
+    .narrative-blueprint__coordinate {
+      font-size: 7px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .narrative-blueprint {
+      position: relative;
+      width: min(68vw, 360px);
+      margin: 0 auto;
+    }
+  }
+</style>
