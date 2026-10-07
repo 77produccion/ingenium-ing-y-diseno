@@ -20,7 +20,7 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
 const introDrawings = [
   { src: "/drawings/edificio-calle-39-3.svg", alt: "Dibujo técnico de un edificio urbano" },
   { src: "/drawings/casa-el-carmelo-4.svg", alt: "Dibujo técnico de una vivienda" },
-  { src: "/drawings/casa-59-campo-madero.svg", alt: "Dibujo técnico de Campo Madero" },
+  { src: "/drawings/casa-el-carmelo-3.svg", alt: "Dibujo técnico estructural de una vivienda" },
   { src: "/drawings/torre-macura-3.svg", alt: "Dibujo técnico de Torre Macura" },
 ];
 ---
@@ -158,7 +158,7 @@ const introDrawings = [
     z-index: 1;
     display: grid;
     align-content: start;
-    padding: clamp(176px, 22svh, 220px) clamp(28px, 6vw, 100px) clamp(32px, 4svh, 48px);
+    padding: clamp(156px, 19svh, 204px) clamp(28px, 6vw, 100px) clamp(32px, 4svh, 48px);
   }
 
   .narrative-intro__content {
@@ -210,7 +210,7 @@ const introDrawings = [
 
   .narrative-intro__drawing {
     display: block;
-    height: clamp(210px, 28svh, 280px);
+    height: clamp(210px, 35svh, 330px);
     min-width: 0;
     background-color: var(--brand-navy);
     -webkit-mask-image: var(--drawing-mask);
@@ -219,8 +219,6 @@ const introDrawings = [
     mask-repeat: no-repeat;
     -webkit-mask-position: center;
     mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
     -webkit-mask-size: contain;
     mask-size: contain;
   }
@@ -477,7 +475,7 @@ const introDrawings = [
     }
 
     .narrative-intro__drawing {
-      height: clamp(100px, 22svh, 135px);
+      height: clamp(140px, 28svh, 170px);
     }
 
     .narrative-paper__content {
