@@ -75,8 +75,10 @@ import BlueprintModule from "./BlueprintModule.astro";
 <style>
   .narrative-section {
     position: relative;
+    width: 100%;
+    height: 100svh;
     min-height: 100svh;
-    overflow: clip;
+    overflow: hidden;
     color: var(--bg);
     background: var(--brand-navy);
     isolation: isolate;
@@ -84,6 +86,8 @@ import BlueprintModule from "./BlueprintModule.astro";
 
   .narrative-stage {
     position: relative;
+    width: 100%;
+    height: 100%;
     min-height: 100svh;
     overflow: hidden;
     background:
@@ -104,26 +108,30 @@ import BlueprintModule from "./BlueprintModule.astro";
   }
 
   .narrative-layer {
-    position: relative;
+    position: absolute;
+    inset: 0;
     z-index: 1;
-    min-height: 100svh;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
   }
 
   .narrative-intro {
     display: grid;
     align-items: center;
-    padding: clamp(112px, 15vh, 170px) clamp(28px, 11vw, 170px) clamp(80px, 12vh, 132px);
+    padding: clamp(88px, 12svh, 132px) clamp(28px, 6vw, 100px) clamp(54px, 8svh, 88px);
   }
 
   .narrative-intro__content {
-    width: min(100%, 940px);
+    width: min(100%, 1440px);
+    margin-inline: auto;
   }
 
   .narrative-intro__logo {
     display: block;
-    width: clamp(148px, 17vw, 230px);
+    width: clamp(150px, 11vw, 190px);
     height: auto;
-    margin-bottom: clamp(35px, 6vh, 68px);
+    margin-bottom: clamp(34px, 5svh, 54px);
     object-fit: contain;
   }
 
@@ -131,15 +139,15 @@ import BlueprintModule from "./BlueprintModule.astro";
   .narrative-philosophy__eyebrow {
     margin: 0 0 18px;
     color: rgba(246, 243, 236, 0.62);
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.16em;
   }
 
   .narrative-intro__statement {
-    max-width: 920px;
+    max-width: 790px;
     margin: 0;
     color: var(--bg);
-    font: 500 clamp(36px, 5.2vw, 72px) / 1.08 var(--font-heading);
+    font: 500 clamp(42px, 4.5vw, 76px) / 1.08 var(--font-heading);
     letter-spacing: -0.045em;
     text-wrap: balance;
   }
@@ -153,7 +161,7 @@ import BlueprintModule from "./BlueprintModule.astro";
 
   .narrative-coordinate--intro,
   .narrative-coordinate--philosophy {
-    right: clamp(28px, 5vw, 76px);
+    right: max(24px, calc((100vw - 1440px) / 2));
     bottom: 30px;
   }
 
@@ -164,31 +172,32 @@ import BlueprintModule from "./BlueprintModule.astro";
 
   .narrative-blueprint-caption {
     position: absolute;
-    right: clamp(28px, 5vw, 76px);
+    right: max(24px, calc((100vw - 1440px) / 2));
     bottom: 30px;
     margin: 0;
     color: rgba(246, 243, 236, 0.62);
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.13em;
   }
 
   .narrative-philosophy {
     display: grid;
     align-content: center;
-    padding: clamp(100px, 14vh, 152px) clamp(28px, 9vw, 138px) clamp(78px, 10vh, 112px);
+    padding: clamp(92px, 12svh, 128px) clamp(28px, 6vw, 100px) clamp(66px, 8svh, 88px);
   }
 
   .narrative-philosophy__heading {
     position: relative;
     z-index: 2;
-    margin: 0 0 clamp(24px, 5vh, 52px);
+    width: min(100%, 1160px);
+    margin: 0 auto clamp(24px, 4svh, 38px);
   }
 
   .narrative-philosophy__heading h2 {
-    max-width: 700px;
+    max-width: 860px;
     margin: 0;
     color: var(--bg);
-    font: 500 clamp(30px, 4vw, 54px) / 1.08 var(--font-heading);
+    font: 500 clamp(34px, 3.8vw, 56px) / 1.08 var(--font-heading);
     letter-spacing: -0.04em;
   }
 
@@ -197,53 +206,64 @@ import BlueprintModule from "./BlueprintModule.astro";
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid rgba(246, 243, 236, 0.28);
-    border-left: 1px solid rgba(246, 243, 236, 0.18);
+    gap: clamp(12px, 1.5vw, 22px);
+    width: min(100%, 1160px);
+    margin-inline: auto;
   }
 
   .narrative-card {
-    min-height: clamp(135px, 19vh, 194px);
-    padding: clamp(17px, 2.2vw, 30px);
-    border-right: 1px solid rgba(246, 243, 236, 0.18);
-    border-bottom: 1px solid rgba(246, 243, 236, 0.28);
-    background: rgba(27, 45, 82, 0.76);
+    position: relative;
+    min-height: clamp(156px, 20svh, 204px);
+    padding: clamp(21px, 2.4vw, 34px);
+    border: 1px solid rgba(246, 243, 236, 0.24);
+    background: rgba(20, 37, 70, 0.74);
     will-change: transform, opacity;
+  }
+
+  .narrative-card::before {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: clamp(42px, 5vw, 72px);
+    height: 2px;
+    content: "";
+    background: var(--accent);
   }
 
   .narrative-card__number {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: clamp(20px, 3vh, 34px);
+    margin-bottom: clamp(24px, 3svh, 38px);
     color: var(--accent);
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.08em;
   }
 
   .narrative-card__number i {
     display: block;
-    width: clamp(36px, 6vw, 82px);
+    width: clamp(46px, 6vw, 90px);
     height: 1px;
     background: rgba(235, 113, 39, 0.72);
   }
 
   .narrative-card h3 {
-    margin: 0 0 7px;
+    margin: 0 0 10px;
     color: var(--bg);
-    font: 600 clamp(14px, 1.55vw, 19px) / 1.25 var(--font-heading);
-    letter-spacing: 0.015em;
+    font: 600 clamp(16px, 1.55vw, 21px) / 1.25 var(--font-heading);
+    letter-spacing: 0.01em;
   }
 
   .narrative-card p {
     margin: 0;
     color: rgba(246, 243, 236, 0.7);
-    font-size: clamp(12px, 1.1vw, 14px);
+    font-size: clamp(13px, 1.1vw, 15px);
   }
 
   .narrative-progress {
     position: absolute;
     z-index: 5;
-    right: clamp(28px, 5vw, 76px);
+    right: max(24px, calc((100vw - 1440px) / 2));
     bottom: 28px;
     color: rgba(246, 243, 236, 0.48);
     font-size: 9px;
@@ -252,41 +272,23 @@ import BlueprintModule from "./BlueprintModule.astro";
     display: none;
   }
 
-  .narrative-section[data-motion-enhanced="true"] .narrative-stage {
-    height: 100svh;
-    min-height: 0;
-  }
-
-  .narrative-section[data-motion-enhanced="true"] .narrative-layer {
-    position: absolute;
-    inset: 0;
-    min-height: 0;
+  .narrative-blueprint-layer,
+  .narrative-philosophy {
+    visibility: hidden;
   }
 
   .narrative-section[data-motion-enhanced="true"] .narrative-progress {
     display: block;
   }
 
-  @media (min-width: 1200px) and (min-height: 820px) {
-    .narrative-cards {
-      max-width: 1120px;
-    }
-  }
-
   @media (max-width: 700px) {
-    .narrative-section,
-    .narrative-stage,
-    .narrative-layer {
-      min-height: 100svh;
-    }
-
     .narrative-intro {
-      padding: 125px 8vw 90px;
+      padding: 100px 7vw 72px;
     }
 
     .narrative-intro__logo {
-      width: 148px;
-      margin-bottom: 42px;
+      width: 150px;
+      margin-bottom: 38px;
     }
 
     .narrative-intro__eyebrow,
@@ -296,36 +298,37 @@ import BlueprintModule from "./BlueprintModule.astro";
 
     .narrative-intro__statement {
       max-width: 560px;
-      font-size: clamp(35px, 10vw, 52px);
+      font-size: clamp(39px, 10vw, 54px);
     }
 
     .narrative-philosophy {
       align-content: center;
-      padding: 112px 7vw 74px;
+      padding: 90px 6vw 66px;
     }
 
     .narrative-philosophy__heading {
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .narrative-philosophy__heading h2 {
       max-width: 400px;
-      font-size: clamp(30px, 8vw, 42px);
+      font-size: clamp(31px, 8vw, 43px);
     }
 
     .narrative-cards {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .narrative-card {
-      min-height: clamp(145px, 22svh, 190px);
-      padding: 15px 12px;
+      min-height: clamp(142px, 19svh, 174px);
+      padding: 16px 13px;
     }
 
     .narrative-card__number {
       gap: 7px;
-      margin-bottom: 20px;
-      font-size: 9px;
+      margin-bottom: 22px;
+      font-size: 10px;
     }
 
     .narrative-card__number i {
@@ -333,50 +336,73 @@ import BlueprintModule from "./BlueprintModule.astro";
     }
 
     .narrative-card h3 {
-      font-size: clamp(11px, 3.2vw, 15px);
+      font-size: clamp(12px, 3.3vw, 16px);
     }
 
     .narrative-card p {
-      font-size: 11px;
+      font-size: 12px;
       line-height: 1.4;
     }
 
     .narrative-progress {
-      right: 7vw;
+      right: 6vw;
       bottom: 21px;
+    }
+
+    .narrative-blueprint-caption {
+      right: 7vw;
+      bottom: 22px;
+      font-size: 8px;
     }
   }
 
   @media (max-height: 720px) and (min-width: 701px) {
     .narrative-philosophy {
-      padding-top: 92px;
-      padding-bottom: 58px;
+      padding-top: 82px;
+      padding-bottom: 50px;
     }
 
     .narrative-philosophy__heading {
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .narrative-card {
-      min-height: 132px;
+      min-height: 124px;
+      padding-block: 20px;
+    }
+
+    .narrative-card__number {
+      margin-bottom: 18px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .narrative-section,
-    .narrative-stage,
-    .narrative-layer {
-      height: auto !important;
+    .narrative-section {
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .narrative-stage {
+      display: grid;
+      height: auto;
       min-height: 0;
       overflow: visible;
     }
 
     .narrative-layer {
+      position: relative;
+      inset: auto;
       display: block;
-      padding: 64px 8vw;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      padding: 72px clamp(24px, 6vw, 88px);
+      visibility: visible;
     }
 
     .narrative-intro {
+      display: grid;
       padding-top: 112px;
     }
 
@@ -386,19 +412,28 @@ import BlueprintModule from "./BlueprintModule.astro";
 
     .narrative-blueprint-layer {
       display: grid;
-      min-height: 360px;
+      min-height: 480px;
+    }
+
+    .narrative-blueprint-layer {
+      visibility: visible;
     }
 
     .narrative-philosophy {
       display: block;
     }
 
+    .narrative-blueprint__frame {
+      width: min(72vw, 760px);
+      height: min(68svh, 620px);
+    }
+
     .narrative-cards {
-      margin-top: 32px;
+      margin-top: 30px;
     }
 
     .narrative-card {
-      min-height: 150px;
+      min-height: 156px;
       opacity: 1 !important;
       transform: none !important;
       visibility: visible !important;
@@ -425,29 +460,34 @@ import BlueprintModule from "./BlueprintModule.astro";
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const sections = document.querySelectorAll<HTMLElement>(".narrative-section");
+  const mountedSections = new Map<HTMLElement, gsap.MatchMedia>();
 
-  sections.forEach((section) => {
-    const stage = section.querySelector<HTMLElement>(".narrative-stage");
-    const intro = section.querySelector<HTMLElement>("[data-intro-layer]");
-    const blueprintRoot = section.querySelector<HTMLElement>("[data-blueprint]");
-    const blueprintLayer = section.querySelector<HTMLElement>("[data-blueprint-layer]");
-    const philosophy = section.querySelector<HTMLElement>("[data-philosophy-layer]");
-    const progressOutput = section.querySelector<HTMLElement>("[data-narrative-progress]");
-    const blueprintImage = section.querySelector<HTMLImageElement>(".narrative-blueprint__drawing");
+  function mountNarrative() {
+    document.querySelectorAll<HTMLElement>(".narrative-section").forEach((section) => {
+      if (mountedSections.has(section)) return;
 
-    if (!stage || !intro || !blueprintRoot || !blueprintLayer || !philosophy) return;
-
-    const imageReady = blueprintImage?.decode().catch(() => undefined) ?? Promise.resolve();
-
-    void Promise.all([document.fonts.ready, imageReady]).then(() => {
       const media = gsap.matchMedia(section);
+      mountedSections.set(section, media);
 
       media.add("(prefers-reduced-motion: no-preference)", () => {
         const context = gsap.context(() => {
+          const stage = section.querySelector<HTMLElement>(".narrative-stage");
+          const intro = section.querySelector<HTMLElement>("[data-intro-layer]");
+          const blueprintRoot = section.querySelector<HTMLElement>("[data-blueprint]");
+          const blueprintLayer = section.querySelector<HTMLElement>("[data-blueprint-layer]");
+          const philosophy = section.querySelector<HTMLElement>("[data-philosophy-layer]");
+          const progressOutput = section.querySelector<HTMLElement>("[data-narrative-progress]");
+          const blueprintImage = section.querySelector<HTMLImageElement>(".narrative-blueprint__drawing");
+
+          if (!stage || !intro || !blueprintRoot || !blueprintLayer || !philosophy) return;
+
           gsap.set(blueprintLayer, { autoAlpha: 0 });
           gsap.set(philosophy, { autoAlpha: 0 });
-          gsap.set(section.querySelectorAll("[data-philosophy-card]"), { autoAlpha: 0, y: 22, scale: 0.985 });
+          gsap.set(section.querySelectorAll("[data-philosophy-card]"), {
+            autoAlpha: 0,
+            y: 22,
+            scale: 0.985,
+          });
 
           const master = gsap.timeline({
             defaults: { ease: "none" },
@@ -472,11 +512,11 @@ import BlueprintModule from "./BlueprintModule.astro";
           });
 
           master.addLabel("intro", 0);
-          master.addLabel("introComplete", 20);
-          master.addLabel("blueprintEnter", 20);
-          master.addLabel("blueprintStart", 30);
-          master.addLabel("blueprintComplete", 59);
-          master.addLabel("philosophyStart", 62);
+          master.addLabel("introComplete", 16);
+          master.addLabel("blueprintEnter", 16);
+          master.addLabel("blueprintStart", 25);
+          master.addLabel("blueprintComplete", 57);
+          master.addLabel("philosophyStart", 61);
           master.addLabel("card01", 62);
           master.addLabel("card02", 69);
           master.addLabel("card03", 76);
@@ -484,28 +524,42 @@ import BlueprintModule from "./BlueprintModule.astro";
           master.addLabel("philosophyComplete", 92);
           master.addLabel("finalHold", 100);
 
-          master.to(intro, { autoAlpha: 0, y: -20, scale: 0.985, duration: 10 }, "blueprintEnter");
-          master.to(blueprintLayer, { autoAlpha: 1, duration: 10 }, "blueprintEnter");
+          master.to(intro, { autoAlpha: 0, y: -24, scale: 0.985, duration: 9 }, "blueprintEnter");
+          master.to(blueprintLayer, { autoAlpha: 1, duration: 9 }, "blueprintEnter");
 
           const blueprintTimeline = createBlueprintTimeline(blueprintRoot);
           master.add(blueprintTimeline, "blueprintStart");
 
-          const philosophyTimeline = createPhilosophyTimeline(philosophy);
           master.to(philosophy, { autoAlpha: 1, duration: 1 }, "philosophyStart");
-          master.add(philosophyTimeline, "philosophyStart");
+          master.to(blueprintLayer, { autoAlpha: 0.14, duration: 5 }, "philosophyStart");
+          const philosophyTimeline = createPhilosophyTimeline(philosophy);
+          master.add(philosophyTimeline, "philosophyStart+=1");
           master.to({}, { duration: 8 }, "philosophyComplete");
-        }, section);
 
-        section.dataset.motionEnhanced = "true";
-        ScrollTrigger.refresh();
+          section.dataset.motionEnhanced = "true";
+          ScrollTrigger.refresh();
+
+          void document.fonts.ready.then(() => ScrollTrigger.refresh());
+          if (blueprintImage) {
+            void blueprintImage.decode().then(() => ScrollTrigger.refresh()).catch(() => undefined);
+          }
+        }, section);
 
         return () => {
           delete section.dataset.motionEnhanced;
           context.revert();
         };
       });
-
-      return () => media.revert();
     });
-  });
+  }
+
+  function unmountNarrative() {
+    mountedSections.forEach((media) => media.revert());
+    mountedSections.clear();
+  }
+
+  mountNarrative();
+  document.addEventListener("astro:page-load", mountNarrative);
+  document.addEventListener("astro:before-swap", unmountNarrative);
+  import.meta.hot?.dispose(unmountNarrative);
 </script>
