@@ -63,34 +63,42 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
           <div class="narrative-cards" aria-label="Principios de trabajo de INGENIUM">
             <article class="narrative-card" data-philosophy-card>
               <div class="narrative-card__image" aria-hidden="true"></div>
-              <span class="narrative-card__number" data-card-number>01</span>
-              <div data-card-content>
-                <h3>INGENIO APLICADO</h3>
-                <p>Pensar para resolver.</p>
+              <div class="narrative-card__body">
+                <span class="narrative-card__number" data-card-number>01</span>
+                <div data-card-content>
+                  <h3>INGENIO APLICADO</h3>
+                  <p>Pensar para resolver.</p>
+                </div>
               </div>
             </article>
             <article class="narrative-card" data-philosophy-card>
               <div class="narrative-card__image" aria-hidden="true"></div>
-              <span class="narrative-card__number" data-card-number>02</span>
-              <div data-card-content>
-                <h3>DISEÑAR PARA OPTIMIZAR</h3>
-                <p>Decidir antes de ejecutar.</p>
+              <div class="narrative-card__body">
+                <span class="narrative-card__number" data-card-number>02</span>
+                <div data-card-content>
+                  <h3>DISEÑAR PARA OPTIMIZAR</h3>
+                  <p>Decidir antes de ejecutar.</p>
+                </div>
               </div>
             </article>
             <article class="narrative-card" data-philosophy-card>
               <div class="narrative-card__image" aria-hidden="true"></div>
-              <span class="narrative-card__number" data-card-number>03</span>
-              <div data-card-content>
-                <h3>DISEÑAR PARA CONSTRUIR</h3>
-                <p>Del cálculo a la realidad.</p>
+              <div class="narrative-card__body">
+                <span class="narrative-card__number" data-card-number>03</span>
+                <div data-card-content>
+                  <h3>DISEÑAR PARA CONSTRUIR</h3>
+                  <p>Del cálculo a la realidad.</p>
+                </div>
               </div>
             </article>
             <article class="narrative-card" data-philosophy-card>
               <div class="narrative-card__image" aria-hidden="true"></div>
-              <span class="narrative-card__number" data-card-number>04</span>
-              <div data-card-content>
-                <h3>RIGOR QUE GENERA CONFIANZA</h3>
-                <p>Hacerlo bien desde el principio.</p>
+              <div class="narrative-card__body">
+                <span class="narrative-card__number" data-card-number>04</span>
+                <div data-card-content>
+                  <h3>RIGOR QUE GENERA CONFIANZA</h3>
+                  <p>Hacerlo bien desde el principio.</p>
+                </div>
               </div>
             </article>
           </div>
@@ -255,21 +263,32 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
     position: relative;
     display: flex;
     min-width: 0;
-    min-height: clamp(270px, 34svh, 340px);
+    height: clamp(370px, 51svh, 470px);
     flex-direction: column;
-    justify-content: flex-start;
-    gap: clamp(15px, 2vw, 24px);
-    padding: clamp(17px, 1.7vw, 24px);
-    border: 1px solid rgba(246, 243, 236, 0.22);
-    background: rgba(246, 243, 236, 0.035);
+    overflow: hidden;
+    border: 1px solid rgba(246, 243, 236, 0.2);
+    border-radius: 16px;
+    background: var(--bg);
     will-change: transform, opacity;
   }
 
   .narrative-card__image {
+    display: block;
+    flex: 0 0 auto;
     width: 100%;
-    aspect-ratio: 1.55;
-    background: rgba(246, 243, 236, 0.075);
-    border: 1px solid rgba(246, 243, 236, 0.13);
+    aspect-ratio: 1 / 1;
+    background: var(--bg-subtle);
+    border-radius: 15px 15px 13px 13px;
+  }
+
+  .narrative-card__body {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(10px, 1.15vw, 16px);
+    padding: clamp(14px, 1.45vw, 22px);
   }
 
   .narrative-card__number {
@@ -289,8 +308,8 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
 
   .narrative-card h3 {
     max-width: 20ch;
-    margin: 0 0 10px;
-    color: var(--bg);
+    margin: 0 0 8px;
+    color: var(--brand-navy);
     font: 700 clamp(15px, 1.3vw, 19px) / 1.2 var(--font-heading);
     letter-spacing: -0.015em;
   }
@@ -298,7 +317,7 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
   .narrative-card p {
     max-width: 24ch;
     margin: 0;
-    color: rgba(246, 243, 236, 0.76);
+    color: var(--ink-secondary);
     font: 400 clamp(14px, 1vw, 16px) / 1.4 var(--font-body);
   }
 
@@ -337,13 +356,16 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
     }
 
     .narrative-card {
-      min-height: clamp(260px, 34svh, 300px);
-      gap: 14px;
-      padding: 13px 8px;
+      height: clamp(255px, 33svh, 290px);
     }
 
     .narrative-card__image {
-      aspect-ratio: 1.05;
+      aspect-ratio: 1 / 1;
+    }
+
+    .narrative-card__body {
+      gap: 9px;
+      padding: 12px 9px;
     }
 
     .narrative-card__number {
@@ -376,19 +398,33 @@ const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
 
   @media (max-height: 720px) and (min-width: 701px) {
     .narrative-paper__content {
-      padding-block: 64px;
+      padding-block: 40px;
     }
 
     .narrative-paper__content > h2 {
-      margin-bottom: 22px;
+      margin-bottom: 14px;
+      font-size: clamp(26px, 3vw, 36px);
     }
 
     .narrative-card {
-      min-height: 240px;
+      height: min(420px, calc(100svh - 150px));
+    }
+
+    .narrative-card__body {
+      gap: 8px;
+      padding: 13px;
+    }
+
+    .narrative-card h3 {
+      font-size: clamp(14px, 1.2vw, 17px);
+    }
+
+    .narrative-card p {
+      font-size: clamp(13px, 0.95vw, 14px);
     }
 
     .narrative-card__image {
-      aspect-ratio: 1.9;
+      aspect-ratio: 1 / 1;
     }
   }
 
