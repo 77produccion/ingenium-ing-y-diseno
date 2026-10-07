@@ -210,7 +210,7 @@ const introDrawings = [
 
   .narrative-intro__drawing {
     display: block;
-    height: clamp(210px, 35svh, 330px);
+    height: clamp(210px, min(42svh, calc(72svh - 310px)), 380px);
     min-width: 0;
     background-color: var(--brand-navy);
     -webkit-mask-image: var(--drawing-mask);
@@ -475,7 +475,7 @@ const introDrawings = [
     }
 
     .narrative-intro__drawing {
-      height: clamp(140px, 28svh, 170px);
+      height: clamp(200px, 42svh, 300px);
     }
 
     .narrative-paper__content {
