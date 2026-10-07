@@ -1,74 +1,60 @@
----
-import BlueprintModule from "./BlueprintModule.astro";
----
-
-<section class="narrative-section" id="proyectos" data-header-theme="dark" aria-label="La filosofía de INGENIUM">
+<section class="narrative-section" id="proyectos" data-header-theme="light" aria-label="La filosofía de INGENIUM">
   <div class="narrative-stage">
-    <div class="narrative-grid" aria-hidden="true"></div>
-
     <div class="narrative-layer narrative-intro" data-intro-layer>
       <div class="narrative-intro__content">
         <img
           class="narrative-intro__logo"
-          src="/assets/logos/021026 INGENIUM - LOGO_2026-02.png"
+          src="/assets/logos/021026 INGENIUM - LOGO_2026-01.png"
           alt="INGENIUM — Ingeniería y Diseño"
-          width="600"
-          height="240"
+          width="2000"
+          height="2000"
           decoding="async"
         />
-        <p class="narrative-intro__eyebrow mono">PENSAMIENTO · INGENIERÍA · OBRA</p>
         <h2 class="narrative-intro__statement">
           Las estructuras no se comportan como se diseñan, sino como se construyen.
         </h2>
       </div>
-      <span class="narrative-coordinate narrative-coordinate--intro mono" aria-hidden="true">INGENIUM / 01</span>
-    </div>
-
-    <div class="narrative-layer narrative-blueprint-layer" data-blueprint-layer aria-hidden="true">
-      <BlueprintModule />
-      <p class="narrative-blueprint-caption mono">DEL PENSAMIENTO A LA ESTRUCTURA</p>
     </div>
 
     <div class="narrative-layer narrative-philosophy" data-philosophy-layer>
-      <div class="narrative-philosophy__heading">
-        <p class="narrative-philosophy__eyebrow mono">CRITERIOS DE DISEÑO</p>
-        <h2>Una estructura. Cuatro principios.</h2>
-      </div>
+      <div class="narrative-paper" data-paper>
+        <span class="narrative-paper__edge" data-paper-edge aria-hidden="true"></span>
+        <div class="narrative-paper__content">
+          <h2>Una estructura. Cuatro principios.</h2>
 
-      <div class="narrative-cards" aria-label="Principios de trabajo de INGENIUM">
-        <article class="narrative-card" data-philosophy-card>
-          <span class="narrative-card__number mono" data-card-number>01 <i></i></span>
-          <div data-card-content>
-            <h3>INGENIO APLICADO</h3>
-            <p>Pensar para resolver.</p>
+          <div class="narrative-cards" aria-label="Principios de trabajo de INGENIUM">
+            <article class="narrative-card" data-philosophy-card>
+              <span class="narrative-card__number" data-card-number>01</span>
+              <div data-card-content>
+                <h3>INGENIO APLICADO</h3>
+                <p>Pensar para resolver.</p>
+              </div>
+            </article>
+            <article class="narrative-card" data-philosophy-card>
+              <span class="narrative-card__number" data-card-number>02</span>
+              <div data-card-content>
+                <h3>DISEÑAR PARA OPTIMIZAR</h3>
+                <p>Decidir antes de ejecutar.</p>
+              </div>
+            </article>
+            <article class="narrative-card" data-philosophy-card>
+              <span class="narrative-card__number" data-card-number>03</span>
+              <div data-card-content>
+                <h3>DISEÑAR PARA CONSTRUIR</h3>
+                <p>Del cálculo a la realidad.</p>
+              </div>
+            </article>
+            <article class="narrative-card" data-philosophy-card>
+              <span class="narrative-card__number" data-card-number>04</span>
+              <div data-card-content>
+                <h3>RIGOR QUE GENERA CONFIANZA</h3>
+                <p>Hacerlo bien desde el principio.</p>
+              </div>
+            </article>
           </div>
-        </article>
-        <article class="narrative-card" data-philosophy-card>
-          <span class="narrative-card__number mono" data-card-number>02 <i></i></span>
-          <div data-card-content>
-            <h3>DISEÑAR PARA OPTIMIZAR</h3>
-            <p>Decidir antes de ejecutar.</p>
-          </div>
-        </article>
-        <article class="narrative-card" data-philosophy-card>
-          <span class="narrative-card__number mono" data-card-number>03 <i></i></span>
-          <div data-card-content>
-            <h3>DISEÑAR PARA CONSTRUIR</h3>
-            <p>Del cálculo a la realidad.</p>
-          </div>
-        </article>
-        <article class="narrative-card" data-philosophy-card>
-          <span class="narrative-card__number mono" data-card-number>04 <i></i></span>
-          <div data-card-content>
-            <h3>RIGOR QUE GENERA CONFIANZA</h3>
-            <p>Hacerlo bien desde el principio.</p>
-          </div>
-        </article>
+        </div>
       </div>
-      <span class="narrative-coordinate narrative-coordinate--philosophy mono" aria-hidden="true">INGENIUM / 02</span>
     </div>
-
-    <span class="narrative-progress mono" data-narrative-progress aria-hidden="true">00</span>
   </div>
 </section>
 
@@ -79,8 +65,8 @@ import BlueprintModule from "./BlueprintModule.astro";
     height: 100svh;
     min-height: 100svh;
     overflow: hidden;
-    color: var(--bg);
-    background: var(--brand-navy);
+    color: var(--brand-navy);
+    background: var(--bg);
     isolation: isolate;
   }
 
@@ -90,289 +76,213 @@ import BlueprintModule from "./BlueprintModule.astro";
     height: 100%;
     min-height: 100svh;
     overflow: hidden;
-    background:
-      linear-gradient(90deg, transparent 49.96%, rgba(246, 243, 236, 0.045) 50%, transparent 50.04%),
-      linear-gradient(0deg, transparent 49.96%, rgba(246, 243, 236, 0.045) 50%, transparent 50.04%),
-      var(--brand-navy);
-  }
-
-  .narrative-grid {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.22;
-    background-image: linear-gradient(rgba(246, 243, 236, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(246, 243, 236, 0.04) 1px, transparent 1px);
-    background-size: 88px 88px;
-    pointer-events: none;
+    background: var(--bg);
   }
 
   .narrative-layer {
     position: absolute;
     inset: 0;
-    z-index: 1;
     width: 100%;
     height: 100%;
     min-height: 0;
   }
 
   .narrative-intro {
+    z-index: 1;
     display: grid;
     align-items: center;
-    padding: clamp(88px, 12svh, 132px) clamp(28px, 6vw, 100px) clamp(54px, 8svh, 88px);
+    padding: clamp(42px, 7svh, 82px) clamp(28px, 6vw, 100px);
   }
 
   .narrative-intro__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     width: min(100%, 1440px);
     margin-inline: auto;
   }
 
   .narrative-intro__logo {
     display: block;
-    width: clamp(150px, 11vw, 190px);
+    width: clamp(180px, 17vw, 270px);
     height: auto;
-    margin-bottom: clamp(34px, 5svh, 54px);
+    margin: 0 0 clamp(30px, 5svh, 52px) -12px;
     object-fit: contain;
   }
 
-  .narrative-intro__eyebrow,
-  .narrative-philosophy__eyebrow {
-    margin: 0 0 18px;
-    color: rgba(246, 243, 236, 0.62);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-  }
-
   .narrative-intro__statement {
-    max-width: 790px;
+    max-width: 920px;
     margin: 0;
-    color: var(--bg);
-    font: 500 clamp(42px, 4.5vw, 76px) / 1.08 var(--font-heading);
+    color: var(--brand-navy);
+    font: 700 clamp(42px, 5vw, 84px) / 1.04 var(--font-heading);
     letter-spacing: -0.045em;
     text-wrap: balance;
   }
 
-  .narrative-coordinate {
-    position: absolute;
-    color: rgba(246, 243, 236, 0.46);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-  }
-
-  .narrative-coordinate--intro,
-  .narrative-coordinate--philosophy {
-    right: max(24px, calc((100vw - 1440px) / 2));
-    bottom: 30px;
-  }
-
-  .narrative-blueprint-layer {
-    display: grid;
-    place-items: center;
-  }
-
-  .narrative-blueprint-caption {
-    position: absolute;
-    right: max(24px, calc((100vw - 1440px) / 2));
-    bottom: 30px;
-    margin: 0;
-    color: rgba(246, 243, 236, 0.62);
-    font-size: 10px;
-    letter-spacing: 0.13em;
-  }
-
   .narrative-philosophy {
-    display: grid;
-    align-content: center;
-    padding: clamp(92px, 12svh, 128px) clamp(28px, 6vw, 100px) clamp(66px, 8svh, 88px);
-  }
-
-  .narrative-philosophy__heading {
-    position: relative;
     z-index: 2;
-    width: min(100%, 1160px);
-    margin: 0 auto clamp(24px, 4svh, 38px);
+    visibility: hidden;
   }
 
-  .narrative-philosophy__heading h2 {
-    max-width: 860px;
-    margin: 0;
-    color: var(--bg);
-    font: 500 clamp(34px, 3.8vw, 56px) / 1.08 var(--font-heading);
+  .narrative-paper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--panel-card);
+    border-left: 1px solid rgba(27, 45, 82, 0.12);
+    box-shadow: -18px 0 36px rgba(28, 38, 35, 0.12);
+    clip-path: inset(0 100% 0 0);
+    transform: scaleX(0.99);
+    transform-origin: left center;
+  }
+
+  .narrative-paper__edge {
+    position: absolute;
+    z-index: 2;
+    inset: 0 auto 0 0;
+    width: clamp(22px, 3vw, 44px);
+    background: linear-gradient(90deg, rgba(28, 38, 35, 0.12), rgba(28, 38, 35, 0.035) 42%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .narrative-paper__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min(calc(100% - clamp(40px, 12vw, 192px)), 1440px);
+    height: 100%;
+    margin-inline: auto;
+    padding-block: clamp(76px, 10svh, 116px);
+  }
+
+  .narrative-paper__content > h2 {
+    margin: 0 0 clamp(26px, 4svh, 42px);
+    color: var(--brand-navy);
+    font: 700 clamp(36px, 4vw, 62px) / 1.08 var(--font-heading);
     letter-spacing: -0.04em;
+    text-wrap: balance;
   }
 
   .narrative-cards {
-    position: relative;
-    z-index: 2;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(12px, 1.5vw, 22px);
-    width: min(100%, 1160px);
-    margin-inline: auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
   }
 
   .narrative-card {
     position: relative;
-    min-height: clamp(156px, 20svh, 204px);
-    padding: clamp(21px, 2.4vw, 34px);
-    border: 1px solid rgba(246, 243, 236, 0.24);
-    background: rgba(20, 37, 70, 0.74);
+    display: flex;
+    min-width: 0;
+    min-height: clamp(228px, 30svh, 310px);
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(20px, 2.4vw, 36px) clamp(15px, 1.8vw, 28px);
+    border-right: 1px solid var(--line);
     will-change: transform, opacity;
   }
 
-  .narrative-card::before {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    width: clamp(42px, 5vw, 72px);
-    height: 2px;
-    content: "";
-    background: var(--accent);
+  .narrative-card:first-child {
+    border-left: 1px solid var(--line);
   }
 
   .narrative-card__number {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: clamp(24px, 3svh, 38px);
+    gap: 14px;
     color: var(--accent);
-    font-size: 12px;
-    letter-spacing: 0.08em;
+    font: 700 clamp(18px, 1.8vw, 24px) / 1 var(--font-heading);
   }
 
-  .narrative-card__number i {
-    display: block;
-    width: clamp(46px, 6vw, 90px);
-    height: 1px;
-    background: rgba(235, 113, 39, 0.72);
+  .narrative-card__number::after {
+    width: clamp(22px, 2.5vw, 38px);
+    height: 2px;
+    background: var(--accent);
+    content: "";
   }
 
   .narrative-card h3 {
-    margin: 0 0 10px;
-    color: var(--bg);
-    font: 600 clamp(16px, 1.55vw, 21px) / 1.25 var(--font-heading);
-    letter-spacing: 0.01em;
+    max-width: 18ch;
+    margin: 0 0 14px;
+    color: var(--brand-navy);
+    font: 700 clamp(17px, 1.55vw, 22px) / 1.18 var(--font-heading);
+    letter-spacing: -0.015em;
   }
 
   .narrative-card p {
+    max-width: 22ch;
     margin: 0;
-    color: rgba(246, 243, 236, 0.7);
-    font-size: clamp(13px, 1.1vw, 15px);
-  }
-
-  .narrative-progress {
-    position: absolute;
-    z-index: 5;
-    right: max(24px, calc((100vw - 1440px) / 2));
-    bottom: 28px;
-    color: rgba(246, 243, 236, 0.48);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    pointer-events: none;
-    display: none;
-  }
-
-  .narrative-blueprint-layer,
-  .narrative-philosophy {
-    visibility: hidden;
-  }
-
-  .narrative-section[data-motion-enhanced="true"] .narrative-progress {
-    display: block;
+    color: var(--ink-secondary);
+    font: 400 clamp(15px, 1.15vw, 17px) / 1.4 var(--font-body);
   }
 
   @media (max-width: 700px) {
     .narrative-intro {
-      padding: 100px 7vw 72px;
+      padding: 48px 7vw;
     }
 
     .narrative-intro__logo {
-      width: 150px;
-      margin-bottom: 38px;
-    }
-
-    .narrative-intro__eyebrow,
-    .narrative-philosophy__eyebrow {
-      font-size: 8px;
+      width: clamp(174px, 48vw, 220px);
+      margin-bottom: 28px;
     }
 
     .narrative-intro__statement {
       max-width: 560px;
-      font-size: clamp(39px, 10vw, 54px);
+      font-size: clamp(39px, 10.5vw, 54px);
     }
 
-    .narrative-philosophy {
-      align-content: center;
-      padding: 90px 6vw 66px;
+    .narrative-paper__content {
+      width: calc(100% - 36px);
+      padding-block: 58px;
     }
 
-    .narrative-philosophy__heading {
-      margin-bottom: 22px;
-    }
-
-    .narrative-philosophy__heading h2 {
-      max-width: 400px;
-      font-size: clamp(31px, 8vw, 43px);
-    }
-
-    .narrative-cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+    .narrative-paper__content > h2 {
+      max-width: 360px;
+      margin-bottom: 24px;
+      font-size: clamp(31px, 8vw, 42px);
     }
 
     .narrative-card {
-      min-height: clamp(142px, 19svh, 174px);
-      padding: 16px 13px;
+      min-height: clamp(238px, 32svh, 288px);
+      padding: 18px 9px;
     }
 
     .narrative-card__number {
-      gap: 7px;
-      margin-bottom: 22px;
-      font-size: 10px;
+      gap: 6px;
+      font-size: 16px;
     }
 
-    .narrative-card__number i {
-      width: 25px;
+    .narrative-card__number::after {
+      width: 14px;
+      height: 1px;
     }
 
     .narrative-card h3 {
-      font-size: clamp(12px, 3.3vw, 16px);
+      margin-bottom: 9px;
+      font-size: clamp(11px, 3.15vw, 14px);
+      line-height: 1.13;
+      overflow-wrap: anywhere;
     }
 
     .narrative-card p {
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .narrative-progress {
-      right: 6vw;
-      bottom: 21px;
-    }
-
-    .narrative-blueprint-caption {
-      right: 7vw;
-      bottom: 22px;
-      font-size: 8px;
+      font-size: clamp(10px, 2.8vw, 12px);
+      line-height: 1.3;
+      overflow-wrap: anywhere;
     }
   }
 
   @media (max-height: 720px) and (min-width: 701px) {
-    .narrative-philosophy {
-      padding-top: 82px;
-      padding-bottom: 50px;
+    .narrative-paper__content {
+      padding-block: 64px;
     }
 
-    .narrative-philosophy__heading {
-      margin-bottom: 18px;
+    .narrative-paper__content > h2 {
+      margin-bottom: 22px;
     }
 
     .narrative-card {
-      min-height: 124px;
-      padding-block: 20px;
-    }
-
-    .narrative-card__number {
-      margin-bottom: 18px;
+      min-height: 220px;
     }
   }
 
@@ -393,47 +303,31 @@ import BlueprintModule from "./BlueprintModule.astro";
     .narrative-layer {
       position: relative;
       inset: auto;
-      display: block;
       width: 100%;
       height: auto;
-      min-height: 0;
-      padding: 72px clamp(24px, 6vw, 88px);
+      min-height: 100svh;
       visibility: visible;
     }
 
-    .narrative-intro {
-      display: grid;
-      padding-top: 112px;
+    .narrative-paper {
+      position: relative;
+      min-height: 100svh;
+      clip-path: none;
+      transform: none;
+      box-shadow: none;
     }
 
-    .narrative-intro__statement {
-      font-size: clamp(34px, 8vw, 60px);
+    .narrative-paper__content {
+      min-height: 100svh;
+      height: auto;
     }
 
-    .narrative-blueprint-layer {
-      display: grid;
-      min-height: 480px;
-    }
-
-    .narrative-blueprint-layer {
-      visibility: visible;
-    }
-
-    .narrative-philosophy {
-      display: block;
-    }
-
-    .narrative-blueprint__frame {
-      width: min(72vw, 760px);
-      height: min(68svh, 620px);
-    }
-
-    .narrative-cards {
-      margin-top: 30px;
+    .narrative-paper__edge {
+      display: none;
     }
 
     .narrative-card {
-      min-height: 156px;
+      min-height: 228px;
       opacity: 1 !important;
       transform: none !important;
       visibility: visible !important;
@@ -445,17 +339,12 @@ import BlueprintModule from "./BlueprintModule.astro";
       transform: none !important;
       visibility: visible !important;
     }
-
-    .narrative-progress {
-      display: none;
-    }
   }
 </style>
 
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { createBlueprintTimeline } from "../scripts/narrative/blueprintTimeline";
   import { createPhilosophyTimeline } from "../scripts/narrative/philosophyTimeline";
 
   gsap.registerPlugin(ScrollTrigger);
@@ -471,30 +360,25 @@ import BlueprintModule from "./BlueprintModule.astro";
 
       media.add("(prefers-reduced-motion: no-preference)", () => {
         const context = gsap.context(() => {
-          const stage = section.querySelector<HTMLElement>(".narrative-stage");
           const intro = section.querySelector<HTMLElement>("[data-intro-layer]");
-          const blueprintRoot = section.querySelector<HTMLElement>("[data-blueprint]");
-          const blueprintLayer = section.querySelector<HTMLElement>("[data-blueprint-layer]");
           const philosophy = section.querySelector<HTMLElement>("[data-philosophy-layer]");
-          const progressOutput = section.querySelector<HTMLElement>("[data-narrative-progress]");
-          const blueprintImage = section.querySelector<HTMLImageElement>(".narrative-blueprint__drawing");
+          const paper = section.querySelector<HTMLElement>("[data-paper]");
+          const paperEdge = section.querySelector<HTMLElement>("[data-paper-edge]");
+          const cards = section.querySelectorAll<HTMLElement>("[data-philosophy-card]");
 
-          if (!stage || !intro || !blueprintRoot || !blueprintLayer || !philosophy) return;
+          if (!intro || !philosophy || !paper || !paperEdge) return;
 
-          gsap.set(blueprintLayer, { autoAlpha: 0 });
           gsap.set(philosophy, { autoAlpha: 0 });
-          gsap.set(section.querySelectorAll("[data-philosophy-card]"), {
-            autoAlpha: 0,
-            y: 22,
-            scale: 0.985,
-          });
+          gsap.set(paper, { clipPath: "inset(0 100% 0 0)", scaleX: 0.99, transformOrigin: "left center" });
+          gsap.set(paperEdge, { autoAlpha: 1, x: 0 });
+          gsap.set(cards, { autoAlpha: 0, y: 18 });
 
           const master = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: () => `+=${window.innerHeight * (window.matchMedia("(max-width: 700px)").matches ? 5.5 : 4.8)}`,
+              end: () => `+=${window.innerHeight * (window.matchMedia("(max-width: 700px)").matches ? 5.5 : 5)}`,
               pin: section,
               pinSpacing: true,
               scrub: 1,
@@ -505,44 +389,42 @@ import BlueprintModule from "./BlueprintModule.astro";
                 endColor: "#eb7127",
                 fontSize: "10px",
               } : false,
-              onUpdate: (self) => {
-                if (progressOutput) progressOutput.textContent = `${Math.round(self.progress * 100).toString().padStart(2, "0")}`;
-              },
             },
           });
 
           master.addLabel("intro", 0);
-          master.addLabel("introComplete", 16);
-          master.addLabel("blueprintEnter", 16);
-          master.addLabel("blueprintStart", 25);
-          master.addLabel("blueprintComplete", 57);
-          master.addLabel("philosophyStart", 61);
-          master.addLabel("card01", 62);
-          master.addLabel("card02", 69);
-          master.addLabel("card03", 76);
-          master.addLabel("card04", 83);
-          master.addLabel("philosophyComplete", 92);
+          master.addLabel("introComplete", 20);
+          master.addLabel("paperStart", 20);
+          master.addLabel("paperComplete", 48);
+          master.addLabel("cardsStart", 52);
+          master.addLabel("card01", 52);
+          master.addLabel("card02", 61);
+          master.addLabel("card03", 70);
+          master.addLabel("card04", 79);
+          master.addLabel("cardsComplete", 90);
           master.addLabel("finalHold", 100);
 
-          master.to(intro, { autoAlpha: 0, y: -24, scale: 0.985, duration: 9 }, "blueprintEnter");
-          master.to(blueprintLayer, { autoAlpha: 1, duration: 9 }, "blueprintEnter");
+          master.to(philosophy, { autoAlpha: 1, duration: 0.01 }, "paperStart");
+          master.fromTo(
+            paper,
+            { clipPath: "inset(0 100% 0 0)", scaleX: 0.99 },
+            { clipPath: "inset(0 0% 0 0)", scaleX: 1, duration: 28, ease: "none" },
+            "paperStart",
+          );
+          master.fromTo(
+            paperEdge,
+            { x: 0, autoAlpha: 1 },
+            { x: () => window.innerWidth, autoAlpha: 0.25, duration: 28, ease: "none" },
+            "paperStart",
+          );
 
-          const blueprintTimeline = createBlueprintTimeline(blueprintRoot);
-          master.add(blueprintTimeline, "blueprintStart");
-
-          master.to(philosophy, { autoAlpha: 1, duration: 1 }, "philosophyStart");
-          master.to(blueprintLayer, { autoAlpha: 0.14, duration: 5 }, "philosophyStart");
-          const philosophyTimeline = createPhilosophyTimeline(philosophy);
-          master.add(philosophyTimeline, "philosophyStart+=1");
-          master.to({}, { duration: 8 }, "philosophyComplete");
+          const cardsTimeline = createPhilosophyTimeline(philosophy);
+          master.add(cardsTimeline, "cardsStart");
+          master.to({}, { duration: 10 }, "cardsComplete");
 
           section.dataset.motionEnhanced = "true";
           ScrollTrigger.refresh();
-
           void document.fonts.ready.then(() => ScrollTrigger.refresh());
-          if (blueprintImage) {
-            void blueprintImage.decode().then(() => ScrollTrigger.refresh()).catch(() => undefined);
-          }
         }, section);
 
         return () => {

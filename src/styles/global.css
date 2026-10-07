@@ -41,10 +41,10 @@
   --green-sage: #5e7368;
   
   /* Font Stacks */
-  --font-brand: 'Renogare', 'Aileron', 'Manrope', sans-serif;
-  --font-heading: 'Aileron', 'Renogare', 'Manrope', sans-serif;
-  --font-body: 'Manrope', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-brand: 'Renogare', sans-serif;
+  --font-heading: 'Aileron', 'Renogare', sans-serif;
+  --font-body: 'Renogare', sans-serif;
+  --font-mono: 'Aileron', 'Renogare', sans-serif;
 }
 
 * {
