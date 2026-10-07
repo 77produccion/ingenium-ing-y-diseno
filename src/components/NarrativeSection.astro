@@ -2,14 +2,16 @@
   <div class="narrative-stage">
     <div class="narrative-layer narrative-intro" data-intro-layer>
       <div class="narrative-intro__content">
-        <img
-          class="narrative-intro__logo"
-          src="/assets/logos/021026 INGENIUM - LOGO_2026-01.png"
-          alt="INGENIUM — Ingeniería y Diseño"
-          width="2000"
-          height="2000"
-          decoding="async"
-        />
+        <div class="narrative-intro__logo-frame">
+          <img
+            class="narrative-intro__logo"
+            src="/assets/logos/021026 INGENIUM - LOGO_2026-01.png"
+            alt="INGENIUM — Ingeniería y Diseño"
+            width="2000"
+            height="2000"
+            decoding="async"
+          />
+        </div>
         <h2 class="narrative-intro__statement">
           Las estructuras no se comportan como se diseñan, sino como se construyen.
         </h2>
@@ -24,6 +26,7 @@
 
           <div class="narrative-cards" aria-label="Principios de trabajo de INGENIUM">
             <article class="narrative-card" data-philosophy-card>
+              <div class="narrative-card__image" aria-hidden="true"></div>
               <span class="narrative-card__number" data-card-number>01</span>
               <div data-card-content>
                 <h3>INGENIO APLICADO</h3>
@@ -31,6 +34,7 @@
               </div>
             </article>
             <article class="narrative-card" data-philosophy-card>
+              <div class="narrative-card__image" aria-hidden="true"></div>
               <span class="narrative-card__number" data-card-number>02</span>
               <div data-card-content>
                 <h3>DISEÑAR PARA OPTIMIZAR</h3>
@@ -38,6 +42,7 @@
               </div>
             </article>
             <article class="narrative-card" data-philosophy-card>
+              <div class="narrative-card__image" aria-hidden="true"></div>
               <span class="narrative-card__number" data-card-number>03</span>
               <div data-card-content>
                 <h3>DISEÑAR PARA CONSTRUIR</h3>
@@ -45,6 +50,7 @@
               </div>
             </article>
             <article class="narrative-card" data-philosophy-card>
+              <div class="narrative-card__image" aria-hidden="true"></div>
               <span class="narrative-card__number" data-card-number>04</span>
               <div data-card-content>
                 <h3>RIGOR QUE GENERA CONFIANZA</h3>
@@ -90,32 +96,43 @@
   .narrative-intro {
     z-index: 1;
     display: grid;
-    align-items: center;
-    padding: clamp(42px, 7svh, 82px) clamp(28px, 6vw, 100px);
+    align-content: start;
+    padding: clamp(168px, 21svh, 224px) clamp(28px, 6vw, 100px) clamp(42px, 6svh, 64px);
   }
 
   .narrative-intro__content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.44fr) minmax(0, 1.5fr);
+    align-items: center;
+    gap: clamp(48px, 7vw, 112px);
     width: min(100%, 1440px);
     margin-inline: auto;
   }
 
+  .narrative-intro__logo-frame {
+    position: relative;
+    width: min(100%, 310px);
+    height: clamp(150px, 19svh, 194px);
+    margin-left: -10px;
+    overflow: hidden;
+  }
+
   .narrative-intro__logo {
+    position: absolute;
+    inset: 0;
     display: block;
-    width: clamp(180px, 17vw, 270px);
-    height: auto;
-    margin: 0 0 clamp(30px, 5svh, 52px) -12px;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .narrative-intro__statement {
     max-width: 920px;
     margin: 0;
     color: var(--brand-navy);
-    font: 700 clamp(42px, 5vw, 84px) / 1.04 var(--font-heading);
-    letter-spacing: -0.045em;
+    font: 700 clamp(38px, 3.2vw, 64px) / 1.12 var(--font-heading);
+    letter-spacing: -0.035em;
     text-wrap: balance;
   }
 
@@ -157,34 +174,38 @@
   }
 
   .narrative-paper__content > h2 {
-    margin: 0 0 clamp(26px, 4svh, 42px);
+    margin: 0 0 clamp(22px, 3svh, 34px);
     color: var(--brand-navy);
-    font: 700 clamp(36px, 4vw, 62px) / 1.08 var(--font-heading);
-    letter-spacing: -0.04em;
+    font: 700 clamp(30px, 3vw, 46px) / 1.12 var(--font-heading);
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
   .narrative-cards {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-top: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line);
+    gap: clamp(16px, 2vw, 30px);
   }
 
   .narrative-card {
     position: relative;
     display: flex;
     min-width: 0;
-    min-height: clamp(228px, 30svh, 310px);
+    min-height: clamp(270px, 34svh, 340px);
     flex-direction: column;
-    justify-content: space-between;
-    padding: clamp(20px, 2.4vw, 36px) clamp(15px, 1.8vw, 28px);
-    border-right: 1px solid var(--line);
+    justify-content: flex-start;
+    gap: clamp(15px, 2vw, 24px);
+    padding: clamp(17px, 1.7vw, 24px);
+    border: 1px solid var(--line);
+    background: rgba(246, 243, 236, 0.42);
     will-change: transform, opacity;
   }
 
-  .narrative-card:first-child {
-    border-left: 1px solid var(--line);
+  .narrative-card__image {
+    width: 100%;
+    aspect-ratio: 1.55;
+    background: var(--bg-subtle);
+    border: 1px solid rgba(27, 45, 82, 0.08);
   }
 
   .narrative-card__number {
@@ -203,33 +224,41 @@
   }
 
   .narrative-card h3 {
-    max-width: 18ch;
-    margin: 0 0 14px;
+    max-width: 20ch;
+    margin: 0 0 10px;
     color: var(--brand-navy);
-    font: 700 clamp(17px, 1.55vw, 22px) / 1.18 var(--font-heading);
+    font: 700 clamp(15px, 1.3vw, 19px) / 1.2 var(--font-heading);
     letter-spacing: -0.015em;
   }
 
   .narrative-card p {
-    max-width: 22ch;
+    max-width: 24ch;
     margin: 0;
     color: var(--ink-secondary);
-    font: 400 clamp(15px, 1.15vw, 17px) / 1.4 var(--font-body);
+    font: 400 clamp(14px, 1vw, 16px) / 1.4 var(--font-body);
   }
 
   @media (max-width: 700px) {
     .narrative-intro {
-      padding: 48px 7vw;
+      padding: 112px 7vw 44px;
     }
 
-    .narrative-intro__logo {
-      width: clamp(174px, 48vw, 220px);
-      margin-bottom: 28px;
+    .narrative-intro__content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .narrative-intro__logo-frame {
+      width: clamp(225px, 67vw, 270px);
+      height: clamp(145px, 19svh, 172px);
+      margin-bottom: 19px;
     }
 
     .narrative-intro__statement {
-      max-width: 560px;
-      font-size: clamp(39px, 10.5vw, 54px);
+      max-width: 620px;
+      font-size: clamp(35px, 8.5vw, 46px);
     }
 
     .narrative-paper__content {
@@ -239,13 +268,18 @@
 
     .narrative-paper__content > h2 {
       max-width: 360px;
-      margin-bottom: 24px;
-      font-size: clamp(31px, 8vw, 42px);
+      margin-bottom: 20px;
+      font-size: clamp(27px, 6.7vw, 35px);
     }
 
     .narrative-card {
-      min-height: clamp(238px, 32svh, 288px);
-      padding: 18px 9px;
+      min-height: clamp(260px, 34svh, 300px);
+      gap: 14px;
+      padding: 13px 8px;
+    }
+
+    .narrative-card__image {
+      aspect-ratio: 1.05;
     }
 
     .narrative-card__number {
@@ -259,14 +293,14 @@
     }
 
     .narrative-card h3 {
-      margin-bottom: 9px;
-      font-size: clamp(11px, 3.15vw, 14px);
+      margin-bottom: 8px;
+      font-size: clamp(10px, 2.9vw, 13px);
       line-height: 1.13;
       overflow-wrap: anywhere;
     }
 
     .narrative-card p {
-      font-size: clamp(10px, 2.8vw, 12px);
+      font-size: clamp(9px, 2.5vw, 11px);
       line-height: 1.3;
       overflow-wrap: anywhere;
     }
@@ -282,62 +316,17 @@
     }
 
     .narrative-card {
-      min-height: 220px;
+      min-height: 240px;
+    }
+
+    .narrative-card__image {
+      aspect-ratio: 1.9;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .narrative-section {
-      height: auto;
-      min-height: 0;
-      overflow: visible;
-    }
-
-    .narrative-stage {
-      display: grid;
-      height: auto;
-      min-height: 0;
-      overflow: visible;
-    }
-
-    .narrative-layer {
-      position: relative;
-      inset: auto;
-      width: 100%;
-      height: auto;
-      min-height: 100svh;
-      visibility: visible;
-    }
-
-    .narrative-paper {
-      position: relative;
-      min-height: 100svh;
-      clip-path: none;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .narrative-paper__content {
-      min-height: 100svh;
-      height: auto;
-    }
-
-    .narrative-paper__edge {
-      display: none;
-    }
-
     .narrative-card {
-      min-height: 228px;
-      opacity: 1 !important;
-      transform: none !important;
-      visibility: visible !important;
-    }
-
-    .narrative-card [data-card-number],
-    .narrative-card [data-card-content] {
-      opacity: 1 !important;
-      transform: none !important;
-      visibility: visible !important;
+      will-change: auto;
     }
   }
 </style>
@@ -358,8 +347,12 @@
       const media = gsap.matchMedia(section);
       mountedSections.set(section, media);
 
-      media.add("(prefers-reduced-motion: no-preference)", () => {
+      media.add({
+        reducedMotion: "(prefers-reduced-motion: reduce)",
+        standardMotion: "(prefers-reduced-motion: no-preference)",
+      }, (mediaContext) => {
         const context = gsap.context(() => {
+          const reducedMotion = Boolean(mediaContext.conditions?.reducedMotion);
           const intro = section.querySelector<HTMLElement>("[data-intro-layer]");
           const philosophy = section.querySelector<HTMLElement>("[data-philosophy-layer]");
           const paper = section.querySelector<HTMLElement>("[data-paper]");
@@ -378,10 +371,10 @@
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: () => `+=${window.innerHeight * (window.matchMedia("(max-width: 700px)").matches ? 5.5 : 5)}`,
+              end: () => `+=${window.innerHeight * (reducedMotion ? 1.35 : window.matchMedia("(max-width: 700px)").matches ? 5.5 : 5)}`,
               pin: section,
               pinSpacing: true,
-              scrub: 1,
+              scrub: reducedMotion ? 0.15 : 1,
               anticipatePin: 1,
               invalidateOnRefresh: true,
               markers: import.meta.env.DEV ? {
@@ -393,34 +386,46 @@
           });
 
           master.addLabel("intro", 0);
-          master.addLabel("introComplete", 20);
-          master.addLabel("paperStart", 20);
-          master.addLabel("paperComplete", 48);
-          master.addLabel("cardsStart", 52);
-          master.addLabel("card01", 52);
-          master.addLabel("card02", 61);
-          master.addLabel("card03", 70);
-          master.addLabel("card04", 79);
-          master.addLabel("cardsComplete", 90);
-          master.addLabel("finalHold", 100);
+          if (reducedMotion) {
+            master.addLabel("introComplete", 4);
+            master.addLabel("cardsView", 4);
+            master.addLabel("finalHold", 10);
+            master.set(intro, { autoAlpha: 0 }, "cardsView");
+            master.set(philosophy, { autoAlpha: 1 }, "cardsView");
+            master.set(paper, { clipPath: "inset(0 0% 0 0)", scaleX: 1 }, "cardsView");
+            master.set(paperEdge, { autoAlpha: 0 }, "cardsView");
+            master.set(cards, { autoAlpha: 1, y: 0, scale: 1 }, "cardsView");
+            master.to({}, { duration: 6 }, "cardsView");
+          } else {
+            master.addLabel("introComplete", 20);
+            master.addLabel("paperStart", 20);
+            master.addLabel("paperComplete", 48);
+            master.addLabel("cardsStart", 52);
+            master.addLabel("card01", 52);
+            master.addLabel("card02", 61);
+            master.addLabel("card03", 70);
+            master.addLabel("card04", 79);
+            master.addLabel("cardsComplete", 90);
+            master.addLabel("finalHold", 100);
 
-          master.to(philosophy, { autoAlpha: 1, duration: 0.01 }, "paperStart");
-          master.fromTo(
-            paper,
-            { clipPath: "inset(0 100% 0 0)", scaleX: 0.99 },
-            { clipPath: "inset(0 0% 0 0)", scaleX: 1, duration: 28, ease: "none" },
-            "paperStart",
-          );
-          master.fromTo(
-            paperEdge,
-            { x: 0, autoAlpha: 1 },
-            { x: () => window.innerWidth, autoAlpha: 0.25, duration: 28, ease: "none" },
-            "paperStart",
-          );
+            master.to(philosophy, { autoAlpha: 1, duration: 0.01 }, "paperStart");
+            master.fromTo(
+              paper,
+              { clipPath: "inset(0 100% 0 0)", scaleX: 0.99 },
+              { clipPath: "inset(0 0% 0 0)", scaleX: 1, duration: 28, ease: "none" },
+              "paperStart",
+            );
+            master.fromTo(
+              paperEdge,
+              { x: 0, autoAlpha: 1 },
+              { x: () => window.innerWidth, autoAlpha: 0.25, duration: 28, ease: "none" },
+              "paperStart",
+            );
 
-          const cardsTimeline = createPhilosophyTimeline(philosophy);
-          master.add(cardsTimeline, "cardsStart");
-          master.to({}, { duration: 10 }, "cardsComplete");
+            const cardsTimeline = createPhilosophyTimeline(philosophy);
+            master.add(cardsTimeline, "cardsStart");
+            master.to({}, { duration: 10 }, "cardsComplete");
+          }
 
           section.dataset.motionEnhanced = "true";
           ScrollTrigger.refresh();
