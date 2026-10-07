@@ -1,3 +1,23 @@
+---
+const gridViewWidth = 1600;
+const gridViewHeight = 900;
+const gridHorizon = 560;
+const vanishingPoint = gridViewWidth / 2;
+
+const perspectiveRays = Array.from({ length: 25 }, (_, index) => {
+  const fraction = index / 24;
+  const floorX = -160 + fraction * 1920;
+  const horizonX = vanishingPoint + (floorX - vanishingPoint) * 0.14;
+  return `M ${horizonX.toFixed(1)} ${gridHorizon} L ${floorX.toFixed(1)} ${gridViewHeight}`;
+});
+
+const perspectiveRows = Array.from({ length: 12 }, (_, index) => {
+  const fraction = (index + 1) / 12;
+  const y = gridHorizon + (gridViewHeight - gridHorizon) * Math.pow(fraction, 2.1);
+  return `M 0 ${y.toFixed(1)} H ${gridViewWidth}`;
+});
+---
+
 <section class="narrative-section" id="proyectos" data-header-theme="light" aria-label="La filosofía de INGENIUM">
   <div class="narrative-stage">
     <div class="narrative-layer narrative-intro" data-intro-layer>
@@ -20,6 +40,22 @@
 
     <div class="narrative-layer narrative-philosophy" data-philosophy-layer>
       <div class="narrative-paper" data-paper>
+        <svg
+          class="narrative-paper__grid"
+          data-perspective-grid
+          viewBox={`0 0 ${gridViewWidth} ${gridViewHeight}`}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path class="narrative-paper__grid-line narrative-paper__grid-line--horizon" data-perspective-line d={`M 0 ${gridHorizon} H ${gridViewWidth}`} />
+          {perspectiveRows.map((path) => (
+            <path class="narrative-paper__grid-line" data-perspective-line d={path} />
+          ))}
+          {perspectiveRays.map((path) => (
+            <path class="narrative-paper__grid-line" data-perspective-line d={path} />
+          ))}
+        </svg>
         <span class="narrative-paper__edge" data-paper-edge aria-hidden="true"></span>
         <div class="narrative-paper__content">
           <h2>Una estructura. Cuatro principios.</h2>
@@ -154,6 +190,31 @@
     transform-origin: left center;
   }
 
+  .narrative-paper__grid {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: #7085b0;
+    mask-image: linear-gradient(180deg, transparent 56%, rgba(0, 0, 0, 0.22) 64%, #000 78%);
+    pointer-events: none;
+  }
+
+  .narrative-paper__grid-line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.35px;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .narrative-paper__grid-line--horizon {
+    stroke-width: 1.6px;
+  }
+
   .narrative-paper__edge {
     position: absolute;
     z-index: 2;
@@ -165,6 +226,8 @@
   }
 
   .narrative-paper__content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -305,6 +368,10 @@
       line-height: 1.3;
       overflow-wrap: anywhere;
     }
+
+    .narrative-paper__grid-line {
+      stroke-width: 1px;
+    }
   }
 
   @media (max-height: 720px) and (min-width: 701px) {
@@ -358,16 +425,27 @@
           const philosophy = section.querySelector<HTMLElement>("[data-philosophy-layer]");
           const paper = section.querySelector<HTMLElement>("[data-paper]");
           const paperEdge = section.querySelector<HTMLElement>("[data-paper-edge]");
+          const perspectiveGrid = section.querySelector<SVGSVGElement>("[data-perspective-grid]");
+          const perspectiveLines = perspectiveGrid
+            ? Array.from(perspectiveGrid.querySelectorAll<SVGPathElement>("[data-perspective-line]"))
+            : [];
           const cards = section.querySelectorAll<HTMLElement>("[data-philosophy-card]");
           const siteHeader = document.querySelector<HTMLElement>(".topbar");
 
-          if (!intro || !philosophy || !paper || !paperEdge) return;
+          if (!intro || !philosophy || !paper || !paperEdge || !perspectiveGrid) return;
 
           gsap.set(philosophy, { autoAlpha: 0 });
           const paperScale = reducedMotion ? 0.998 : 0.99;
           gsap.set(paper, { clipPath: "inset(0 100% 0 0)", scaleX: paperScale, transformOrigin: "left center" });
           gsap.set(paperEdge, { autoAlpha: 1, x: 0 });
           gsap.set(cards, { autoAlpha: 0, y: reducedMotion ? 0 : 18 });
+          gsap.set(perspectiveGrid, { autoAlpha: 0 });
+
+          perspectiveLines.forEach((line) => {
+            const length = line.getTotalLength();
+            line.style.strokeDasharray = `${length} ${length}`;
+            line.style.strokeDashoffset = `${length}`;
+          });
 
           const master = gsap.timeline({
             defaults: { ease: "none" },
@@ -411,6 +489,25 @@
             { x: () => window.innerWidth, autoAlpha: 0.25, duration: 28, ease: "none" },
             "paperStart",
           );
+
+          const perspectiveTimeline = gsap.timeline();
+          perspectiveTimeline.fromTo(
+            perspectiveGrid,
+            { autoAlpha: 0 },
+            { autoAlpha: 0.64, duration: reducedMotion ? 4 : 7, ease: "none" },
+            0,
+          );
+          perspectiveTimeline.to(
+            perspectiveLines,
+            {
+              strokeDashoffset: 0,
+              duration: reducedMotion ? 1.8 : 2.5,
+              stagger: { each: reducedMotion ? 0.18 : 0.36, from: "start" },
+              ease: "none",
+            },
+            0.5,
+          );
+          master.add(perspectiveTimeline, "paperStart+=3");
 
           const cardsTimeline = createPhilosophyTimeline(philosophy, { reducedMotion });
           master.add(cardsTimeline, "cardsStart");
