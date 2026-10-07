@@ -1,0 +1,37 @@
+---
+const steps = [
+  {
+    number: "01",
+    title: "Diagnóstico",
+    description: "Escuchamos alcance, condiciones y objetivos."
+  },
+  {
+    number: "02",
+    title: "Planeación",
+    description: "Definimos estudios, prioridades y ruta técnica."
+  },
+  {
+    number: "03",
+    title: "Desarrollo",
+    description: "Coordinamos las disciplinas con rigor y método."
+  },
+  {
+    number: "04",
+    title: "Seguimiento",
+    description: "Acompañamos avances y decisiones relevantes."
+  }
+];
+---
+
+<section class="sequence" data-header-theme="light">
+  <div class="section-id mono">[ 03 — PROCESO ]</div>
+  <div class="sequence-track">
+    {steps.map((step) => (
+      <article>
+        <span class="node mono">{step.number}</span>
+        <h3>{step.title}</h3>
+        <p>{step.description}</p>
+      </article>
+    ))}
+  </div>
+</section>

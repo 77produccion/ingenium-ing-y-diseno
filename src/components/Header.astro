@@ -1,0 +1,50 @@
+---
+---
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-link" href="#inicio" aria-label="INGENIUM — Inicio">
+      <img
+        src="/assets/logos/021026 INGENIUM - LOGO_2026-03.png"
+        alt=""
+        aria-hidden="true"
+        class="brand-logo-img brand-logo-img--light"
+      />
+      <img
+        src="/assets/logos/021026 INGENIUM - LOGO_2026-04.png"
+        alt=""
+        aria-hidden="true"
+        class="brand-logo-img brand-logo-img--dark"
+      />
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="site-navigation">
+      <span></span><span></span>
+    </button>
+
+    <nav id="site-navigation" aria-label="Navegación principal">
+      <a href="#nosotros">Nosotros</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#contacto" class="nav-cta">¡Hablemos!</a>
+    </nav>
+  </div>
+</header>
+
+<div class="header-intro" aria-hidden="true">
+  <span class="header-intro__capsule">
+    <img src="/assets/logos/021026 INGENIUM - LOGO_2026-03.png" alt="" />
+  </span>
+</div>
+
+<script is:inline>
+  const root = document.documentElement;
+  if (root.dataset.headerIntro === 'true') {
+    const intro = document.querySelector('.header-intro');
+    window.setTimeout(() => root.classList.add('header-expanded'), 850);
+    window.setTimeout(() => {
+      root.classList.add('header-ready');
+      intro?.setAttribute('hidden', '');
+    }, 1700);
+  }
+</script>

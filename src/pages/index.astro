@@ -1,0 +1,112 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Manifesto from '../components/Manifesto.astro';
+import Capabilities from '../components/Capabilities.astro';
+import Process from '../components/Process.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="INGENIUM — Ingeniería visible">
+  <Header />
+  <main id="inicio">
+    <Hero />
+    <section class="projects-placeholder" id="proyectos" data-header-theme="light" aria-label="Espacio reservado para nuevo contenido"></section>
+    <Manifesto />
+    <Capabilities />
+    <Process />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  // Accordion logic for Capabilities
+  const accordionButtons = document.querySelectorAll<HTMLButtonElement>('.cap-item button');
+  accordionButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const item = button.closest('.cap-item');
+      if (!item) return;
+
+      const content = item.querySelector<HTMLElement>('.cap-content');
+      const symbol = button.querySelector<HTMLElement>('.cap-symbol');
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+      button.setAttribute('aria-expanded', String(!isOpen));
+      if (symbol) {
+        symbol.textContent = isOpen ? '+' : '−';
+      }
+      if (content) {
+        content.hidden = isOpen;
+      }
+    });
+  });
+
+  // Smoothly scroll hero calls to action to their sections, regardless of reduced-motion preference.
+  document.querySelectorAll<HTMLAnchorElement>('[data-smooth-scroll]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const href = link.getAttribute('href');
+      const target = href ? document.querySelector<HTMLElement>(href) : null;
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Mobile navigation drawer toggle
+  const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('.topbar nav');
+
+  menuButton?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  });
+
+  nav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+      menuButton?.setAttribute('aria-label', 'Abrir menú');
+    });
+  });
+
+  // Use a dark header palette over light sections, and a light palette over dark sections.
+  const siteHeader = document.querySelector<HTMLElement>('.topbar');
+  const headerCapsule = document.querySelector<HTMLElement>('.topbar-inner');
+  const themedSections = Array.from(document.querySelectorAll<HTMLElement>('[data-header-theme]'));
+  let headerThemeObserver: IntersectionObserver | undefined;
+
+  const observeHeaderTheme = () => {
+    headerThemeObserver?.disconnect();
+    if (!siteHeader || !headerCapsule || themedSections.length === 0) return;
+
+    const markerTop = Math.max(0, Math.round(headerCapsule.getBoundingClientRect().bottom) - 1);
+    const markerHeight = 2;
+    const bottomInset = Math.max(0, window.innerHeight - markerTop - markerHeight);
+
+    headerThemeObserver = new IntersectionObserver(() => {
+      const sectionUnderHeader = themedSections
+        .filter((section) => {
+          const bounds = section.getBoundingClientRect();
+          return bounds.top <= markerTop + markerHeight && bounds.bottom >= markerTop;
+        })
+        .sort((first, second) => second.getBoundingClientRect().top - first.getBoundingClientRect().top)[0];
+
+      if (sectionUnderHeader) {
+        siteHeader.classList.toggle('is-over-light', sectionUnderHeader.dataset.headerTheme === 'light');
+      }
+    }, {
+      rootMargin: `-${markerTop}px 0px -${bottomInset}px 0px`,
+      threshold: 0,
+    });
+
+    themedSections.forEach((section) => headerThemeObserver?.observe(section));
+  };
+
+  observeHeaderTheme();
+  window.addEventListener('resize', observeHeaderTheme, { passive: true });
+</script>
