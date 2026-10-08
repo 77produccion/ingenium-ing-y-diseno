@@ -80,7 +80,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
             type="button"
             aria-label={`Ver perfil de ${member.name}`}
             aria-pressed={member.id === selectedMember.id ? "true" : "false"}
-            data-team-member={JSON.stringify(member)}
+            data-team-member-id={member.id}
           >
             <img src={member.photo} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </button>
@@ -95,20 +95,29 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
         <p>Combinamos rigor técnico, especialización estructural y gestión estratégica para convertir proyectos ambiciosos en obras sólidas y seguras.</p>
       </header>
 
-      <div class="team-profile" data-team-profile data-scroll-reveal aria-live="polite">
-        <h3 class="team-profile__name" data-member-name>{selectedMember.name}</h3>
-        <p class="team-profile__role" data-member-role>{selectedMember.role}</p>
-        <p class="team-profile__description" data-member-description>{selectedMember.description}</p>
-        <div class="team-education" data-member-education>
-          {selectedMember.education.map((education) => (
-            <article class="team-education__item">
-              <span class="team-education__degree">{education.degree}</span>
-              <span class="team-education__logo">
-                <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
-              </span>
-            </article>
-          ))}
-        </div>
+      <div class="team-profile-deck" data-scroll-reveal aria-live="polite">
+        {members.map((member) => (
+          <article
+            class="team-profile"
+            data-team-profile={member.id}
+            data-photo={member.photo}
+            aria-hidden={member.id === selectedMember.id ? "false" : "true"}
+          >
+            <h3 class="team-profile__name" data-profile-reveal>{member.name}</h3>
+            <p class="team-profile__role" data-profile-reveal>{member.role}</p>
+            <p class="team-profile__description" data-profile-reveal>{member.description}</p>
+            <div class="team-education" data-profile-reveal>
+              {member.education.map((education) => (
+                <article class="team-education__item">
+                  <span class="team-education__degree">{education.degree}</span>
+                  <span class="team-education__logo">
+                    <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
+                  </span>
+                </article>
+              ))}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </div>
@@ -269,14 +278,30 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     font: 400 clamp(16px, 1.45vw, 20px) / 1.35 var(--font-body);
   }
 
+  .team-profile-deck {
+    position: relative;
+    display: grid;
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
+    align-content: center;
+  }
+
   .team-profile {
     display: flex;
     width: 100%;
+    grid-area: 1 / 1;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: clamp(24px, 4svh, 46px) auto 0;
     text-align: center;
+  }
+
+  .team-profile[aria-hidden="true"] {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .team-profile__name {
@@ -459,66 +484,25 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
 <script>
   import { gsap } from "gsap";
 
-  type TeamEducation = { degree: string; university: string; logo: string };
-  type TeamMemberProfile = {
-    id: string;
-    name: string;
-    role: string;
-    description: string;
-    photo: string;
-    education: TeamEducation[];
-  };
-
   const sections = document.querySelectorAll<HTMLElement>(".team-section");
 
   sections.forEach((section) => {
     const photo = section.querySelector<HTMLImageElement>("[data-team-photo]");
-    const name = section.querySelector<HTMLElement>("[data-member-name]");
-    const role = section.querySelector<HTMLElement>("[data-member-role]");
-    const description = section.querySelector<HTMLElement>("[data-member-description]");
-    const education = section.querySelector<HTMLElement>("[data-member-education]");
-    const buttons = Array.from(section.querySelectorAll<HTMLButtonElement>("[data-team-member]"));
+    const profiles = Array.from(section.querySelectorAll<HTMLElement>("[data-team-profile]"));
+    const buttons = Array.from(section.querySelectorAll<HTMLButtonElement>("[data-team-member-id]"));
 
-    if (!photo || !name || !role || !description || !education || buttons.length === 0) return;
+    if (!photo || profiles.length === 0 || buttons.length === 0) return;
 
     const context = gsap.context(() => {}, section);
     let isSwitching = false;
-
-    function renderEducation(entries: TeamEducation[]) {
-      education.replaceChildren();
-
-      entries.forEach((entry) => {
-        const item = document.createElement("article");
-        item.className = "team-education__item";
-
-        const degree = document.createElement("span");
-        degree.className = "team-education__degree";
-        degree.textContent = entry.degree;
-
-        const logoWrap = document.createElement("span");
-        logoWrap.className = "team-education__logo";
-        const logo = document.createElement("img");
-        logo.src = entry.logo;
-        logo.alt = entry.university;
-        logo.loading = "lazy";
-        logo.decoding = "async";
-        logoWrap.append(logo);
-
-        item.append(degree, logoWrap);
-        education.append(item);
-      });
-    }
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         if (isSwitching || button.getAttribute("aria-pressed") === "true") return;
 
-        let next: TeamMemberProfile;
-        try {
-          next = JSON.parse(button.dataset.teamMember ?? "") as TeamMemberProfile;
-        } catch {
-          return;
-        }
+        const nextProfile = profiles.find((profile) => profile.dataset.teamProfile === button.dataset.teamMemberId);
+        const currentProfile = profiles.find((profile) => profile.getAttribute("aria-hidden") === "false");
+        if (!nextProfile || !currentProfile) return;
 
         isSwitching = true;
         buttons.forEach((candidate) => {
@@ -528,26 +512,23 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
         });
 
         context.add(() => {
-          const photoAndDetails = [photo, name, role, description, education];
           const timeline = gsap.timeline({
             onComplete: () => { isSwitching = false; },
           });
-          const textTargets = [education, description, role, name];
 
-          timeline.to([...photoAndDetails], {
+          timeline.to([photo, currentProfile], {
             autoAlpha: 0,
             y: -10,
             duration: 0.2,
             ease: "power1.in",
           });
           timeline.call(() => {
-            photo.src = next.photo;
-            photo.alt = `Retrato de ${next.name}`;
-            name.textContent = next.name;
-            role.textContent = next.role;
-            description.textContent = next.description;
-            renderEducation(next.education);
-            gsap.set(photoAndDetails, { autoAlpha: 0, y: 16 });
+            const profileName = nextProfile.querySelector<HTMLElement>(".team-profile__name")?.textContent ?? "integrante del equipo";
+            photo.src = nextProfile.dataset.photo ?? "";
+            photo.alt = `Retrato de ${profileName}`;
+            currentProfile.setAttribute("aria-hidden", "true");
+            nextProfile.setAttribute("aria-hidden", "false");
+            gsap.set(nextProfile, { autoAlpha: 0, y: 16 });
           });
           timeline.to(photo, {
             autoAlpha: 1,
@@ -556,6 +537,15 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
             ease: "power2.out",
           });
 
+          const textTargets = Array.from(nextProfile.querySelectorAll<HTMLElement>("[data-profile-reveal]"))
+            .filter((element) => !element.classList.contains("team-education") || element.childElementCount > 0);
+
+          timeline.to(nextProfile, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.48,
+            ease: "power2.out",
+          }, "<");
           timeline.fromTo(
             textTargets,
             { autoAlpha: 0, y: 18 },
@@ -563,7 +553,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
               autoAlpha: 1,
               y: 0,
               duration: 0.48,
-              stagger: 0.075,
+              stagger: { each: 0.075, from: "end" },
               ease: "power2.out",
               clearProps: "transform,opacity,visibility",
             },
