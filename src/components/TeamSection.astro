@@ -2,7 +2,7 @@
 interface Education {
   degree: string;
   university: string;
-  logo: string;
+  logo?: string;
 }
 
 interface TeamMember {
@@ -17,11 +17,22 @@ interface TeamMember {
 const members: TeamMember[] = [
   {
     id: "julian",
-    name: "Julián",
-    role: "Integrante del equipo",
-    description: "Forma parte del equipo multidisciplinario de INGENIUM.",
+    name: "Julián Alfonso Ruge",
+    role: "Gerente General",
+    description: "Lidera la visión estratégica y la toma de decisiones técnicas, garantizando soluciones constructivas de alto nivel y cumplimiento normativo en cada desarrollo.",
     photo: "/assets/team/Julian.png",
-    education: [],
+    education: [
+      {
+        degree: "Ingeniero Civil",
+        university: "Universidad del Quindío",
+        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
+      },
+      {
+        degree: "Especialista en Estructuras",
+        university: "Universidad Nacional de Colombia",
+        logo: "/assets/team/logos-universidades/unal-logo.webp",
+      },
+    ],
   },
   {
     id: "leonardo",
@@ -44,19 +55,41 @@ const members: TeamMember[] = [
   },
   {
     id: "sebastian",
-    name: "Sebastian",
-    role: "Integrante del equipo",
-    description: "Forma parte del equipo multidisciplinario de INGENIUM.",
+    name: "Juan Sebastián Giraldo",
+    role: "Líder Técnico",
+    description: "Coordina y supervisa el análisis y diseño estructural, asegurando que cada cálculo e implementación cumpla los más altos estándares de seguridad y optimización.",
     photo: "/assets/team/sebastian.png",
-    education: [],
+    education: [
+      {
+        degree: "Ingeniero Civil",
+        university: "Universidad del Quindío",
+        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
+      },
+      {
+        degree: "Especialista en Estructuras",
+        university: "Universidad Nacional de Colombia",
+        logo: "/assets/team/logos-universidades/unal-logo.webp",
+      },
+    ],
   },
   {
     id: "julio",
-    name: "Julio",
-    role: "Integrante del equipo",
-    description: "Forma parte del equipo multidisciplinario de INGENIUM.",
+    name: "Julio Alberto Toro",
+    role: "Ingeniero Junior",
+    description: "Aporta enfoque analítico y rigor investigativo en el modelado y cálculo estructural, apoyando la entrega precisa de memorias técnicas.",
     photo: "/assets/team/julio.png",
-    education: [],
+    education: [
+      {
+        degree: "Ingeniero Civil",
+        university: "Universidad del Quindío",
+        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
+      },
+      {
+        degree: "Candidato a Especialista",
+        university: "Universidad del Valle",
+        logo: "/assets/team/logos-universidades/univalle-logo.jpg",
+      },
+    ],
   },
 ];
 
@@ -111,7 +144,11 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
                 <article class="team-education__item">
                   <span class="team-education__degree">{education.degree}</span>
                   <span class="team-education__logo">
-                    <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
+                    {education.logo ? (
+                      <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
+                    ) : (
+                      <span class="team-education__university">{education.university}</span>
+                    )}
                   </span>
                 </article>
               ))}
@@ -379,6 +416,12 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     max-width: 118px;
     max-height: 58px;
     object-fit: contain;
+  }
+
+  .team-education__university {
+    color: var(--brand-navy);
+    font: 400 clamp(10px, 0.95vw, 13px) / 1.2 var(--font-body);
+    text-align: center;
   }
 
   @media (max-width: 900px) {

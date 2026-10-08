@@ -95,7 +95,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: -130px;
   background: transparent;
   z-index: 100;
-  padding: 31px 32px;
+  padding: 14px 32px 31px;
 }
 
 .topbar-inner {
@@ -942,7 +942,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   .topbar {
     height: 104px;
     margin-bottom: -104px;
-    padding: 18px 16px;
+    padding: 8px 16px 18px;
   }
   .topbar-inner {
     height: 64px;
