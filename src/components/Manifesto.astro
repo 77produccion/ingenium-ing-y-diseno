@@ -1,5 +1,5 @@
 <section class="manifesto-section" id="nosotros" data-header-theme="light" aria-labelledby="manifesto-title">
-  <figure class="manifesto-visual">
+  <figure class="manifesto-visual" data-scroll-reveal>
     <img
       src="/assets/hero/vivienda-campestre/SaveClip.App_656741461_18110535115704309_3954471314843807473_n.jpg"
       alt="Vivienda diseñada y construida por INGENIUM"
@@ -11,14 +11,14 @@
   </figure>
 
   <div class="manifesto-content">
-    <div class="manifesto-copy">
+    <div class="manifesto-copy" data-scroll-reveal>
       <h2 id="manifesto-title">No diseñamos en el vacío.</h2>
       <p>
         Leemos el contexto, hacemos las preguntas correctas y conectamos cada decisión con la realidad del proyecto.
       </p>
     </div>
 
-    <div class="manifesto-stats" aria-label="Datos del equipo INGENIUM">
+    <div class="manifesto-stats" data-reveal-children aria-label="Datos del equipo INGENIUM">
       <article class="manifesto-stat">
         <span class="manifesto-stat__value" data-counter data-count="8" data-suffix="+">08+</span>
         <p>Años de experiencia en el sector</p>
@@ -29,7 +29,7 @@
       </article>
     </div>
 
-    <p class="manifesto-expertise" id="equipo">Equipos especialistas en estructuras.</p>
+    <p class="manifesto-expertise" id="equipo" data-scroll-reveal>Equipos especialistas en estructuras.</p>
   </div>
 </section>
 
@@ -205,7 +205,7 @@
 
   sections.forEach((section) => {
     const counters = Array.from(section.querySelectorAll<HTMLElement>("[data-counter]"));
-    if (counters.length === 0 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (counters.length === 0) return;
 
     let animations: gsap.core.Tween[] = [];
     const context = gsap.context(() => {

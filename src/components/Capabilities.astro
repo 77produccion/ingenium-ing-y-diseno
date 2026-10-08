@@ -25,7 +25,7 @@ const capabilities = [
 ---
 
 <section class="capabilities" id="servicios" data-header-theme="light">
-  <div class="cap-head">
+  <div class="cap-head" data-scroll-reveal>
     <div class="section-id mono">[ 02 — CAPACIDADES ]</div>
     <h2>
       Visión integral.<br />
@@ -34,7 +34,7 @@ const capabilities = [
     <p>Una ruta técnica que pone en relación diseño, normativa, inversión y ejecución.</p>
   </div>
 
-  <div class="cap-list">
+  <div class="cap-list" data-reveal-children>
     {capabilities.map((cap) => (
       <article class="cap-item">
         <button aria-expanded={cap.defaultOpen ? "true" : "false"} type="button">

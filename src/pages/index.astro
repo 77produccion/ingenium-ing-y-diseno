@@ -24,6 +24,8 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script>
+  import { gsap } from 'gsap';
+
   // Accordion logic for Capabilities
   const accordionButtons = document.querySelectorAll<HTMLButtonElement>('.cap-item button');
   accordionButtons.forEach((button) => {
@@ -78,6 +80,15 @@ import Footer from '../components/Footer.astro';
   // Use a dark header palette over light sections, and a light palette over dark sections.
   const siteHeader = document.querySelector<HTMLElement>('.topbar');
   const headerCapsule = document.querySelector<HTMLElement>('.topbar-inner');
+  const siteNavigation = document.querySelector<HTMLElement>('#site-navigation');
+  const categoryLinks = Array.from(
+    siteNavigation?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.nav-cta)') ?? [],
+  );
+  const categoryTargets = categoryLinks.flatMap((link) => {
+    const selector = link.getAttribute('href');
+    const target = selector ? document.querySelector<HTMLElement>(selector) : null;
+    return target ? [{ link, target }] : [];
+  });
   const themedSections = Array.from(document.querySelectorAll<HTMLElement>('[data-header-theme]'));
   let headerThemeObserver: IntersectionObserver | undefined;
 
@@ -100,6 +111,18 @@ import Footer from '../components/Footer.astro';
       if (sectionUnderHeader) {
         siteHeader.classList.toggle('is-over-light', sectionUnderHeader.dataset.headerTheme === 'light');
       }
+
+      const activeCategory = categoryTargets
+        .filter(({ target }) => {
+          const bounds = target.getBoundingClientRect();
+          return bounds.top <= markerTop + markerHeight && bounds.bottom >= markerTop;
+        })
+        .sort((first, second) => second.target.getBoundingClientRect().top - first.target.getBoundingClientRect().top)[0]?.link;
+
+      categoryLinks.forEach((link) => {
+        if (link === activeCategory) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
     }, {
       rootMargin: `-${markerTop}px 0px -${bottomInset}px 0px`,
       threshold: 0,
@@ -110,4 +133,62 @@ import Footer from '../components/Footer.astro';
 
   observeHeaderTheme();
   window.addEventListener('resize', observeHeaderTheme, { passive: true });
+
+  let revealObserver: IntersectionObserver | undefined;
+  let revealContexts: gsap.Context[] = [];
+
+  function mountScrollReveals() {
+    revealObserver?.disconnect();
+    revealContexts.forEach((context) => context.revert());
+    revealContexts = [];
+
+    const revealTargets = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-scroll-reveal], [data-reveal-children]'),
+    );
+    if (!('IntersectionObserver' in window) || revealTargets.length === 0) return;
+
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const element = entry.target as HTMLElement;
+        const grouped = element.hasAttribute('data-reveal-children');
+        const targets = grouped
+          ? Array.from(element.children).filter((child): child is HTMLElement => child instanceof HTMLElement)
+          : [element];
+        revealObserver?.unobserve(element);
+        if (targets.length === 0) return;
+
+        const delay = Number(element.dataset.revealDelay) || 0;
+        const context = gsap.context(() => {
+          gsap.fromTo(targets,
+            { autoAlpha: 0, y: 22 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.82,
+              delay,
+              stagger: grouped ? 0.12 : 0,
+              ease: 'power2.out',
+              clearProps: 'transform,opacity,visibility',
+            },
+          );
+        }, element);
+        revealContexts.push(context);
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -7% 0px' });
+
+    revealTargets.forEach((target) => revealObserver?.observe(target));
+  }
+
+  function unmountScrollReveals() {
+    revealObserver?.disconnect();
+    revealContexts.forEach((context) => context.revert());
+    revealContexts = [];
+  }
+
+  mountScrollReveals();
+  document.addEventListener('astro:page-load', mountScrollReveals);
+  document.addEventListener('astro:before-swap', unmountScrollReveals);
+  import.meta.hot?.dispose(unmountScrollReveals);
 </script>

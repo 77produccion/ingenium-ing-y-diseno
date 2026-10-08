@@ -44,7 +44,7 @@
   --font-brand: 'Renogare', sans-serif;
   --font-heading: 'Aileron', 'Renogare', sans-serif;
   --font-body: 'Renogare', sans-serif;
-  --font-mono: 'Aileron', 'Renogare', sans-serif;
+  --font-mono: 'Renogare', sans-serif;
 }
 
 * {
@@ -145,7 +145,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .coordinates {
-  font: 500 10px var(--font-mono);
+  font: 400 10px var(--font-mono);
   color: var(--muted);
   letter-spacing: 0.05em;
   padding-left: 20px;
@@ -163,7 +163,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: auto;
   align-items: center;
   gap: clamp(24px, 2.8vw, 52px);
-  font: 700 13px var(--font-body);
+  font: 400 13px var(--font-body);
   color: var(--brand-navy);
   opacity: 1;
   transition: opacity 0.35s ease 0.12s, color 0.4s ease;
@@ -171,6 +171,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .topbar nav a {
   transition: color 0.2s ease;
+}
+
+.topbar nav a[aria-current="location"] {
+  font-family: var(--font-heading);
+  font-weight: 700;
 }
 
 .topbar nav a:hover {
@@ -369,7 +374,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 }
 
 .eyebrow {
-  font: 500 11px var(--font-mono);
+  font: 400 11px var(--font-mono);
   letter-spacing: 0.12em;
   color: var(--muted);
   display: flex;
@@ -423,7 +428,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   border: 1px solid rgba(246, 243, 236, 0.58);
   background: transparent;
   padding: 0 24px;
-  font: 700 13px var(--font-body);
+  font: 400 13px var(--font-body);
   letter-spacing: 0;
   color: var(--bg);
   white-space: nowrap;
@@ -541,7 +546,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 .section-id {
   font-size: 10px;
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.14em;
 }
 
@@ -602,7 +607,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 
 .cap-index {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--accent);
 }
 
@@ -616,7 +621,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 }
 
 .cap-symbol {
-  font: 600 22px var(--font-mono);
+  font: 400 22px var(--font-mono);
   color: var(--muted);
   text-align: right;
   transition: transform 0.2s ease, color 0.2s ease;
@@ -649,7 +654,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   border: 1px solid var(--line);
   background: var(--panel-card);
   padding: 6px 12px;
-  font: 500 9px var(--font-mono);
+  font: 400 9px var(--font-mono);
   color: var(--ink-secondary);
   border-radius: 2px;
 }
@@ -689,7 +694,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   justify-content: center;
   align-items: center;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 400;
   margin-top: -40px;
   position: relative;
   box-shadow: 0 2px 6px rgba(27, 45, 82, 0.2);
@@ -741,7 +746,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   min-width: 260px;
   border-bottom: 2px solid var(--brand-navy);
   padding: 14px 0;
-  font: 600 11px var(--font-mono);
+  font: 400 11px var(--font-mono);
   color: var(--brand-navy);
   margin-top: 20px;
   transition: all 0.2s ease;
@@ -805,7 +810,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 
 .footer > a:last-child {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 400;
   transition: color 0.2s ease;
 }
 
