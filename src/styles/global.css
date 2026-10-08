@@ -538,61 +538,11 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   background: var(--bg);
 }
 
-/* MANIFESTO */
-.manifesto {
-  padding: 110px 11vw;
-  background: var(--bg-subtle);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: 0.65fr 2fr;
-  gap: 65px;
-}
-
 .section-id {
   font-size: 10px;
   color: var(--accent);
   font-weight: 600;
   letter-spacing: 0.14em;
-}
-
-.manifesto-title {
-  font: 600 clamp(26px, 3.4vw, 44px) / 1.35 var(--font-heading);
-  letter-spacing: -0.03em;
-  margin: 0;
-  max-width: 880px;
-  color: var(--brand-navy);
-}
-
-.manifesto-title span {
-  color: var(--ink-secondary);
-  font-family: var(--font-body);
-  font-weight: 400;
-}
-
-.manifesto-foot {
-  display: flex;
-  gap: 50px;
-  margin-top: 45px;
-  font: 600 10px var(--font-mono);
-  color: var(--brand-navy);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.manifesto-foot span {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.manifesto-foot span:before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  display: inline-block;
 }
 
 /* CAPABILITIES */
@@ -958,7 +908,6 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   .hero-meta {
     margin-top: 40px;
   }
-  .manifesto,
   .capabilities {
     padding: 70px 8vw;
     grid-template-columns: 1fr;
@@ -1091,10 +1040,6 @@ html.header-expanded[data-header-intro="true"] .header-intro {
     left: 7vw;
     right: 7vw;
     font-size: 8px;
-  }
-  .manifesto-foot {
-    flex-direction: column;
-    gap: 12px;
   }
   .cap-title {
     font-size: 17px;
