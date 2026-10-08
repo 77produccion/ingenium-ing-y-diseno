@@ -91,6 +91,61 @@ const members: TeamMember[] = [
       },
     ],
   },
+  {
+    id: "anderson-duvan",
+    name: "Anderson Duvan Mesa",
+    role: "Ingeniero Junior",
+    description: "Apoya el desarrollo de modelos y cálculos estructurales con atención al detalle, la seguridad y la viabilidad constructiva.",
+    photo: "/assets/team/duvan.png",
+    education: [
+      {
+        degree: "Ingeniero Civil",
+        university: "Universidad del Quindío",
+        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
+      },
+    ],
+  },
+  {
+    id: "jefry-daniel",
+    name: "Jefry Daniel Monsalve",
+    role: "Ingeniero Junior",
+    description: "Contribuye a la revisión de diseños y a la coordinación técnica para resolver retos de obra con precisión.",
+    photo: "/assets/team/daniel.png",
+    education: [
+      {
+        degree: "Ingeniero Civil",
+        university: "Universidad del Quindío",
+        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
+      },
+    ],
+  },
+  {
+    id: "tatiana-rendon",
+    name: "Tatiana Rendón",
+    role: "Auxiliar Administrativa",
+    description: "Coordina procesos administrativos y documentales para que cada frente de trabajo avance con orden y continuidad.",
+    photo: "/assets/team/tatiana.png",
+    education: [
+      {
+        degree: "Administradora de Empresas",
+        university: "Universidad EAM",
+        logo: "/assets/team/logos-universidades/logo-eam.png",
+      },
+    ],
+  },
+  {
+    id: "camilo-londono",
+    name: "Camilo Londoño",
+    role: "Modelador BIM",
+    description: "Convierte la información del proyecto en modelos BIM que facilitan la coordinación entre disciplinas y la detección temprana de interferencias.",
+    photo: "/assets/team/camilo.png",
+    education: [
+      {
+        degree: "Candidato a Ingeniero Civil",
+        university: "",
+      },
+    ],
+  },
 ];
 
 const selectedMember = members.find((member) => member.id === "leonardo") ?? members[0];
@@ -141,15 +196,17 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
             <p class="team-profile__description" data-profile-reveal>{member.description}</p>
             <div class="team-education" data-profile-reveal>
               {member.education.map((education) => (
-                <article class="team-education__item">
+                <article class:list={["team-education__item", { "team-education__item--solo": !education.university }]}>
                   <span class="team-education__degree">{education.degree}</span>
-                  <span class="team-education__logo">
-                    {education.logo ? (
-                      <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
-                    ) : (
-                      <span class="team-education__university">{education.university}</span>
-                    )}
-                  </span>
+                  {education.university && (
+                    <span class="team-education__logo">
+                      {education.logo ? (
+                        <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
+                      ) : (
+                        <span class="team-education__university">{education.university}</span>
+                      )}
+                    </span>
+                  )}
                 </article>
               ))}
             </div>
@@ -234,8 +291,14 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-columns: minmax(56px, 1fr);
+    grid-auto-flow: column;
+    grid-template-columns: none;
     gap: 1px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    scroll-snap-type: x proximity;
     background: var(--line-dark);
   }
 
@@ -251,6 +314,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     border-top: 3px solid transparent;
     background: var(--brand-navy);
     cursor: pointer;
+    scroll-snap-align: start;
     opacity: 0.72;
     transition: opacity 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
   }
@@ -391,6 +455,13 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     background: #fff;
   }
 
+  .team-education__item--solo {
+    width: min(100%, 420px);
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+    justify-self: center;
+  }
+
   .team-education__degree {
     display: flex;
     align-items: center;
@@ -400,6 +471,11 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     font: 700 clamp(13px, 1.3vw, 17px) / 1.15 var(--font-heading);
     text-align: left;
     text-transform: uppercase;
+  }
+
+  .team-education__item--solo .team-education__degree {
+    justify-content: center;
+    text-align: center;
   }
 
   .team-education__logo {
@@ -427,6 +503,18 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
   @media (max-width: 900px) {
     .team-board {
       grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+    }
+
+    .team-visual {
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .team-member-picker {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      grid-auto-rows: clamp(68px, 9svh, 82px);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      overflow-x: hidden;
     }
 
     .team-content {
@@ -465,7 +553,15 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     .team-visual {
       min-height: 0;
       height: clamp(560px, 82svh, 720px);
-      grid-template-rows: minmax(0, 1fr) 88px;
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .team-member-picker {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      grid-auto-rows: clamp(68px, 10svh, 88px);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      overflow-x: hidden;
     }
 
     .team-brand-mark {
@@ -511,6 +607,10 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     .team-education__item {
       min-height: 78px;
       grid-template-columns: minmax(0, 1fr) minmax(54px, 0.8fr);
+    }
+
+    .team-education__item--solo {
+      grid-template-columns: 1fr;
     }
 
     .team-education__degree {
