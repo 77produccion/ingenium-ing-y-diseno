@@ -1,0 +1,249 @@
+---
+const metrics = [
+  { value: '08+', count: 8, suffix: '+', label: 'Años de experiencia en el sector', detail: 'Trayectoria en consultoría y construcción', icon: 'briefcase' },
+  { value: '04', count: 4, suffix: '', label: 'Etapas de trabajo', detail: 'Diagnóstico, planeación, desarrollo y seguimiento', icon: 'list-checks' },
+  { value: '360°', count: 360, suffix: '°', label: 'Visión del proyecto', detail: 'Del diseño técnico a la ejecución', icon: 'scan-eye' },
+];
+---
+
+<section class="metrics-section" data-header-theme="dark" aria-labelledby="metrics-title">
+  <div class="metrics-section__backdrop" aria-hidden="true"></div>
+  <div class="metrics-section__inner">
+    <header class="metrics-section__heading" data-scroll-reveal data-reveal-style="sweep">
+      <h2 id="metrics-title"><span>INGENIUM</span> en cifras</h2>
+      <p>Una mirada integral, respaldada por método y experiencia técnica.</p>
+    </header>
+    <div class="metrics-grid" data-reveal-children data-reveal-style="pop">
+      {metrics.map((metric) => (
+        <article class="metric">
+          <span class="metric__icon-frame" aria-hidden="true">
+            <svg class="metric__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              {metric.icon === 'briefcase' && (
+                <>
+                  <rect x="3" y="7" width="18" height="14" rx="2" />
+                  <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2" />
+                </>
+              )}
+              {metric.icon === 'list-checks' && (
+                <>
+                  <path d="m3 6 2 2 4-4M13 6h8M13 12h8M13 18h8" />
+                  <path d="m3 12 2 2 2-2M3 18l2 2 2-2" />
+                </>
+              )}
+              {metric.icon === 'scan-eye' && (
+                <>
+                  <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2" />
+                  <path d="M7 12s1.8-4 5-4 5 4 5 4-1.8 4-5 4-5-4-5-4Z" />
+                  <circle cx="12" cy="12" r="1.25" />
+                </>
+              )}
+            </svg>
+          </span>
+          <strong data-metric-counter data-count={metric.count} data-suffix={metric.suffix}>{metric.value}</strong>
+          <h3>{metric.label}</h3>
+          <p>{metric.detail}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .metrics-section {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(48px, 5.5vw, 76px) clamp(24px, 7vw, 112px);
+    color: var(--bg);
+    background: #132443;
+    isolation: isolate;
+  }
+
+  .metrics-section__backdrop {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(12, 26, 52, 0.88), rgba(12, 26, 52, 0.78)), url('/assets/hero/subestacion-molinos/SaveClip.App_653765323_18060090317394760_542162242022376666_n.webp') center 46% / cover;
+    opacity: 0.9;
+  }
+
+  .metrics-section__inner {
+    width: min(100%, 1450px);
+    margin-inline: auto;
+  }
+
+  .metrics-section__heading {
+    margin: 0 auto clamp(28px, 3.4vw, 44px);
+    text-align: center;
+  }
+
+  .metrics-section__heading h2 {
+    margin: 0;
+    color: #fff;
+    font: 400 clamp(38px, 6vw, 76px) / 1.05 var(--font-brand);
+    letter-spacing: -0.045em;
+  }
+
+  .metrics-section__heading h2 span {
+    display: inline-block;
+    padding: 0.04em 0.22em 0.12em;
+    background: var(--brand-orange);
+    color: #fff;
+    transform: skew(-7deg);
+  }
+
+  .metrics-section__heading p {
+    margin: 18px 0 0;
+    color: rgba(246, 243, 236, 0.84);
+    font-size: clamp(14px, 1.4vw, 18px);
+  }
+
+  .metrics-grid {
+    display: grid;
+    width: min(100%, 1120px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-inline: auto;
+  }
+
+  .metric {
+    position: relative;
+    display: flex;
+    min-height: 276px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px clamp(16px, 2vw, 30px) 20px;
+    text-align: center;
+  }
+
+  .metric + .metric {
+    border-left: 1px solid rgba(246, 243, 236, 0.38);
+  }
+
+  .metric__icon-frame {
+    position: relative;
+    display: grid;
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    place-items: center;
+    border: 1px solid rgba(246, 243, 236, 0.7);
+    border-radius: 50%;
+    background: rgba(246, 243, 236, 0.94);
+    margin-bottom: 12px;
+  }
+
+  .metric__icon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    color: #132443;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .metric strong {
+    display: block;
+    flex: 0 0 auto;
+    color: #fff;
+    font: 700 clamp(40px, 5vw, 68px) / 1 var(--font-heading);
+    letter-spacing: -0.05em;
+  }
+
+  .metric h3 {
+    max-width: 20ch;
+    margin: 10px 0 6px;
+    color: var(--bg);
+    font: 700 clamp(15px, 1.3vw, 18px) / 1.3 var(--font-heading);
+    text-transform: uppercase;
+  }
+
+  .metric p {
+    max-width: 30ch;
+    margin: 0;
+    color: rgba(246, 243, 236, 0.82);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 700px) {
+    .metrics-section__heading h2 {
+      font-size: clamp(31px, 8vw, 42px);
+    }
+
+    .metrics-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .metric {
+      min-height: 0;
+      padding: 24px 10px 28px;
+    }
+
+    .metric + .metric {
+      border-top: 1px solid rgba(246, 243, 236, 0.38);
+      border-left: 0;
+    }
+
+    .metric__icon-frame {
+      width: 58px;
+      height: 58px;
+      margin-bottom: 10px;
+    }
+
+    .metric strong {
+      font-size: clamp(34px, 9vw, 46px);
+    }
+
+    .metric p { font-size: 13px; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  function mountMetricCounters() {
+    document.querySelectorAll<HTMLElement>('.metrics-section').forEach((section) => {
+      if (section.dataset.countersMounted === 'true') return;
+      section.dataset.countersMounted = 'true';
+      const counters = Array.from(section.querySelectorAll<HTMLElement>('[data-metric-counter]'));
+      const animations = counters.map((counter, index) => {
+        const target = Number(counter.dataset.count ?? 0);
+        const suffix = counter.dataset.suffix ?? '';
+        const digits = target < 100 ? 2 : String(target).length;
+        const value = { current: 0 };
+        counter.textContent = `${String(0).padStart(digits, '0')}${suffix}`;
+        return gsap.to(value, {
+          current: target,
+          duration: 1.45,
+          delay: index * 0.12,
+          ease: 'power2.out',
+          paused: true,
+          onUpdate: () => {
+            counter.textContent = `${String(Math.round(value.current)).padStart(digits, '0')}${suffix}`;
+          },
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        animations.forEach((animation) => animation.play());
+        observer.disconnect();
+      }, { threshold: 0.25 });
+      observer.observe(section);
+
+      const cleanup = () => {
+        observer.disconnect();
+        animations.forEach((animation) => animation.kill());
+        delete section.dataset.countersMounted;
+      };
+      document.addEventListener('astro:before-swap', cleanup, { once: true });
+      import.meta.hot?.dispose(cleanup);
+    });
+  }
+
+  mountMetricCounters();
+  document.addEventListener('astro:page-load', mountMetricCounters);
+</script>

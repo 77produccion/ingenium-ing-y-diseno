@@ -1,0 +1,372 @@
+---
+const services = [
+  {
+    title: 'Consultoría',
+    href: '/consultoria',
+    image: '/assets/hero/subestacion-molinos/SaveClip.App_655822272_18133173541554569_2420271331874682155_n.webp',
+    alt: 'Ingeniero en obra revisando una estructura',
+    video: '/assets/proyectos/jorge-castaño/DJI_20260523111235_0309_D.MP4',
+    subservices: [
+      'Diseño estructural',
+      'Diseño no estructural',
+      'Revisión de diseños estructurales',
+      'Patología de estructuras',
+      'Vulnerabilidad sísmica de edificaciones',
+      'Rehabilitación de edificaciones',
+      'Evaluación técnica para la construcción',
+      'Diseños complementarios',
+    ],
+  },
+  {
+    title: 'Construcción',
+    href: '/construccion',
+    image: '/assets/hero/campo-madero/SaveClip.App_654360052_17988773909950872_2713793495850157466_n.webp',
+    alt: 'Estructura de vivienda en proceso de construcción',
+    video: '/assets/proyectos/tesoro-27/VID-20241004-WA0004.mp4',
+    subservices: [
+      'Ejecución de obra',
+      'Supervisión técnica',
+      'Análisis de costos y viabilidad económica',
+      'Permisos y licenciamientos',
+    ],
+  },
+];
+---
+
+<section class="services-showcase" id="servicios" data-header-theme="dark" aria-labelledby="services-showcase-title">
+  <div class="services-showcase__inner">
+    <h2 id="services-showcase-title" data-scroll-reveal data-reveal-style="sweep">Nuestros servicios</h2>
+    <div class="services-showcase__grid" data-reveal-children data-reveal-style="pop">
+      {services.map((service) => (
+        <a class="service-panel" href={service.href} aria-label={`Conoce nuestro servicio de ${service.title.toLowerCase()}`} data-service-panel>
+          <img class="service-panel__image" src={service.image} alt={service.alt} loading="lazy" decoding="async" />
+          <video class="service-panel__video" data-service-video src={service.video} muted playsinline loop preload="none" aria-hidden="true"></video>
+          <span class="service-panel__shade" aria-hidden="true"></span>
+          <img
+            class="service-panel__brand"
+            src="/assets/logos/021026 INGENIUM - LOGO_2026-08 NARANJA (2).webp"
+            alt="INGENIUM — Ingeniería y Diseño"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="service-panel__content">
+            <span class="service-panel__title">{service.title}</span>
+            <span class="service-panel__subservices-label">Servicios</span>
+            <ul class="service-panel__subservices" aria-label={`Subservicios de ${service.title}`}>
+              {service.subservices.map((subservice) => <li>{subservice}</li>)}
+            </ul>
+            <span class="service-panel__action" aria-hidden="true">Explorar <span>↗</span></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-showcase {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(44px, 5vw, 68px) clamp(24px, 6vw, 96px);
+    color: var(--bg);
+    background: var(--brand-navy);
+  }
+
+  .services-showcase__inner {
+    width: min(100%, 1600px);
+    margin-inline: auto;
+  }
+
+  .services-showcase h2 {
+    margin: 0 0 clamp(20px, 2.5vw, 32px);
+    color: var(--bg);
+    font: 700 clamp(36px, 4.2vw, 60px) / 1 var(--font-heading);
+    letter-spacing: -0.055em;
+  }
+
+  .services-showcase__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(6px, 0.6vw, 10px);
+  }
+
+  .service-panel {
+    position: relative;
+    display: flex;
+    min-height: clamp(300px, 30vw, 420px);
+    overflow: hidden;
+    align-items: flex-end;
+    padding: clamp(22px, 3.2vw, 48px);
+    isolation: isolate;
+    color: var(--bg);
+    background: #24385d;
+    text-decoration: none;
+  }
+
+  .service-panel__image,
+  .service-panel__video,
+  .service-panel__shade {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-panel__image,
+  .service-panel__video {
+    object-fit: cover;
+    transition: opacity 700ms cubic-bezier(0.2, 0.75, 0.25, 1), transform 1400ms cubic-bezier(0.2, 0.75, 0.25, 1), filter 900ms ease;
+  }
+
+  .service-panel__image {
+    opacity: 0.68;
+    filter: saturate(0.7) brightness(0.72);
+  }
+
+  .service-panel__video {
+    opacity: 0;
+    filter: saturate(1.14) brightness(1.04);
+  }
+
+  .service-panel__shade {
+    background: linear-gradient(180deg, rgba(13, 25, 49, 0.08) 15%, rgba(13, 25, 49, 0.14) 45%, rgba(13, 25, 49, 0.76) 100%);
+    transition: opacity 550ms ease;
+  }
+
+  .service-panel__brand {
+    position: absolute;
+    top: clamp(22px, 3.2vw, 48px);
+    left: clamp(22px, 3.2vw, 48px);
+    width: clamp(78px, 9vw, 118px);
+    height: clamp(54px, 6vw, 76px);
+    object-fit: contain;
+    object-position: left top;
+    opacity: 0.92;
+    transition: opacity 500ms ease, transform 500ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .service-panel__content {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .service-panel__title {
+    display: block;
+    font: 700 clamp(34px, 4.5vw, 64px) / 0.98 var(--font-heading);
+    letter-spacing: -0.055em;
+    transition: transform 650ms cubic-bezier(0.2, 0.75, 0.25, 1), color 350ms ease;
+  }
+
+  .service-panel__subservices-label {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    color: var(--brand-orange);
+    font: 400 10px / 1.2 var(--font-mono);
+    letter-spacing: 0.13em;
+    opacity: 0;
+    transition: max-height 650ms cubic-bezier(0.2, 0.75, 0.25, 1), margin 500ms ease, opacity 550ms ease;
+  }
+
+  .service-panel__subservices {
+    display: grid;
+    max-height: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: max-height 700ms cubic-bezier(0.2, 0.75, 0.25, 1), margin 500ms ease, opacity 600ms ease, transform 650ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .service-panel__subservices li {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(246, 243, 236, 0.17);
+    color: rgba(246, 243, 236, 0.91);
+    font-size: clamp(11px, 0.9vw, 13px);
+    line-height: 1.3;
+  }
+
+  .service-panel:hover .service-panel__title,
+  .service-panel:focus-visible .service-panel__title {
+    transform: translateY(-8px);
+  }
+
+  .service-panel:hover .service-panel__subservices-label,
+  .service-panel:focus-visible .service-panel__subservices-label {
+    max-height: 20px;
+    margin-top: 2px;
+    opacity: 1;
+  }
+
+  .service-panel:hover .service-panel__subservices,
+  .service-panel:focus-visible .service-panel__subservices {
+    max-height: 260px;
+    margin-top: 8px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-panel__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 12px;
+    color: var(--bg);
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 450ms ease, transform 450ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .service-panel__action span {
+    color: var(--brand-orange);
+    font-size: 24px;
+  }
+
+  .service-panel:hover .service-panel__image,
+  .service-panel:focus-visible .service-panel__image {
+    filter: saturate(1) brightness(0.9);
+    transform: scale(1.025);
+  }
+
+  .service-panel.is-playing .service-panel__video {
+    opacity: 1;
+    transform: scale(1.025);
+  }
+
+  .service-panel.is-playing .service-panel__image {
+    opacity: 0;
+  }
+
+  .service-panel:hover .service-panel__shade,
+  .service-panel:focus-visible .service-panel__shade {
+    opacity: 0.72;
+  }
+
+  .service-panel:hover .service-panel__brand,
+  .service-panel:focus-visible .service-panel__brand {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  .service-panel:hover .service-panel__title,
+  .service-panel:focus-visible .service-panel__title {
+    transform: translateY(-16px);
+    color: #fff;
+  }
+
+  .service-panel:hover .service-panel__action,
+  .service-panel:focus-visible .service-panel__action {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-panel:focus-visible {
+    outline: 3px solid var(--brand-orange);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 700px) {
+    .services-showcase {
+      padding-inline: 20px;
+    }
+
+    .services-showcase h2 {
+      font-size: clamp(32px, 8vw, 46px);
+    }
+
+    .services-showcase__grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .service-panel {
+      min-height: 0;
+      padding: 24px 22px;
+    }
+
+    .service-panel__action {
+      margin-top: 14px;
+    }
+
+    .service-panel__brand {
+      top: 22px;
+      left: 22px;
+      width: 78px;
+      height: 54px;
+    }
+
+    .service-panel__content {
+      padding-top: 54px;
+    }
+
+    .service-panel__title {
+      font-size: clamp(32px, 8vw, 46px);
+    }
+
+    .service-panel__subservices-label {
+      max-height: 20px;
+      margin-top: 14px;
+      opacity: 1;
+    }
+
+    .service-panel__subservices {
+      max-height: 240px;
+      grid-template-columns: 1fr;
+      margin-top: 6px;
+      opacity: 1;
+      transform: none;
+    }
+
+    .service-panel__subservices li {
+      padding: 5px 0;
+      font-size: 12px;
+    }
+
+    .service-panel__action {
+      width: fit-content;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+</style>
+
+<script>
+  function mountServicePanels() {
+    document.querySelectorAll<HTMLElement>('[data-service-panel]').forEach((panel) => {
+      if (panel.dataset.videoReady === 'true') return;
+      panel.dataset.videoReady = 'true';
+      const video = panel.querySelector<HTMLVideoElement>('[data-service-video]');
+      if (!video) return;
+
+      const startVideo = () => {
+        if (!video.currentSrc) video.load();
+        video.play().then(() => panel.classList.add('is-playing')).catch(() => {});
+      };
+      const stopVideo = () => {
+        video.pause();
+        panel.classList.remove('is-playing');
+      };
+
+      panel.addEventListener('pointerenter', startVideo);
+      panel.addEventListener('pointerleave', stopVideo);
+      panel.addEventListener('focusin', startVideo);
+      panel.addEventListener('focusout', (event) => {
+        if (!panel.contains(event.relatedTarget as Node | null)) stopVideo();
+      });
+      document.addEventListener('astro:before-swap', stopVideo, { once: true });
+    });
+  }
+
+  mountServicePanels();
+  document.addEventListener('astro:page-load', mountServicePanels);
+</script>

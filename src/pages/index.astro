@@ -2,11 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
-import NarrativeSection from '../components/NarrativeSection.astro';
-import Manifesto from '../components/Manifesto.astro';
-import Capabilities from '../components/Capabilities.astro';
-import Process from '../components/Process.astro';
+import ServicesShowcase from '../components/ServicesShowcase.astro';
+import MetricsSection from '../components/MetricsSection.astro';
+import ClientCarousel from '../components/ClientCarousel.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import BrandStatement from '../components/BrandStatement.astro';
 import TeamSection from '../components/TeamSection.astro';
+import BrandCTA from '../components/BrandCTA.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -15,11 +17,13 @@ import Footer from '../components/Footer.astro';
   <Header />
   <main id="inicio">
     <Hero />
-    <NarrativeSection />
-    <Manifesto />
-    <Capabilities />
-    <Process />
+    <ServicesShowcase />
+    <MetricsSection />
+    <ClientCarousel />
+    <ProjectsSection />
+    <BrandStatement />
     <TeamSection />
+    <BrandCTA />
     <Contact />
   </main>
   <Footer />
@@ -27,27 +31,6 @@ import Footer from '../components/Footer.astro';
 
 <script>
   import { gsap } from 'gsap';
-
-  // Accordion logic for Capabilities
-  const accordionButtons = document.querySelectorAll<HTMLButtonElement>('.cap-item button');
-  accordionButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const item = button.closest('.cap-item');
-      if (!item) return;
-
-      const content = item.querySelector<HTMLElement>('.cap-content');
-      const symbol = button.querySelector<HTMLElement>('.cap-symbol');
-      const isOpen = button.getAttribute('aria-expanded') === 'true';
-
-      button.setAttribute('aria-expanded', String(!isOpen));
-      if (symbol) {
-        symbol.textContent = isOpen ? '+' : '−';
-      }
-      if (content) {
-        content.hidden = isOpen;
-      }
-    });
-  });
 
   // Smoothly scroll hero calls to action to their sections, regardless of reduced-motion preference.
   document.querySelectorAll<HTMLAnchorElement>('[data-smooth-scroll]').forEach((link) => {
@@ -61,33 +44,15 @@ import Footer from '../components/Footer.astro';
     });
   });
 
-  // Mobile navigation drawer toggle
-  const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
-  const nav = document.querySelector<HTMLElement>('.topbar nav');
-
-  menuButton?.addEventListener('click', () => {
-    const isOpen = nav?.classList.toggle('open');
-    menuButton.setAttribute('aria-expanded', String(isOpen));
-    menuButton.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-  });
-
-  nav?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuButton?.setAttribute('aria-expanded', 'false');
-      menuButton?.setAttribute('aria-label', 'Abrir menú');
-    });
-  });
-
   // Use a dark header palette over light sections, and a light palette over dark sections.
   const siteHeader = document.querySelector<HTMLElement>('.topbar');
   const headerCapsule = document.querySelector<HTMLElement>('.topbar-inner');
   const siteNavigation = document.querySelector<HTMLElement>('#site-navigation');
   const categoryLinks = Array.from(
-    siteNavigation?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.nav-cta)') ?? [],
+    siteNavigation?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.nav-cta), a[href="/nosotros"]') ?? [],
   );
   const categoryTargets = categoryLinks.flatMap((link) => {
-    const selector = link.getAttribute('href');
+    const selector = link.getAttribute('href')?.startsWith('#') ? link.getAttribute('href') : '#nosotros';
     const target = selector ? document.querySelector<HTMLElement>(selector) : null;
     return target ? [{ link, target }] : [];
   });
@@ -115,10 +80,7 @@ import Footer from '../components/Footer.astro';
       }
 
       const activeCategory = categoryTargets
-        .filter(({ target }) => {
-          const bounds = target.getBoundingClientRect();
-          return bounds.top <= markerTop + markerHeight && bounds.bottom >= markerTop;
-        })
+        .filter(({ target }) => target.getBoundingClientRect().top <= markerTop + markerHeight)
         .sort((first, second) => second.target.getBoundingClientRect().top - first.target.getBoundingClientRect().top)[0]?.link;
 
       categoryLinks.forEach((link) => {
@@ -162,12 +124,20 @@ import Footer from '../components/Footer.astro';
         if (targets.length === 0) return;
 
         const delay = Number(element.dataset.revealDelay) || 0;
+        const revealStyle = element.dataset.revealStyle || 'rise';
+        const startState = revealStyle === 'pop'
+          ? { autoAlpha: 0, y: 16, scale: 0.94 }
+          : revealStyle === 'sweep'
+            ? { autoAlpha: 0, x: -26 }
+            : { autoAlpha: 0, y: 22 };
         const context = gsap.context(() => {
           gsap.fromTo(targets,
-            { autoAlpha: 0, y: 22 },
+            startState,
             {
               autoAlpha: 1,
+              x: 0,
               y: 0,
+              scale: 1,
               duration: 0.82,
               delay,
               stagger: grouped ? 0.12 : 0,

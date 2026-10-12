@@ -1,16 +1,18 @@
 ---
+const homePrefix = Astro.url.pathname === "/" ? "" : "/";
+const aboutHref = Astro.url.pathname === "/" ? "#nosotros" : "/nosotros";
 ---
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand-link" href="#inicio" aria-label="INGENIUM — Inicio">
+    <a class="brand-link" href={`${homePrefix}#inicio`} aria-label="INGENIUM — Inicio">
       <img
-        src="/assets/logos/021026 INGENIUM - LOGO_2026-03.png"
+        src="/assets/logos/021026 INGENIUM - LOGO_2026-03.webp"
         alt=""
         aria-hidden="true"
         class="brand-logo-img brand-logo-img--light"
       />
       <img
-        src="/assets/logos/021026 INGENIUM - LOGO_2026-04.png"
+        src="/assets/logos/021026 INGENIUM - LOGO_2026-04.webp"
         alt=""
         aria-hidden="true"
         class="brand-logo-img brand-logo-img--dark"
@@ -22,21 +24,61 @@
     </button>
 
     <nav id="site-navigation" aria-label="Navegación principal">
-      <a href="#nosotros">Nosotros</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#equipo">Equipo</a>
-      <a href="#contacto">Contacto</a>
-      <a href="#contacto" class="nav-cta">¡Hablemos!</a>
+      <a href={`${homePrefix}#servicios`}>Servicios</a>
+      <a href={`${homePrefix}#clientes`}>Clientes</a>
+      <a href={`${homePrefix}#proyectos`}>Proyectos</a>
+      <a href={aboutHref}>Nosotros</a>
+      <a href={`${homePrefix}#equipo`}>Equipo</a>
+      <a href={`${homePrefix}#contacto`}>Contacto</a>
+      <a href={`${homePrefix}#contacto`} class="nav-cta">¡Hablemos!</a>
     </nav>
   </div>
 </header>
 
 <div class="header-intro" aria-hidden="true">
   <span class="header-intro__capsule">
-    <img src="/assets/logos/021026 INGENIUM - LOGO_2026-03.png" alt="" />
+    <img src="/assets/logos/021026 INGENIUM - LOGO_2026-03.webp" alt="" />
   </span>
 </div>
+
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const navigation = document.querySelector<HTMLElement>("#site-navigation");
+  const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+
+  navigation?.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+    const linkUrl = new URL(link.href, window.location.href);
+    const linkPath = linkUrl.pathname.replace(/\/$/, "") || "/";
+    if (linkPath === currentPath && !linkUrl.hash) link.setAttribute("aria-current", "page");
+  });
+
+  function setMenuOpen(isOpen: boolean) {
+    navigation?.classList.toggle("open", isOpen);
+    menuButton?.setAttribute("aria-expanded", String(isOpen));
+    menuButton?.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+  }
+
+  menuButton?.addEventListener("click", () => {
+    setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || menuButton?.getAttribute("aria-expanded") !== "true") return;
+    setMenuOpen(false);
+    menuButton?.focus();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element) || event.target.closest(".topbar")) return;
+    setMenuOpen(false);
+  });
+
+  navigation?.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      setMenuOpen(false);
+    });
+  });
+</script>
 
 <script is:inline>
   const root = document.documentElement;
@@ -46,6 +88,7 @@
     window.setTimeout(() => {
       root.classList.add('header-ready');
       intro?.setAttribute('hidden', '');
+      root.removeAttribute('data-header-intro');
     }, 1700);
   }
 </script>

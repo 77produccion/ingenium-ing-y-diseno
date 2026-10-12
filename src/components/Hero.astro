@@ -17,18 +17,18 @@ const technicalDrawings = [
 ];
 
 const heroBackgrounds = [
-  "/assets/hero/torre-macuira/SaveClip.App_655967813_18260678779293563_332535198747351971_n (1).jpg",
-  "/assets/hero/torre-macuira/SaveClip.App_656678948_18043387367568099_6253573872979246640_n.jpg",
-  "/assets/hero/torre-macuira/SaveClip.App_651824349_17919956400281769_7032954961572098997_n (1).jpg",
-  "/assets/hero/campo-madero/SaveClip.App_654360052_17988773909950872_2713793495850157466_n.jpg",
-  "/assets/hero/campo-madero/SaveClip.App_656213273_18093649393869415_3670939555735419697_n.jpg",
-  "/assets/hero/vivienda-campestre/SaveClip.App_656741461_18110535115704309_3954471314843807473_n.jpg",
-  "/assets/hero/vivienda-campestre/SaveClip.App_654462355_18038672396768738_4956338926809536421_n.jpg",
-  "/assets/hero/viviendas-campestre-2/SaveClip.App_655863076_18094101572088172_4507449015105804140_n.jpg",
-  "/assets/hero/viviendas-campestre-2/SaveClip.App_656680485_18177460969387297_7419713545172435694_n.jpg",
-  "/assets/hero/subestacion-molinos/SaveClip.App_655822272_18133173541554569_2420271331874682155_n.jpg",
-  "/assets/hero/subestacion-molinos/SaveClip.App_653765323_18060090317394760_542162242022376666_n.jpg",
-  "/assets/hero/campo-madero/SaveClip.App_654719056_18116274964711720_7993319572492128250_n.jpg",
+  "/assets/hero/torre-macuira/SaveClip.App_655967813_18260678779293563_332535198747351971_n (1).webp",
+  "/assets/hero/torre-macuira/SaveClip.App_656678948_18043387367568099_6253573872979246640_n.webp",
+  "/assets/hero/torre-macuira/SaveClip.App_651824349_17919956400281769_7032954961572098997_n (1).webp",
+  "/assets/hero/campo-madero/SaveClip.App_654360052_17988773909950872_2713793495850157466_n.webp",
+  "/assets/hero/campo-madero/SaveClip.App_656213273_18093649393869415_3670939555735419697_n.webp",
+  "/assets/hero/vivienda-campestre/SaveClip.App_656741461_18110535115704309_3954471314843807473_n.webp",
+  "/assets/hero/vivienda-campestre/SaveClip.App_654462355_18038672396768738_4956338926809536421_n.webp",
+  "/assets/hero/viviendas-campestre-2/SaveClip.App_655863076_18094101572088172_4507449015105804140_n.webp",
+  "/assets/hero/viviendas-campestre-2/SaveClip.App_656680485_18177460969387297_7419713545172435694_n.webp",
+  "/assets/hero/subestacion-molinos/SaveClip.App_655822272_18133173541554569_2420271331874682155_n.webp",
+  "/assets/hero/subestacion-molinos/SaveClip.App_653765323_18060090317394760_542162242022376666_n.webp",
+  "/assets/hero/campo-madero/SaveClip.App_654719056_18116274964711720_7993319572492128250_n.webp",
 ];
 ---
 <section class="technical-hero" data-header-theme="dark">
@@ -47,8 +47,9 @@ const heroBackgrounds = [
   <div class="hero-diagram">
     <TechnicalDrawingSequence
       sources={technicalDrawings}
-      duration={3}
-      fadeDuration={0.65}
+      duration={2}
+      fadeDuration={0.35}
+      holdDuration={0.65}
       label="Secuencia animada de planos técnicos de INGENIUM"
     />
   </div>
@@ -56,18 +57,15 @@ const heroBackgrounds = [
   <div class="hero-main" data-scroll-reveal>
     <img
       class="hero-logo"
-      src="/assets/logos/021026 INGENIUM - LOGO_2026-02.png"
+      src="/assets/logos/021026 INGENIUM - LOGO_2026-02.webp"
       alt="INGENIUM — Ingeniería & Diseño"
     />
-    <h1>
-      Las buenas obras<br />empiezan con<br /><span>buenas decisiones.</span>
+    <h1 class="hero-services-line">
+      Construcción <span aria-hidden="true">|</span> Consultoría <span aria-hidden="true">|</span> Diseño <span aria-hidden="true">|</span> Supervisión
     </h1>
-    <p>
-      Ingeniería especializada para entender el proyecto completo antes de mover la primera pieza.
-    </p>
     <div class="hero-actions">
       <a class="outline-button" href="#servicios" data-smooth-scroll>
-        Explorar las capacidades
+        Explorar servicios
       </a>
       <a class="outline-button outline-button--primary" href="#contacto" data-smooth-scroll>
         Contáctanos

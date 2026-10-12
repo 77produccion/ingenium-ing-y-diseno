@@ -1,29 +1,56 @@
 ---
 ---
-<section class="contact-panel" id="contacto" data-header-theme="light">
-  <div class="section-id mono" data-scroll-reveal>[ 05 — CONTACTO ]</div>
-  <div data-scroll-reveal>
+<section class="contact-panel" id="contacto" data-header-theme="light" aria-labelledby="contact-title">
+  <div class="contact-side" data-scroll-reveal>
+    <div class="section-id mono">[ 05 — CONTACTO ]</div>
+    <img
+      class="contact-brand-img"
+      src="/assets/logos/021026 INGENIUM - LOGO_2026-01.webp"
+      alt="INGENIUM — Ingeniería & Diseño"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+
+  <div class="contact-intro" data-scroll-reveal>
     <p class="mono eyebrow">¿EN QUÉ ETAPA ESTÁS?</p>
-    <h2>
-      Empecemos por<br />entender el reto.
-    </h2>
-    <p>
-      Comparte el alcance de tu proyecto y conversemos sobre el acompañamiento que necesita.
+    <h2 id="contact-title">Empecemos por entender el reto.</h2>
+    <p class="contact-intro__copy">
+      Cuéntanos sobre tu idea y conversemos sobre el acompañamiento que necesita.
     </p>
-    <a
-      href="mailto:hola@ingenium.com.co?subject=Consulta%20t%C3%A9cnica%20INGENIUM"
-      class="contact-link"
-    >
-      Describir mi proyecto <span>↗</span>
+    <a class="contact-whatsapp" href="https://api.whatsapp.com/send?phone=573244934941" target="_blank" rel="noreferrer">
+      ¿Prefieres WhatsApp? <span>+57 324 493 4941 ↗</span>
     </a>
   </div>
-  <div class="contact-stamp-wrapper" data-scroll-reveal>
-    <div class="contact-stamp">
-      <img
-        src="/assets/logos/021026 INGENIUM - LOGO_2026-01.png"
-        alt="INGENIUM Sello Oficial"
-        class="contact-stamp-img"
-      />
+
+  <form class="contact-form" data-scroll-reveal data-reveal-style="pop" action="https://formsubmit.co/hola@ingenium.com.co" method="POST">
+    <input type="hidden" name="_subject" value="Nuevo proyecto — INGENIUM" />
+    <input type="hidden" name="_template" value="table" />
+    <div class="contact-form__fields">
+      <div class="contact-field">
+        <label for="contact-name">Nombre</label>
+        <input id="contact-name" name="nombre" type="text" autocomplete="given-name" required />
+      </div>
+      <div class="contact-field">
+        <label for="contact-lastname">Apellido</label>
+        <input id="contact-lastname" name="apellido" type="text" autocomplete="family-name" required />
+      </div>
+      <div class="contact-field">
+        <label for="contact-email">Correo electrónico</label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" required />
+      </div>
+      <div class="contact-field">
+        <label for="contact-phone">Número de teléfono</label>
+        <input id="contact-phone" name="telefono" type="tel" autocomplete="tel" required />
+      </div>
+      <div class="contact-field contact-field--wide">
+        <label for="contact-project">Describe tu idea o proyecto</label>
+        <textarea id="contact-project" name="proyecto" rows="4" required></textarea>
+      </div>
     </div>
-  </div>
+    <div class="contact-form__actions">
+      <p>Usaremos tus datos únicamente para responder a tu consulta sobre el proyecto.</p>
+      <button class="contact-submit" type="submit">Enviar información <span aria-hidden="true">↗</span></button>
+    </div>
+  </form>
 </section>

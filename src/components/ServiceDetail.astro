@@ -1,0 +1,608 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  services: { title: string; description: string }[];
+  projects?: { title: string; slug: string; images?: string[]; imageAlt?: string }[];
+  serviceColumns?: number;
+}
+
+const { title, category, description, image, imageAlt, services, projects = [], serviceColumns = 2 } = Astro.props;
+---
+
+<Layout title={`INGENIUM — ${title}`} description={description}>
+  <Header />
+  <main class="service-detail" data-header-theme="dark">
+    <section class="service-detail__hero">
+      <img src={image} alt={imageAlt} fetchpriority="high" />
+      <div class="service-detail__shade"></div>
+      <div class="service-detail__content">
+        <p>{category} / INGENIUM</p>
+        <h1>{title}</h1>
+        <div class="service-detail__rule"></div>
+        <p class="service-detail__description">{description}</p>
+        <a href="/#contacto">Hablemos de tu proyecto <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+    <section class="service-detail__approach">
+      <header class="service-detail__section-heading">
+        <p>{category} / NUESTROS SERVICIOS</p>
+        <h2>Ingeniería clara, de principio a fin.</h2>
+      </header>
+      <div class="service-detail__services" data-columns={serviceColumns}>
+        {services.map((service, index) => (
+          <details class="service-detail__service" data-service-card>
+            <summary>
+              <span class="service-detail__number">{String(index + 1).padStart(2, '0')}</span>
+              <span class="service-detail__service-title">{service.title}</span>
+              <span class="service-detail__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="service-detail__service-copy">
+              <div><p>{service.description}</p></div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+    {projects.length > 0 && (
+      <section class="service-detail__projects" aria-labelledby="service-projects-title">
+        <header class="service-detail__projects-heading">
+          <div>
+            <p>INGENIUM / PROYECTOS</p>
+            <h2 id="service-projects-title">Experiencia que toma forma.</h2>
+          </div>
+          <a href="/#proyectos">Ver portafolio completo <span aria-hidden="true">↗</span></a>
+        </header>
+        <div class="service-detail__project-grid">
+          {projects.map((project) => (
+            <article class="service-detail__project" data-project-card>
+              <div class="service-detail__project-image" data-image-slot={project.slug}>
+                {project.images?.length ? (
+                  <>
+                    <img class="service-detail__project-cover" data-project-main src={project.images[0]} alt={project.imageAlt ?? project.title} loading="lazy" decoding="async" />
+                    {project.images[1] && (
+                      <button class="service-detail__project-detail" type="button" data-image-swap aria-label={`Intercambiar imagen de ${project.title}`}>
+                        <img src={project.images[1]} alt={`${project.imageAlt ?? project.title}, vista alternativa`} loading="lazy" decoding="async" />
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <div class="service-detail__image-placeholder" aria-label={`Espacio reservado para la imagen de ${project.title}`}>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <path d="m21 15-5-5L5 21" />
+                    </svg>
+                    <span>Imagen por agregar</span>
+                  </div>
+                )}
+              </div>
+              <h3>{project.title}</h3>
+            </article>
+          ))}
+        </div>
+        <a class="service-detail__back" href="/#servicios">Volver a servicios <span aria-hidden="true">↗</span></a>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .service-detail {
+    color: var(--brand-navy);
+    background: var(--bg-subtle);
+  }
+
+  .service-detail__hero {
+    position: relative;
+    display: flex;
+    min-height: min(780px, 100svh);
+    align-items: flex-end;
+    overflow: hidden;
+    padding: clamp(150px, 18vh, 220px) clamp(28px, 9vw, 144px) clamp(64px, 8vw, 110px);
+    isolation: isolate;
+  }
+
+  .service-detail__hero > img,
+  .service-detail__shade {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-detail__hero > img {
+    object-fit: cover;
+    filter: saturate(0.78);
+  }
+
+  .service-detail__shade {
+    background: linear-gradient(90deg, rgba(14, 31, 61, 0.9), rgba(14, 31, 61, 0.34)), linear-gradient(0deg, rgba(14, 31, 61, 0.62), transparent 68%);
+  }
+
+  .service-detail__content {
+    width: min(100%, 950px);
+  }
+
+  .service-detail__content > p:first-child {
+    margin: 0 0 20px;
+    color: var(--bg);
+    font: 400 12px / 1.4 var(--font-mono);
+    letter-spacing: 0.14em;
+  }
+
+  .service-detail h1 {
+    margin: 0;
+    color: #fff;
+    font: 700 clamp(58px, 11vw, 150px) / 0.92 var(--font-heading);
+    letter-spacing: -0.065em;
+  }
+
+  .service-detail__rule {
+    width: 88px;
+    height: 4px;
+    margin: 30px 0 22px;
+    background: var(--brand-orange);
+  }
+
+  .service-detail__description {
+    max-width: 52ch;
+    margin: 0;
+    color: rgba(246, 243, 236, 0.9);
+    font-size: clamp(16px, 1.8vw, 20px);
+    line-height: 1.65;
+  }
+
+  .service-detail__content > a,
+  .service-detail__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 32px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(246, 243, 236, 0.6);
+    color: var(--bg);
+    font-size: 14px;
+  }
+
+  .service-detail__content > a span,
+  .service-detail__back span {
+    color: var(--brand-orange);
+    font-size: 22px;
+  }
+
+  .service-detail__approach,
+  .service-detail__projects {
+    padding: clamp(56px, 7vw, 92px) clamp(28px, 9vw, 144px);
+  }
+
+  .service-detail__approach {
+    color: var(--brand-navy);
+    background: #eeeae0;
+  }
+
+  .service-detail__section-heading {
+    max-width: 850px;
+    margin: 0 auto 34px;
+  }
+
+  .service-detail__section-heading > p,
+  .service-detail__projects-heading > div > p {
+    margin: 0 0 12px;
+    color: var(--brand-orange);
+    font: 700 11px / 1.4 var(--font-mono);
+    letter-spacing: 0.14em;
+  }
+
+  .service-detail__section-heading h2,
+  .service-detail__projects-heading h2 {
+    max-width: 850px;
+    margin: 0;
+    color: var(--brand-navy);
+    font: 700 clamp(34px, 5vw, 64px) / 1.04 var(--font-heading);
+    letter-spacing: -0.05em;
+  }
+
+  .service-detail__services {
+    display: grid;
+    max-width: 1180px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-inline: auto;
+  }
+
+  .service-detail__services[data-columns="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .service-detail__service {
+    align-self: start;
+    min-width: 0;
+    overflow: hidden;
+    border-top: 3px solid var(--brand-orange);
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(26, 43, 81, 0.045);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .service-detail__service:hover,
+  .service-detail__service[open] {
+    box-shadow: 0 18px 38px rgba(26, 43, 81, 0.1);
+  }
+
+  .service-detail__service summary {
+    display: grid;
+    min-height: 112px;
+    grid-template-columns: 26px minmax(0, 1fr) 24px;
+    align-items: start;
+    gap: 10px;
+    padding: 20px 18px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .service-detail__service summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .service-detail__service summary:focus-visible,
+  .service-detail__project-detail:focus-visible {
+    outline: 3px solid var(--brand-orange);
+    outline-offset: 3px;
+  }
+
+  .service-detail__number {
+    padding-top: 3px;
+    color: var(--brand-orange);
+    font: 700 12px / 1.5 var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+
+  .service-detail__service-title {
+    color: var(--brand-navy);
+    font: 700 clamp(16px, 1.25vw, 19px) / 1.3 var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+
+  .service-detail__toggle {
+    position: relative;
+    display: block;
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(26, 43, 81, 0.24);
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .service-detail__toggle::before,
+  .service-detail__toggle::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 1px;
+    background: var(--brand-navy);
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .service-detail__toggle::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    transition: transform 0.3s ease;
+  }
+
+  .service-detail__service[open] .service-detail__toggle {
+    border-color: var(--brand-orange);
+    background: var(--brand-orange);
+    transform: rotate(180deg);
+  }
+
+  .service-detail__service[open] .service-detail__toggle::before,
+  .service-detail__service[open] .service-detail__toggle::after {
+    background: #fff;
+  }
+
+  .service-detail__service[open] .service-detail__toggle::after {
+    transform: translate(-50%, -50%);
+  }
+
+  .service-detail__service-copy {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.36s ease;
+  }
+
+  .service-detail__service[open] .service-detail__service-copy {
+    grid-template-rows: 1fr;
+  }
+
+  .service-detail__service-copy > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .service-detail__service-copy p {
+    margin: 0;
+    padding: 0 18px 22px 54px;
+    color: var(--ink-secondary);
+    font: 400 14px / 1.7 Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    animation: service-copy-enter 0.32s ease both;
+  }
+
+  @keyframes service-copy-enter {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .service-detail__projects {
+    background: #fff;
+  }
+
+  .service-detail__projects-heading {
+    display: flex;
+    max-width: 1180px;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+    margin: 0 auto 32px;
+  }
+
+  .service-detail__projects-heading > a {
+    flex: 0 0 auto;
+    padding-bottom: 7px;
+    border-bottom: 1px solid rgba(19, 36, 67, 0.5);
+    color: var(--brand-navy);
+    font-size: 14px;
+  }
+
+  .service-detail__project-grid {
+    display: grid;
+    max-width: 1180px;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 24px);
+    margin-inline: auto;
+  }
+
+  .service-detail__project {
+    grid-column: span 4;
+    min-width: 0;
+  }
+
+  .service-detail__project:nth-child(1),
+  .service-detail__project:nth-child(2),
+  .service-detail__project:nth-child(6),
+  .service-detail__project:nth-child(7) {
+    grid-column: span 6;
+  }
+
+  .service-detail__project-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    padding: 8px;
+    background: linear-gradient(145deg, #f6f5f0, #e6e4dc);
+  }
+
+  .service-detail__project:nth-child(1) .service-detail__project-image,
+  .service-detail__project:nth-child(2) .service-detail__project-image,
+  .service-detail__project:nth-child(6) .service-detail__project-image,
+  .service-detail__project:nth-child(7) .service-detail__project-image {
+    aspect-ratio: 16 / 9;
+  }
+
+  .service-detail__project-image > img {
+    display: block;
+    object-fit: contain;
+    background: #fff;
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .service-detail__project-cover {
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-detail__project-detail {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: block;
+    width: clamp(82px, 12vw, 150px);
+    height: clamp(68px, 9vw, 112px);
+    padding: 3px;
+    border: 1px solid rgba(26, 43, 81, 0.12);
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(26, 43, 81, 0.16);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .service-detail__project-detail:hover,
+  .service-detail__project-detail:focus-visible {
+    z-index: 1;
+    box-shadow: 0 12px 28px rgba(26, 43, 81, 0.24);
+    transform: translateY(-3px);
+  }
+
+  .service-detail__project-detail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #fff;
+  }
+
+  .service-detail__project:hover .service-detail__project-image > img {
+    transform: scale(1.025);
+  }
+
+  .service-detail__image-placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 1px dashed rgba(19, 36, 67, 0.28);
+    color: rgba(19, 36, 67, 0.58);
+    font: 700 10px / 1.4 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .service-detail__image-placeholder svg {
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .service-detail__project h3 {
+    margin: 14px 0 0;
+    color: var(--brand-navy);
+    font: 700 clamp(18px, 2.2vw, 25px) / 1.25 var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+
+  .service-detail__back {
+    margin-top: 38px;
+    border-color: rgba(19, 36, 67, 0.45);
+    color: var(--brand-navy);
+  }
+
+  .service-detail__back span {
+    color: var(--brand-orange);
+  }
+
+  @media (max-width: 700px) {
+    .service-detail__hero {
+      min-height: 78svh;
+      padding-inline: 7vw;
+    }
+
+    .service-detail__approach,
+    .service-detail__projects {
+      padding-inline: 7vw;
+    }
+
+    .service-detail__services,
+    .service-detail__services[data-columns="4"] {
+      grid-template-columns: 1fr;
+    }
+
+    .service-detail__service summary { min-height: 0; }
+
+    .service-detail__service-copy p {
+      padding-left: 54px;
+      font-size: 15px;
+    }
+
+    .service-detail__project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .service-detail__project,
+    .service-detail__project:nth-child(n) {
+      grid-column: auto;
+    }
+
+    .service-detail__project-image,
+    .service-detail__project:nth-child(n) .service-detail__project-image {
+      aspect-ratio: 16 / 10;
+    }
+
+    .service-detail__projects-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .service-detail__project-grid {
+      gap: 24px;
+    }
+
+    .service-detail__project-detail { right: 14px; bottom: 14px; }
+  }
+
+  @media (min-width: 701px) and (max-width: 1100px) {
+    .service-detail__services[data-columns="4"] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  let revealObserver: IntersectionObserver | undefined;
+
+  function mountServiceReveals() {
+    revealObserver?.disconnect();
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-service-card], [data-project-card]'));
+    if (!('IntersectionObserver' in window) || cards.length === 0) return;
+
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target as HTMLElement;
+        revealObserver?.unobserve(card);
+        gsap.fromTo(card,
+          { autoAlpha: 0, y: 22 },
+          { autoAlpha: 1, y: 0, duration: 0.68, ease: 'power2.out', clearProps: 'transform,opacity,visibility' },
+        );
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+
+    cards.forEach((card) => revealObserver?.observe(card));
+    document.removeEventListener('click', swapProjectImages);
+    document.addEventListener('click', swapProjectImages);
+  }
+
+  function unmountServiceReveals() {
+    revealObserver?.disconnect();
+    revealObserver = undefined;
+    document.removeEventListener('click', swapProjectImages);
+  }
+
+  function swapProjectImages(event: MouseEvent) {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>('[data-image-swap]');
+    if (!button) return;
+
+    const frame = button.closest<HTMLElement>('.service-detail__project-image');
+    const mainImage = frame?.querySelector<HTMLImageElement>('[data-project-main]');
+    const thumbnail = button.querySelector<HTMLImageElement>('img');
+    if (!mainImage || !thumbnail) return;
+
+    const mainSource = mainImage.getAttribute('src');
+    const mainAlt = mainImage.alt;
+    mainImage.src = thumbnail.src;
+    mainImage.alt = thumbnail.alt;
+    thumbnail.src = mainSource ?? '';
+    thumbnail.alt = mainAlt;
+
+    gsap.fromTo(mainImage,
+      { opacity: 0.72, scale: 0.985 },
+      { opacity: 1, scale: 1, duration: 0.38, ease: 'power2.out', clearProps: 'transform,opacity' },
+    );
+  }
+
+  mountServiceReveals();
+  document.addEventListener('astro:page-load', mountServiceReveals);
+  document.addEventListener('astro:before-swap', unmountServiceReveals);
+  import.meta.hot?.dispose(unmountServiceReveals);
+</script>

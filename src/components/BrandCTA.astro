@@ -1,0 +1,219 @@
+---
+const projectImages = [
+  {
+    src: '/assets/hero/viviendas-campestre-2/SaveClip.App_656680485_18177460969387297_7419713545172435694_n.webp',
+    alt: 'Vivienda campestre en desarrollo',
+  },
+  {
+    src: '/assets/hero/subestacion-molinos/SaveClip.App_655822272_18133173541554569_2420271331874682155_n.webp',
+    alt: 'Estructura y trabajos de ingeniería en obra',
+  },
+  {
+    src: '/assets/hero/campo-madero/SaveClip.App_656213273_18093649393869415_3670939555735419697_n.webp',
+    alt: 'Avance de una obra residencial',
+  },
+  {
+    src: '/assets/hero/vivienda-campestre/SaveClip.App_656741461_18110535115704309_3954471314843807473_n.webp',
+    alt: 'Diseño de vivienda campestre',
+  },
+  {
+    src: '/assets/proyectos/casa-kaam/20250109_160420.webp',
+    alt: 'Casa KAAM terminada',
+  },
+  {
+    src: '/assets/proyectos/casa-diana/DJI_20251118095139_0121_D.webp',
+    alt: 'Interiores de Casa Gaia',
+  },
+];
+---
+
+<section class="brand-cta" aria-labelledby="brand-cta-title" data-header-theme="dark">
+  <div class="brand-cta__inner">
+    <header class="brand-cta__heading" data-scroll-reveal data-reveal-style="sweep">
+      <p>INGENIUM / INGENIERÍA Y DISEÑO</p>
+      <h2 id="brand-cta-title">Toda buena obra empieza con una conversación.</h2>
+    </header>
+
+    <div class="brand-cta__gallery" aria-label="Proyectos y obras de INGENIUM" data-reveal-children data-reveal-style="pop">
+      {projectImages.map((image) => (
+        <figure class="brand-cta__image">
+          <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+        </figure>
+      ))}
+    </div>
+
+    <div class="brand-cta__closing" data-scroll-reveal>
+      <p>¿Tienes un proyecto en mente?</p>
+      <a href="#contacto" data-smooth-scroll>
+        Hablemos de tu proyecto <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+  <img class="brand-cta__mark" src="/assets/logos/021026 INGENIUM - LOGO_2026-08 NARANJA (2).webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+</section>
+
+<style>
+  .brand-cta {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(58px, 7vw, 92px) clamp(24px, 7vw, 112px) clamp(48px, 5vw, 68px);
+    color: var(--bg);
+    background: #14264a;
+    isolation: isolate;
+  }
+
+  .brand-cta__inner {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 1420px);
+    margin-inline: auto;
+  }
+
+  .brand-cta__heading > p {
+    margin: 0 0 16px;
+    color: var(--brand-orange);
+    font: 400 10px / 1.4 var(--font-mono);
+    letter-spacing: 0.16em;
+    text-align: center;
+  }
+
+  .brand-cta__heading h2 {
+    margin: 0;
+    color: var(--bg);
+    font: 700 clamp(12px, 3.5vw, 42px) / 1.1 var(--font-heading);
+    letter-spacing: -0.055em;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .brand-cta__gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 1.5vw, 20px);
+    margin-top: clamp(28px, 4vw, 48px);
+  }
+
+  .brand-cta__image {
+    position: relative;
+    flex: 0 1 clamp(112px, 15vw, 210px);
+    aspect-ratio: 1;
+    margin: 0;
+    overflow: hidden;
+    background: rgba(246, 243, 236, 0.08);
+  }
+
+  .brand-cta__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    filter: saturate(0.75);
+    transition: opacity 450ms ease, filter 550ms ease, transform 850ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .brand-cta__image:hover img {
+    opacity: 1;
+    filter: saturate(1);
+    transform: scale(1.035);
+  }
+
+  .brand-cta__closing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: clamp(32px, 4vw, 52px);
+    padding-top: 18px;
+    border-top: 1px solid rgba(246, 243, 236, 0.28);
+  }
+
+  .brand-cta__closing p {
+    margin: 0;
+    color: var(--bg);
+    font: 700 clamp(18px, 2.4vw, 28px) / 1.2 var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+
+  .brand-cta__closing a {
+    display: inline-flex;
+    min-height: 46px;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 18px;
+    padding: 0 17px;
+    border: 1px solid rgba(246, 243, 236, 0.56);
+    color: var(--bg);
+    font: 700 12px / 1 var(--font-heading);
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  }
+
+  .brand-cta__closing a:hover {
+    border-color: var(--brand-orange);
+    background: var(--brand-orange);
+    color: white;
+  }
+
+  .brand-cta__closing a span {
+    color: var(--brand-orange);
+    font-size: 18px;
+    transition: color 180ms ease;
+  }
+
+  .brand-cta__closing a:hover span {
+    color: white;
+  }
+
+  .brand-cta__mark {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: -7%;
+    width: clamp(230px, 33vw, 450px);
+    height: auto;
+    opacity: 0.045;
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  @media (max-width: 700px) {
+    .brand-cta {
+      padding: 52px 20px 38px;
+    }
+
+    .brand-cta__heading h2 {
+      font-size: clamp(12px, 3.5vw, 24px);
+    }
+
+    .brand-cta__gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      display: grid;
+      width: min(100%, 340px);
+      gap: 8px;
+      margin-top: 26px;
+      margin-inline: auto;
+    }
+
+    .brand-cta__image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      min-width: 0;
+    }
+
+    .brand-cta__closing {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .brand-cta__mark {
+      top: 30%;
+      right: -18%;
+      width: 78vw;
+    }
+  }
+
+</style>

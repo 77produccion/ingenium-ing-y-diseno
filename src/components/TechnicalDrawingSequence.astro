@@ -3,6 +3,7 @@ interface Props {
   sources: string[];
   duration?: number;
   fadeDuration?: number;
+  holdDuration?: number;
   label?: string;
 }
 
@@ -10,6 +11,7 @@ const {
   sources,
   duration = 3,
   fadeDuration = 0.65,
+  holdDuration = 0,
   label = "Secuencia de dibujos técnicos",
 } = Astro.props;
 ---
@@ -19,6 +21,7 @@ const {
   data-sources={JSON.stringify(sources)}
   data-duration={duration}
   data-fade-duration={fadeDuration}
+  data-hold-duration={holdDuration}
   role="img"
   aria-label={label}
 >
@@ -84,6 +87,7 @@ const {
     const sources = JSON.parse(host.dataset.sources ?? "[]") as string[];
     const duration = Number(host.dataset.duration) || 3;
     const fadeDuration = Number(host.dataset.fadeDuration) || 0.65;
+    const holdDuration = Number(host.dataset.holdDuration) || 0;
     const hero = host.closest<HTMLElement>(".technical-hero");
     const background = hero?.querySelector<HTMLElement>(".hero-background");
     const backgroundSources = JSON.parse(background?.dataset.images ?? "[]") as string[];
@@ -184,6 +188,10 @@ const {
               onComplete: resolve,
             });
           });
+
+          if (holdDuration > 0) {
+            await new Promise<void>((resolve) => window.setTimeout(resolve, holdDuration * 1000));
+          }
 
           await new Promise<void>((resolve) => {
             gsap.to(svg, {

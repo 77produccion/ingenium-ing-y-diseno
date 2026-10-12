@@ -12,6 +12,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.optimized.mp4
+*.tmp.webp
+*.original
 
 # environment variables
 .env

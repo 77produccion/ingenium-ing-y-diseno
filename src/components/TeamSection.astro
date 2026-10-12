@@ -20,7 +20,7 @@ const members: TeamMember[] = [
     name: "Julián Alfonso Ruge",
     role: "Gerente General",
     description: "Lidera la visión estratégica y la toma de decisiones técnicas, garantizando soluciones constructivas de alto nivel y cumplimiento normativo en cada desarrollo.",
-    photo: "/assets/team/Julian.png",
+    photo: "/assets/team/Julian.webp",
     education: [
       {
         degree: "Ingeniero Civil",
@@ -39,7 +39,7 @@ const members: TeamMember[] = [
     name: "Leonardo González",
     role: "Gerente Administrativo",
     description: "Articula la precisión técnica con la eficiencia operativa y financiera, asegurando una gestión impecable de recursos y procesos corporativos.",
-    photo: "/assets/team/Leonardo.png",
+    photo: "/assets/team/Leonardo.webp",
     education: [
       {
         degree: "Ingeniero Civil",
@@ -58,7 +58,7 @@ const members: TeamMember[] = [
     name: "Juan Sebastián Giraldo",
     role: "Líder Técnico",
     description: "Coordina y supervisa el análisis y diseño estructural, asegurando que cada cálculo e implementación cumpla los más altos estándares de seguridad y optimización.",
-    photo: "/assets/team/sebastian.png",
+    photo: "/assets/team/sebastian.webp",
     education: [
       {
         degree: "Ingeniero Civil",
@@ -77,7 +77,7 @@ const members: TeamMember[] = [
     name: "Julio Alberto Toro",
     role: "Ingeniero Junior",
     description: "Aporta enfoque analítico y rigor investigativo en el modelado y cálculo estructural, apoyando la entrega precisa de memorias técnicas.",
-    photo: "/assets/team/julio.png",
+    photo: "/assets/team/julio.webp",
     education: [
       {
         degree: "Ingeniero Civil",
@@ -87,7 +87,7 @@ const members: TeamMember[] = [
       {
         degree: "Candidato a Especialista",
         university: "Universidad del Valle",
-        logo: "/assets/team/logos-universidades/univalle-logo.jpg",
+        logo: "/assets/team/logos-universidades/univalle-logo.webp",
       },
     ],
   },
@@ -96,7 +96,7 @@ const members: TeamMember[] = [
     name: "Anderson Duvan Mesa",
     role: "Ingeniero Junior",
     description: "Apoya el desarrollo de modelos y cálculos estructurales con atención al detalle, la seguridad y la viabilidad constructiva.",
-    photo: "/assets/team/duvan.png",
+    photo: "/assets/team/duvan.webp",
     education: [
       {
         degree: "Ingeniero Civil",
@@ -110,7 +110,7 @@ const members: TeamMember[] = [
     name: "Jefry Daniel Monsalve",
     role: "Ingeniero Junior",
     description: "Contribuye a la revisión de diseños y a la coordinación técnica para resolver retos de obra con precisión.",
-    photo: "/assets/team/daniel.png",
+    photo: "/assets/team/daniel.webp",
     education: [
       {
         degree: "Ingeniero Civil",
@@ -124,12 +124,12 @@ const members: TeamMember[] = [
     name: "Tatiana Rendón",
     role: "Auxiliar Administrativa",
     description: "Coordina procesos administrativos y documentales para que cada frente de trabajo avance con orden y continuidad.",
-    photo: "/assets/team/tatiana.png",
+    photo: "/assets/team/tatiana.webp",
     education: [
       {
         degree: "Administradora de Empresas",
         university: "Universidad EAM",
-        logo: "/assets/team/logos-universidades/logo-eam.png",
+        logo: "/assets/team/logos-universidades/logo-eam.webp",
       },
     ],
   },
@@ -138,7 +138,7 @@ const members: TeamMember[] = [
     name: "Camilo Londoño",
     role: "Modelador BIM",
     description: "Convierte la información del proyecto en modelos BIM que facilitan la coordinación entre disciplinas y la detección temprana de interferencias.",
-    photo: "/assets/team/camilo.png",
+    photo: "/assets/team/camilo.webp",
     education: [
       {
         degree: "Candidato a Ingeniero Civil",
@@ -156,7 +156,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     <div class="team-visual">
       <div class="team-photo-area" data-scroll-reveal>
         <div class="team-brand-mark" aria-hidden="true">
-          <img src="/assets/logos/021026 INGENIUM - LOGO_2026-01.png" alt="" />
+          <img src="/assets/logos/021026 INGENIUM - LOGO_2026-01.webp" alt="" />
         </div>
         <img class="team-feature-photo" data-team-photo src={selectedMember.photo} alt={`Retrato de ${selectedMember.name}`} />
       </div>
@@ -191,10 +191,15 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
             data-photo={member.photo}
             aria-hidden={member.id === selectedMember.id ? "false" : "true"}
           >
-            <h3 class="team-profile__name" data-profile-reveal>{member.name}</h3>
-            <p class="team-profile__role" data-profile-reveal>{member.role}</p>
+            <div class="team-profile__identity" data-profile-reveal>
+              <h3 class="team-profile__name">{member.name}</h3>
+              <p class="team-profile__role">{member.role}</p>
+            </div>
             <p class="team-profile__description" data-profile-reveal>{member.description}</p>
-            <div class="team-education" data-profile-reveal>
+            <div
+              class:list={["team-education", { "team-education--single": member.education.length === 1 }]}
+              data-profile-reveal
+            >
               {member.education.map((education) => (
                 <article class:list={["team-education__item", { "team-education__item--solo": !education.university }]}>
                   <span class="team-education__degree">{education.degree}</span>
@@ -219,19 +224,21 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
 
 <style>
   .team-section {
+    --team-header-clearance: clamp(108px, 12svh, 128px);
     min-height: 100svh;
-    padding: clamp(8px, 1vw, 16px);
-    background: #15171c;
+    padding: var(--team-header-clearance) 0 0;
+    background: var(--bg-subtle);
   }
 
   .team-board {
     display: grid;
     width: 100%;
-    min-height: calc(100svh - 2 * clamp(8px, 1vw, 16px));
+    height: calc(100svh - var(--team-header-clearance));
+    min-height: 0;
     grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
     overflow: hidden;
     background: var(--bg-subtle);
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    border: 0;
   }
 
   .team-visual {
@@ -239,7 +246,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     z-index: 0;
     display: grid;
     min-width: 0;
-    min-height: calc(100svh - 2 * clamp(8px, 1vw, 16px));
+    min-height: 0;
     grid-template-rows: minmax(0, 1fr) clamp(88px, 13svh, 116px);
     overflow: hidden;
     background: var(--bg);
@@ -347,9 +354,11 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
   .team-content {
     display: flex;
     min-width: 0;
+    min-height: 0;
     flex-direction: column;
-    justify-content: space-between;
-    padding: clamp(30px, 4vw, 66px) clamp(28px, 4vw, 64px);
+    justify-content: center;
+    gap: clamp(16px, 2svh, 24px);
+    padding: clamp(20px, 2.5svh, 32px) clamp(24px, 3vw, 56px);
   }
 
   .team-heading {
@@ -367,7 +376,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
   .team-heading h2 {
     margin: 0 0 12px;
     color: #000;
-    font: 700 clamp(34px, 4vw, 62px) / 1.04 var(--font-heading);
+    font: 700 clamp(32px, 3.4vw, 52px) / 1.04 var(--font-heading);
     letter-spacing: -0.035em;
     text-wrap: balance;
   }
@@ -376,7 +385,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     max-width: 760px;
     margin: 0 0 0 auto;
     color: var(--ink);
-    font: 400 clamp(16px, 1.45vw, 20px) / 1.35 var(--font-body);
+    font: 400 clamp(15px, 1.2vw, 18px) / 1.35 var(--font-body);
   }
 
   .team-profile-deck {
@@ -389,14 +398,21 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
   }
 
   .team-profile {
-    display: flex;
+    display: grid;
     width: 100%;
+    height: 100%;
     grid-area: 1 / 1;
+    grid-template-rows: 0 auto minmax(56px, 1fr) auto;
+    align-items: center;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .team-profile__identity {
+    display: flex;
+    grid-row: 2;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin: clamp(24px, 4svh, 46px) auto 0;
-    text-align: center;
   }
 
   .team-profile[aria-hidden="true"] {
@@ -411,7 +427,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     padding: clamp(9px, 1vw, 14px) clamp(16px, 1.6vw, 24px);
     color: var(--bg);
     background: var(--brand-navy);
-    font: 700 clamp(32px, 4.15vw, 62px) / 1.08 var(--font-heading);
+    font: 700 clamp(30px, 3.4vw, 52px) / 1.08 var(--font-heading);
     letter-spacing: -0.025em;
     text-wrap: balance;
   }
@@ -422,25 +438,35 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     padding: 4px 14px 6px;
     color: #fff;
     background: var(--accent);
-    font: 700 clamp(18px, 2vw, 28px) / 1.1 var(--font-heading);
+    font: 700 clamp(17px, 1.6vw, 24px) / 1.1 var(--font-heading);
     text-wrap: balance;
   }
 
   .team-profile__description {
+    grid-row: 3;
+    align-self: start;
     max-width: 640px;
-    margin: clamp(22px, 3.4svh, 34px) auto 0;
+    margin: clamp(18px, 2.4svh, 26px) auto 0;
     color: var(--ink);
-    font: 400 clamp(16px, 1.4vw, 19px) / 1.45 var(--font-body);
+    font: 400 clamp(15px, 1.1vw, 17px) / 1.4 var(--font-body);
     text-wrap: balance;
   }
 
   .team-education {
     display: grid;
+    grid-row: 4;
+    align-self: end;
+    justify-self: center;
     width: min(100%, 760px);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(14px, 2.5vw, 32px);
-    min-height: 82px;
-    margin-top: clamp(26px, 4svh, 40px);
+    min-height: 68px;
+    margin-top: clamp(18px, 2.4svh, 26px);
+  }
+
+  .team-education--single {
+    grid-template-columns: minmax(0, min(420px, 100%));
+    justify-content: center;
   }
 
   .team-education:empty {
@@ -450,7 +476,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
   .team-education__item {
     display: grid;
     min-width: 0;
-    min-height: 76px;
+    min-height: 64px;
     grid-template-columns: minmax(0, 1fr) minmax(76px, 0.8fr);
     background: #fff;
   }
@@ -502,7 +528,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
 
   @media (max-width: 900px) {
     .team-board {
-      grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+      grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.22fr);
     }
 
     .team-visual {
@@ -518,7 +544,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     }
 
     .team-content {
-      padding: 30px 28px;
+      padding: 20px 24px;
     }
 
     .team-heading h2 {
@@ -539,65 +565,169 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     }
   }
 
-  @media (max-width: 700px) {
-    .team-section {
-      min-height: 0;
-      padding: 8px;
-    }
-
-    .team-board {
-      min-height: 0;
-      grid-template-columns: 1fr;
-    }
-
-    .team-visual {
-      min-height: 0;
-      height: clamp(560px, 82svh, 720px);
-      grid-template-rows: minmax(0, 1fr) auto;
-    }
-
-    .team-member-picker {
-      grid-auto-flow: row;
-      grid-auto-columns: auto;
-      grid-auto-rows: clamp(68px, 10svh, 88px);
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      overflow-x: hidden;
-    }
-
-    .team-brand-mark {
-      left: -112px;
-      width: min(92vw, 450px);
-      height: min(62vw, 280px);
-    }
-
+  @media (max-height: 760px) and (min-width: 701px) {
     .team-content {
-      min-height: 660px;
-      padding: 38px 7vw 48px;
-    }
-
-    .team-heading {
-      text-align: left;
+      padding: 16px clamp(18px, 2.4vw, 32px);
+      gap: 12px;
     }
 
     .team-heading h2 {
-      font-size: clamp(34px, 8vw, 48px);
+      font-size: clamp(30px, 3vw, 44px);
+    }
+
+    .team-heading > p:last-child {
+      font-size: 15px;
     }
 
     .team-profile {
-      margin-top: 32px;
+      margin-top: 0;
     }
 
     .team-profile__name {
-      font-size: clamp(29px, 7.5vw, 42px);
+      padding: 8px 14px;
+      font-size: clamp(28px, 3vw, 42px);
     }
 
     .team-profile__role {
-      width: 88%;
-      font-size: 19px;
+      font-size: clamp(16px, 1.5vw, 21px);
     }
 
     .team-profile__description {
+      margin-top: 14px;
+      font-size: 15px;
+    }
+
+    .team-education {
+      min-height: 58px;
+      margin-top: 16px;
+    }
+
+    .team-education__item {
+      min-height: 58px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .team-section {
+      --team-header-clearance: 92px;
+      min-height: 0;
+      padding: var(--team-header-clearance) 0 20px;
+    }
+
+    .team-board {
+      display: grid;
+      height: auto;
+      min-height: 0;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      overflow: visible;
+    }
+
+    .team-content {
+      display: contents;
+    }
+
+    .team-heading {
+      grid-row: 1;
+      padding: 24px 7vw 22px;
+      text-align: left;
+    }
+
+    .team-heading .team-kicker {
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .team-heading h2 {
+      margin-bottom: 8px;
+      font-size: clamp(30px, 7.4vw, 38px);
+      line-height: 1.06;
+    }
+
+    .team-heading > p:last-child {
+      max-width: 38ch;
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .team-visual {
+      grid-row: 2;
+      min-height: 0;
+      height: auto;
+      grid-template-rows: clamp(300px, 95vw, 400px) 62px;
+    }
+
+    .team-member-picker {
+      display: flex;
+      height: 62px;
+      flex-flow: row nowrap;
+      gap: 1px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+    }
+
+    .team-member-picker::-webkit-scrollbar {
+      display: none;
+    }
+
+    .team-member-button {
+      flex: 0 0 clamp(48px, 14vw, 60px);
+      width: clamp(48px, 14vw, 60px);
+      height: 62px;
+      min-height: 0;
+      padding-inline: 2px;
+      scroll-snap-align: start;
+    }
+
+    .team-member-button img {
+      max-height: 55px;
+    }
+
+    .team-brand-mark {
+      left: -82px;
+      width: min(72vw, 330px);
+      height: min(50vw, 220px);
+    }
+
+    .team-profile-deck {
+      grid-row: 3;
+      width: 100%;
+      min-height: 0;
+      padding: 24px 7vw 32px;
+    }
+
+    .team-profile {
+      height: auto;
+      grid-template-rows: auto;
+      margin-top: 0;
+    }
+
+    .team-profile__identity,
+    .team-profile__description,
+    .team-education {
+      grid-row: auto;
+    }
+
+    .team-profile__description {
+      align-self: auto;
+    }
+
+    .team-profile__name {
+      font-size: clamp(26px, 7vw, 36px);
+    }
+
+    .team-profile__role {
+      width: min(92%, 380px);
       font-size: 16px;
+    }
+
+    .team-profile__description {
+      font-size: 14px;
+      line-height: 1.55;
     }
 
     .team-education {
@@ -605,8 +735,8 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
     }
 
     .team-education__item {
-      min-height: 78px;
-      grid-template-columns: minmax(0, 1fr) minmax(54px, 0.8fr);
+      min-height: 64px;
+      grid-template-columns: minmax(0, 1fr) minmax(50px, 0.8fr);
     }
 
     .team-education__item--solo {
@@ -615,7 +745,7 @@ const selectedMember = members.find((member) => member.id === "leonardo") ?? mem
 
     .team-education__degree {
       padding: 8px;
-      font-size: 11px;
+      font-size: 10px;
     }
 
     .team-education__logo {

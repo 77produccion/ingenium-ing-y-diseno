@@ -1,0 +1,383 @@
+---
+const clients = [
+  { name: 'Sinergia', logo: '/assets/logos-clientes-no-bg/sinergia-logo.webp' },
+  { name: 'Constructora ABotero y CIA', logo: '/assets/logos-clientes-no-bg/abotero-logo.webp' },
+  { name: 'Only Muebles', logo: '/assets/logos-clientes-no-bg/onlymuebles-logo.webp' },
+  { name: 'BTO Constructora', logo: '/assets/logos-clientes-no-bg/bto-logo.webp' },
+  { name: 'Villas de Campomadero', logo: '/assets/logos-clientes-no-bg/campo-madero.webp' },
+  { name: 'PROArquitectura', logo: '/assets/logos-clientes-no-bg/proarquitectura.webp' },
+  { name: 'Entrelineas', logo: '/assets/logos-clientes-no-bg/entrelineas-logo.webp' },
+  { name: 'Ingenia', logo: '/assets/logos-clientes-no-bg/ingenia-logo.webp' },
+  { name: 'Comité de Cafeteros del Quindío', logo: '/assets/logos-clientes-no-bg/com-caf-quin-logo.webp' },
+  { name: 'Intecnova', logo: '/assets/logos-clientes-no-bg/intecnova-logo.webp' },
+  { name: 'Esdiez', logo: '/assets/logos-clientes-no-bg/esdiez-logo.webp' },
+  { name: 'GyA Constructora', logo: '/assets/logos-clientes-no-bg/constructora-g&a.webp' },
+  { name: 'V2L Constructores', logo: '/assets/logos-clientes-no-bg/v2l-logo.webp' },
+];
+---
+
+<section class="client-strip" id="clientes" data-header-theme="light" aria-labelledby="client-strip-title">
+  <div class="client-strip__heading" data-scroll-reveal data-reveal-style="sweep">
+    <h2 id="client-strip-title">Nuestros clientes</h2>
+    <p>Relaciones construidas con confianza y trabajo bien hecho.</p>
+  </div>
+
+  <div class="client-strip__viewport" data-client-carousel aria-label="Carrusel de clientes. Se detiene al pasar el cursor o al enfocar un logo">
+    <div class="client-strip__track">
+      <ul class="client-strip__group" aria-label="Clientes de INGENIUM">
+        {clients.map((client) => (
+          <li class="client-strip__item">
+            <button class="client-logo" type="button" aria-label={`Mostrar nombre: ${client.name}`} aria-expanded="false" data-client-name={client.name}>
+              <span class="client-logo__image">
+                <img src={client.logo} alt="" loading="lazy" decoding="async" />
+              </span>
+              <span class="client-logo__tooltip" role="tooltip">{client.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="client-strip__group" aria-hidden="true">
+        {clients.map((client) => (
+          <li class="client-strip__item">
+            <button class="client-logo" type="button" tabindex="-1" aria-label={`Mostrar nombre: ${client.name}`} aria-expanded="false" data-client-name={client.name}>
+              <span class="client-logo__image">
+                <img src={client.logo} alt="" loading="lazy" decoding="async" />
+              </span>
+              <span class="client-logo__tooltip" role="tooltip">{client.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .client-strip {
+    overflow: hidden;
+    padding: clamp(70px, 8vw, 112px) 0 clamp(76px, 8vw, 116px);
+    color: var(--brand-navy);
+    background: var(--bg);
+  }
+
+  .client-strip__heading {
+    width: min(calc(100% - 48px), 1450px);
+    margin: 0 auto clamp(38px, 5vw, 66px);
+  }
+
+  .client-strip__heading h2 {
+    margin: 0;
+    color: var(--brand-navy);
+    font: 700 clamp(36px, 5vw, 62px) / 1 var(--font-heading);
+    letter-spacing: -0.05em;
+  }
+
+  .client-strip__heading p {
+    margin: 14px 0 0;
+    color: var(--ink-secondary);
+    font-size: clamp(14px, 1.35vw, 17px);
+  }
+
+  .client-strip__viewport {
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+    border-top: 1px solid rgba(26, 43, 81, 0.12);
+    border-bottom: 1px solid rgba(26, 43, 81, 0.12);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+
+  .client-strip__track {
+    display: flex;
+    width: max-content;
+    animation: client-strip-scroll 36s linear infinite;
+    will-change: transform;
+  }
+
+  .client-strip__viewport.is-dragging {
+    cursor: grabbing;
+  }
+
+  .client-strip__viewport.is-dragging .client-logo {
+    cursor: grabbing;
+  }
+
+  .client-strip__viewport.is-manually-controlled .client-strip__track {
+    animation: none !important;
+  }
+
+  .client-strip__group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: clamp(20px, 3vw, 48px);
+    margin: 0;
+    padding: 28px clamp(20px, 3vw, 48px);
+    list-style: none;
+  }
+
+  .client-strip__item {
+    flex: 0 0 auto;
+  }
+
+  .client-logo {
+    position: relative;
+    display: grid;
+    width: clamp(124px, 13vw, 172px);
+    height: clamp(116px, 12vw, 156px);
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .client-logo__image {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0.38;
+    transition: opacity 260ms ease, transform 360ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .client-logo__image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+    transition: filter 260ms ease;
+  }
+
+  .client-logo:hover .client-logo__image,
+  .client-logo:focus-visible .client-logo__image,
+  .client-logo.is-selected .client-logo__image {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  .client-logo:focus-visible {
+    outline: 2px solid var(--brand-orange);
+    outline-offset: 4px;
+  }
+
+  .client-logo__tooltip {
+    position: absolute;
+    z-index: 2;
+    top: -2px;
+    left: 50%;
+    width: max-content;
+    max-width: min(260px, 76vw);
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: var(--brand-navy);
+    color: #fff;
+    font: 400 12px / 1.35 var(--font-body);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 4px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .client-logo__tooltip::after {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--brand-navy);
+    content: '';
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .client-logo:hover .client-logo__tooltip,
+  .client-logo:focus-visible .client-logo__tooltip,
+  .client-logo.is-selected .client-logo__tooltip {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .client-strip__viewport:hover .client-strip__track,
+  .client-strip__viewport:focus-within .client-strip__track,
+  .client-strip__viewport.is-paused .client-strip__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes client-strip-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 640px) {
+    .client-strip__heading {
+      width: calc(100% - 40px);
+    }
+
+    .client-strip__group {
+      gap: 16px;
+      padding-inline: 18px;
+    }
+
+    .client-logo {
+      width: 116px;
+      height: 110px;
+    }
+
+    .client-strip__track {
+      animation-duration: 28s;
+    }
+  }
+
+</style>
+
+<script>
+  function mountClientCarousel() {
+    document.querySelectorAll<HTMLElement>('[data-client-carousel]').forEach((carousel) => {
+      if (carousel.dataset.mounted === 'true') return;
+      carousel.dataset.mounted = 'true';
+      const buttons = Array.from(carousel.querySelectorAll<HTMLButtonElement>('.client-logo'));
+      const track = carousel.querySelector<HTMLElement>('.client-strip__track');
+      const firstGroup = carousel.querySelector<HTMLElement>('.client-strip__group');
+
+      let activePointer: number | null = null;
+      let dragStartX = 0;
+      let trackStartX = 0;
+      let hasDragged = false;
+      let suppressNextClick = false;
+
+      const loopWidth = () => firstGroup?.getBoundingClientRect().width ?? 0;
+      const normalizeOffset = (offset: number, width: number) => {
+        if (width <= 0) return offset;
+        const normalized = ((offset % width) + width) % width;
+        return normalized === 0 ? 0 : normalized - width;
+      };
+      const currentOffset = () => {
+        if (!track) return 0;
+        const transform = getComputedStyle(track).transform;
+        if (!transform || transform === 'none') return 0;
+        try {
+          return new DOMMatrixReadOnly(transform).m41;
+        } catch {
+          return Number.parseFloat(transform.split(',')[4]) || 0;
+        }
+      };
+
+      const finishDrag = (event?: PointerEvent) => {
+        if (activePointer === null || !track) return;
+        const width = loopWidth();
+        const offset = normalizeOffset(currentOffset(), width);
+        const durationSeconds = Number.parseFloat(getComputedStyle(track).animationDuration) || 36;
+        const progress = width > 0 ? Math.abs(offset) / width : 0;
+
+        track.style.animationDelay = `-${progress * durationSeconds}s`;
+        track.style.transform = '';
+        carousel.classList.remove('is-dragging', 'is-manually-controlled');
+        if (hasDragged) {
+          suppressNextClick = true;
+          window.setTimeout(() => { suppressNextClick = false; }, 0);
+        }
+
+        if (event && carousel.hasPointerCapture(event.pointerId)) {
+          carousel.releasePointerCapture(event.pointerId);
+        }
+        activePointer = null;
+        hasDragged = false;
+      };
+
+      const startDrag = (event: PointerEvent) => {
+        if (!track || !firstGroup || (event.pointerType === 'mouse' && event.button !== 0)) return;
+        const width = loopWidth();
+        if (width <= 0) return;
+
+        activePointer = event.pointerId;
+        dragStartX = event.clientX;
+        trackStartX = normalizeOffset(currentOffset(), width);
+        hasDragged = false;
+        track.style.transform = `translate3d(${trackStartX}px, 0, 0)`;
+        carousel.classList.add('is-manually-controlled');
+        carousel.setPointerCapture(event.pointerId);
+      };
+
+      const moveDrag = (event: PointerEvent) => {
+        if (activePointer !== event.pointerId || !track) return;
+        const delta = event.clientX - dragStartX;
+        if (Math.abs(delta) > 4) {
+          hasDragged = true;
+          carousel.classList.add('is-dragging');
+          event.preventDefault();
+        }
+        if (hasDragged) {
+          track.style.transform = `translate3d(${normalizeOffset(trackStartX + delta, loopWidth())}px, 0, 0)`;
+        }
+      };
+
+      carousel.addEventListener('pointerdown', startDrag);
+      carousel.addEventListener('pointermove', moveDrag);
+      carousel.addEventListener('pointerup', finishDrag);
+      carousel.addEventListener('pointercancel', finishDrag);
+      carousel.addEventListener('click', (event) => {
+        if (!suppressNextClick) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        suppressNextClick = false;
+      }, true);
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const wasSelected = button.classList.contains('is-selected');
+          buttons.forEach((item) => {
+            item.classList.remove('is-selected');
+            item.setAttribute('aria-expanded', 'false');
+          });
+          if (!wasSelected) {
+            button.classList.add('is-selected');
+            button.setAttribute('aria-expanded', 'true');
+            carousel.classList.add('is-paused');
+          } else {
+            carousel.classList.remove('is-paused');
+          }
+        });
+      });
+
+      const closeSelection = (event: Event) => {
+        if (event.type === 'keydown' && (event as KeyboardEvent).key !== 'Escape') return;
+        buttons.forEach((button) => {
+          button.classList.remove('is-selected');
+          button.setAttribute('aria-expanded', 'false');
+        });
+        carousel.classList.remove('is-paused');
+      };
+      document.addEventListener('click', (event) => {
+        if (!carousel.contains(event.target as Node)) closeSelection(event);
+      });
+      carousel.addEventListener('keydown', closeSelection);
+
+      document.addEventListener('astro:before-swap', () => {
+        if (activePointer !== null) finishDrag();
+        carousel.removeEventListener('pointerdown', startDrag);
+        carousel.removeEventListener('pointermove', moveDrag);
+        carousel.removeEventListener('pointerup', finishDrag);
+        carousel.removeEventListener('pointercancel', finishDrag);
+        delete carousel.dataset.mounted;
+        buttons.forEach((button) => {
+          button.classList.remove('is-selected');
+          button.setAttribute('aria-expanded', 'false');
+        });
+      }, { once: true });
+    });
+  }
+
+  mountClientCarousel();
+  document.addEventListener('astro:page-load', mountClientCarousel);
+</script>

@@ -1,0 +1,134 @@
+---
+const projectImage = "/assets/section-vacío/casa-guacana-la-tebaida-quindio.webp";
+---
+
+<section class="proposal-value" aria-labelledby="proposal-title" data-header-theme="light">
+  <figure class="proposal-value__visual" data-scroll-reveal>
+    <img class="proposal-value__backdrop" src={projectImage} alt="" aria-hidden="true" loading="lazy" />
+    <img
+      class="proposal-value__image"
+      src={projectImage}
+      alt="Vista arquitectónica de una vivienda diseñada en La Tebaida, Quindío"
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  <div class="proposal-value__copy" data-scroll-reveal>
+    <p class="proposal-value__eyebrow">CÓMO APORTAMOS</p>
+    <h2 id="proposal-title">Propuesta de valor</h2>
+    <p class="proposal-value__body">
+      Integramos el diseño estructural y la ejecución de obra bajo una misma dirección técnica, lo que nos permite acompañar a nuestros clientes con una visión integral del proyecto. No nos limitamos al cálculo estructural: revisamos también decisiones de arquitectura, materiales y costos que impactan directamente el presupuesto final, identificando oportunidades de optimización desde el primer momento. Esta capacidad de anticipar y viabilizar el negocio del cliente, antes de que la inversión esté comprometida, es lo que nos distingue de firmas que solo diseñan o solo construyen.
+    </p>
+  </div>
+</section>
+
+<style>
+  .proposal-value {
+    display: grid;
+    min-height: min(760px, 88svh);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    background: var(--bg-subtle);
+  }
+
+  .proposal-value__visual {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    min-height: 560px;
+    margin: 0;
+    overflow: hidden;
+    background: var(--panel);
+  }
+
+  .proposal-value__visual::after {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: linear-gradient(90deg, var(--bg-subtle) 0%, rgba(26, 43, 81, 0.18) 24%, transparent 52%), linear-gradient(0deg, rgba(26, 43, 81, 0.26), transparent 60%);
+    content: "";
+    pointer-events: none;
+  }
+
+  .proposal-value__visual img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .proposal-value__backdrop {
+    object-fit: cover;
+    filter: blur(13px) brightness(0.66);
+    transform: scale(1.07);
+  }
+
+  .proposal-value__image {
+    z-index: 1;
+    object-fit: cover;
+    object-position: 50% 28%;
+  }
+
+  .proposal-value__copy {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 760px;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(72px, 9vw, 128px) clamp(30px, 5vw, 84px);
+  }
+
+  .proposal-value__eyebrow {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font: 700 11px / 1.4 var(--font-heading);
+    letter-spacing: 0.16em;
+  }
+
+  .proposal-value__copy h2 {
+    margin: 0 0 24px;
+    color: var(--brand-navy);
+    font: 700 clamp(36px, 4vw, 58px) / 1.04 var(--font-heading);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .proposal-value__body {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--ink-secondary);
+    font: 400 clamp(16px, 1.25vw, 18px) / 1.72 Arial, Helvetica, sans-serif;
+  }
+
+  @media (max-width: 760px) {
+    .proposal-value {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    .proposal-value__visual {
+      grid-column: 1;
+      grid-row: 2;
+      min-height: clamp(300px, 48svh, 480px);
+    }
+
+    .proposal-value__visual::after {
+      background: linear-gradient(0deg, var(--bg-subtle) 0%, rgba(26, 43, 81, 0.12) 24%, transparent 58%);
+    }
+
+    .proposal-value__copy {
+      grid-column: 1;
+      grid-row: 1;
+      max-width: none;
+      padding: 34px 7vw 68px;
+    }
+
+    .proposal-value__copy h2 {
+      margin-bottom: 18px;
+      font-size: clamp(36px, 9vw, 48px);
+    }
+  }
+</style>

@@ -1,0 +1,97 @@
+<section class="brand-statement" id="nosotros" data-header-theme="light" aria-labelledby="brand-statement-title">
+  <div class="brand-statement__inner">
+    <div class="brand-statement__copy" data-scroll-reveal data-reveal-style="sweep">
+      <h2 id="brand-statement-title">No diseñamos en el vacío.</h2>
+      <p>Leemos el contexto, hacemos las preguntas correctas y conectamos cada decisión con la realidad del proyecto.</p>
+    </div>
+    <div class="brand-statement__brand" aria-hidden="true" data-scroll-reveal data-reveal-style="pop">
+      <img src="/assets/logos/021026 INGENIUM - LOGO_2026-01.webp" alt="" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-statement {
+    margin-bottom: clamp(24px, 3vw, 40px);
+    padding: clamp(36px, 4vw, 52px) clamp(24px, 7vw, 112px);
+    color: var(--brand-navy);
+    background: #fff;
+    border-bottom: 1px solid rgba(19, 36, 67, 0.08);
+  }
+
+  .brand-statement__inner {
+    display: grid;
+    width: min(100%, 1450px);
+    grid-template-columns: minmax(0, 1fr) clamp(120px, 16vw, 190px);
+    align-items: center;
+    gap: clamp(24px, 5vw, 76px);
+    margin-inline: auto;
+  }
+
+  .brand-statement__copy {
+    max-width: 940px;
+  }
+
+  .brand-statement__copy h2 {
+    margin: 0 0 14px;
+    color: var(--brand-navy);
+    font: 700 clamp(32px, 4.2vw, 56px) / 1.04 var(--font-heading);
+    letter-spacing: -0.05em;
+  }
+
+  .brand-statement__copy p {
+    max-width: 68ch;
+    margin: 0;
+    color: var(--ink-secondary);
+    font: 700 clamp(16px, 1.6vw, 21px) / 1.45 var(--font-body);
+  }
+
+  .brand-statement__brand {
+    display: grid;
+    min-height: 150px;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .brand-statement__brand img {
+    display: block;
+    width: clamp(170px, 20vw, 250px);
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transform: rotate(-90deg);
+  }
+
+  @media (max-width: 700px) {
+    .brand-statement {
+      margin-bottom: 24px;
+      padding: 30px 22px;
+    }
+
+    .brand-statement__inner {
+      min-height: 0;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .brand-statement__copy h2 {
+      margin-bottom: 10px;
+      font-size: clamp(27px, 7vw, 34px);
+    }
+
+    .brand-statement__copy p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .brand-statement__brand {
+      min-height: 68px;
+      justify-content: start;
+    }
+
+    .brand-statement__brand img {
+      width: 132px;
+    }
+  }
+</style>

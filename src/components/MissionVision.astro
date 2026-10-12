@@ -1,0 +1,275 @@
+---
+---
+
+<section class="direction-section" id="nosotros" data-header-theme="dark" aria-labelledby="direction-title">
+  <div class="direction-section__photo" aria-hidden="true">
+    <img
+      src="/assets/hero/campo-madero/SaveClip.App_656213273_18093649393869415_3670939555735419697_n.webp"
+      alt=""
+      fetchpriority="high"
+    />
+  </div>
+
+  <div class="direction-section__content">
+    <img
+      class="direction-section__sketch"
+      src="/drawings/casa-59-campo-madero.svg"
+      alt=""
+      aria-hidden="true"
+    />
+    <header class="direction-section__heading">
+      <p class="direction-section__eyebrow">NUESTRA DIRECCIÓN</p>
+      <h1 id="direction-title">Misión <span>y Visión</span></h1>
+    </header>
+
+    <div class="direction-cards">
+      <article class="direction-card">
+        <div class="direction-card__meta">
+          <span class="direction-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3.5 20.5h17M5.5 20.5V9.7L12 5l6.5 4.7v10.8M9 20.5v-6h6v6M9 10.5h.01M15 10.5h.01" />
+            </svg>
+          </span>
+          <span class="direction-card__rule" aria-hidden="true"></span>
+        </div>
+        <h2>Misión</h2>
+        <p>
+          Existimos para que construir sea una decisión segura y rentable. Unimos nuestra experticia en diseño estructural con nuestra capacidad como constructores en una consultoría integral en ingeniería, diseñando y ejecutando proyectos propios y de terceros bajo una misma dirección técnica, que se traducen en obras confiables y protegen la inversión de nuestros clientes. Así nos posicionamos hoy en la región y crecemos junto a nuestro equipo y nuestro entorno.
+        </p>
+      </article>
+
+      <article class="direction-card direction-card--vision">
+        <div class="direction-card__meta">
+          <span class="direction-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="10.5" cy="13.5" r="7" />
+              <circle cx="10.5" cy="13.5" r="3" />
+              <path d="m13.5 10.5 7-7m-5 0h5v5" />
+            </svg>
+          </span>
+          <span class="direction-card__rule" aria-hidden="true"></span>
+        </div>
+        <h2>Visión</h2>
+        <p>
+          Para 2031 seremos el referente en diseño estructural y consultoría integral en ingeniería de la región, reconocidos por la calidad y el cumplimiento de nuestras obras. Sobre esa reputación nos habremos consolidado como constructores y, en algunos proyectos propios, los llevaremos de principio a fin, del diseño a la construcción. Seremos una empresa más grande y sólida, capaz de emprender retos de mayor escala y de multiplicar las oportunidades para quienes crecen con nosotros.
+        </p>
+        <time class="direction-card__year" datetime="2031">2031</time>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .direction-section {
+    position: relative;
+    display: flex;
+    min-height: max(760px, 100svh);
+    align-items: center;
+    overflow: hidden;
+    padding: clamp(118px, 15svh, 160px) clamp(24px, 6vw, 96px) clamp(72px, 8vw, 112px);
+    isolation: isolate;
+    background: #10263a;
+    color: var(--bg);
+  }
+
+  .direction-section__photo {
+    position: absolute;
+    z-index: 0;
+    inset: 0 39% 0 0;
+    overflow: hidden;
+  }
+
+  .direction-section__photo::after {
+    position: absolute;
+    inset: 0 -1px 0 0;
+    background: linear-gradient(90deg, rgba(16, 38, 58, 0.22) 0%, rgba(16, 38, 58, 0.4) 48%, #10263a 100%), linear-gradient(0deg, rgba(16, 38, 58, 0.54), rgba(16, 38, 58, 0.15));
+    content: "";
+  }
+
+  .direction-section__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    filter: saturate(0.76) brightness(0.78);
+  }
+
+  .direction-section__content {
+    position: relative;
+    z-index: 1;
+    width: min(1120px, 80%);
+    margin-left: auto;
+  }
+
+  .direction-section__sketch {
+    position: absolute;
+    z-index: 0;
+    top: -118px;
+    right: -7%;
+    width: clamp(230px, 28vw, 400px);
+    height: auto;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .direction-section__heading {
+    position: relative;
+    z-index: 1;
+    margin-bottom: clamp(28px, 4vw, 54px);
+  }
+
+  .direction-section__eyebrow {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font: 700 11px / 1.4 var(--font-heading);
+    letter-spacing: 0.2em;
+  }
+
+  .direction-section__heading h1 {
+    margin: 0;
+    color: var(--bg);
+    font: 700 clamp(42px, 5.3vw, 76px) / 0.98 var(--font-heading);
+    letter-spacing: -0.05em;
+  }
+
+  .direction-section__heading h1 span {
+    color: var(--accent);
+  }
+
+  .direction-cards {
+    display: grid;
+    position: relative;
+    z-index: 1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+  }
+
+  .direction-card {
+    min-width: 0;
+    padding: clamp(22px, 2.5vw, 36px);
+    border: 1px solid rgba(216, 228, 235, 0.45);
+    background: rgba(13, 34, 53, 0.78);
+  }
+
+  .direction-card__meta {
+    display: flex;
+    min-height: 34px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .direction-card__icon {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .direction-card__icon svg {
+    display: block;
+    width: 30px;
+    height: 30px;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  .direction-card--vision {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .direction-card__year {
+    display: block;
+    align-self: flex-end;
+    margin-top: auto;
+    color: var(--accent);
+    font: 700 clamp(40px, 4vw, 58px) / 1 var(--font-heading);
+    letter-spacing: 0.01em;
+  }
+
+  .direction-card__rule {
+    width: 38px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .direction-card h2 {
+    margin: 0 0 14px;
+    color: var(--bg);
+    font: 700 clamp(25px, 2.35vw, 34px) / 1.1 var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+
+  .direction-card p {
+    margin: 0;
+    color: #d8e0e5;
+    font: 400 clamp(14px, 1.05vw, 16px) / 1.65 Arial, Helvetica, sans-serif;
+  }
+
+  @media (max-width: 900px) {
+    .direction-section {
+      min-height: 0;
+      padding: 128px 6vw 76px;
+    }
+
+    .direction-section__photo {
+      right: 0;
+    }
+
+    .direction-section__photo::after {
+      background: linear-gradient(90deg, rgba(16, 38, 58, 0.66), rgba(16, 38, 58, 0.92)), linear-gradient(0deg, #10263a 0%, transparent 65%);
+    }
+
+    .direction-section__content {
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .direction-section__sketch {
+      top: -90px;
+      right: -2%;
+      width: clamp(200px, 34vw, 310px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .direction-section {
+      padding: 116px 7vw 64px;
+    }
+
+    .direction-section__heading {
+      margin-bottom: 28px;
+    }
+
+    .direction-section__heading h1 {
+      max-width: 9ch;
+      font-size: clamp(40px, 12vw, 58px);
+    }
+
+    .direction-section__sketch {
+      top: -78px;
+      right: -17%;
+      width: 220px;
+      opacity: 0.1;
+    }
+
+    .direction-cards {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .direction-card {
+      padding: 22px;
+    }
+
+    .direction-card p {
+      font-size: 15px;
+    }
+  }
+</style>
