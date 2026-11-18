@@ -26,7 +26,7 @@
   /* Typography & Ink */
   --ink: #1c2623;
   --ink-secondary: #485751;
-  --muted: #74837c;
+  --muted: #58675f;
   
   /* Borders & Lines */
   --line: #d8d2c4;
@@ -38,12 +38,19 @@
   --brand-orange: #eb7127;
   --accent: #eb7127;
   --accent-hover: #cf5c15;
+  --accent-text: #a3410b;
+  --accent-on-dark: #ff984f;
+
+  /* Reading scale: functional text must remain legible beside display type. */
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-label: 0.9375rem;
+  --text-small: 0.875rem;
   --green-sage: #5e7368;
   
   /* Font Stacks */
   --font-brand: 'Renogare', sans-serif;
   --font-heading: 'Aileron', 'Renogare', sans-serif;
-  --font-body: 'Renogare', sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
   --font-mono: 'Renogare', sans-serif;
 }
 
@@ -53,7 +60,14 @@
 
 html {
   /* scroll-behavior handled by browser/ScrollTrigger */
-  scroll-padding-top: 144px;
+  scroll-padding-top: 112px;
+}
+
+/* Shared containers for the requested hero/services/team update only. */
+.section-shell { width: min(100% - 8vw, 1472px); margin-inline: auto; padding-block: 56px; }
+[hidden] { display: none !important; }
+@media (max-width: 767px) {
+  .section-shell { width: calc(100% - 40px); padding-block: 36px; }
 }
 
 body {
@@ -61,6 +75,7 @@ body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
+  font-size: var(--text-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -565,8 +580,8 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 }
 
 .section-id {
-  font-size: 10px;
-  color: var(--accent);
+  font-size: var(--text-small);
+  color: var(--accent-text);
   font-weight: 400;
   letter-spacing: 0.14em;
 }
@@ -673,11 +688,15 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 }
 
 .contact-intro .eyebrow {
+  display: block;
   margin: 0 0 22px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--text-small);
   font-weight: 700;
   letter-spacing: 0.12em;
+  font-family: var(--font-body);
+  word-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .contact-panel h2 {
@@ -690,7 +709,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 .contact-intro__copy {
   max-width: 35ch;
   margin: 0;
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--ink-secondary);
   line-height: 1.65;
 }
@@ -698,10 +717,11 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 .contact-whatsapp {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 5px;
+  align-items: center;
+  gap: 8px;
   margin-top: 24px;
   color: var(--ink-secondary);
-  font-size: 13px;
+  font-size: var(--text-label);
 }
 
 .contact-whatsapp span {
@@ -737,7 +757,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 
 .contact-field label {
   color: var(--brand-navy);
-  font: 700 13px / 1.35 var(--font-heading);
+  font: 700 var(--text-label) / 1.4 var(--font-heading);
 }
 
 .contact-field input,
@@ -751,7 +771,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   outline: 0;
   background: transparent;
   color: var(--ink);
-  font: 400 15px / 1.5 var(--font-body);
+  font: 400 1rem / 1.5 var(--font-body);
   transition: border-color 180ms ease;
 }
 
@@ -785,7 +805,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   max-width: 31ch;
   margin: 0;
   color: var(--ink-secondary);
-  font-size: 12px;
+  font-size: var(--text-small);
   line-height: 1.5;
 }
 
@@ -801,13 +821,13 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   background: var(--brand-navy);
   color: var(--bg);
   cursor: pointer;
-  font: 700 13px / 1 var(--font-heading);
+  font: 700 var(--text-label) / 1.3 var(--font-heading);
   white-space: nowrap;
   transition: background-color 180ms ease, transform 180ms ease;
 }
 
 .contact-submit:hover {
-  background: var(--accent-hover);
+  background: var(--accent-text);
   transform: translateY(-1px);
 }
 
@@ -821,7 +841,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   background: var(--panel-dark);
   padding: 62px clamp(24px, 7vw, 112px) 22px;
   color: #d4dcd7;
-  font: 400 13px / 1.65 var(--font-body);
+  font: 400 var(--text-label) / 1.65 var(--font-body);
 }
 
 .footer-main {
@@ -896,7 +916,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 .footer-contact h2 {
   margin: 0 0 7px;
   color: #91a399;
-  font: 700 11px / 1.3 var(--font-heading);
+  font: 700 var(--text-small) / 1.4 var(--font-heading);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -954,7 +974,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   gap: 8px;
   margin: 5px 0 0 29px;
   color: #a3b2ab;
-  font-size: 12px;
+  font-size: var(--text-small);
 }
 
 .footer-map-link span {
@@ -969,7 +989,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
 }
 
 .footer-bottom > div a:first-child {
-  color: var(--brand-orange);
+  color: var(--accent-on-dark);
   white-space: nowrap;
 }
 
@@ -980,7 +1000,7 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   padding-top: 18px;
   border-top: 1px solid var(--line-dark);
   color: #a3b2ab;
-  font-size: 11px;
+  font-size: var(--text-small);
 }
 
 .footer-bottom a {

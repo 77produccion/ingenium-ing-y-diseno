@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
+import Icon from './Icon.astro';
 
 interface Props {
   title: string;
@@ -28,7 +29,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
         <h1>{title}</h1>
         <div class="service-detail__rule"></div>
         <p class="service-detail__description">{description}</p>
-        <a href="/#contacto">Hablemos de tu proyecto <span aria-hidden="true">↗</span></a>
+        <a href="/#contacto">Hablemos de tu proyecto <Icon name="arrowUpRight" /></a>
       </div>
     </section>
     <section class="service-detail__approach">
@@ -58,7 +59,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
             <p>INGENIUM / PROYECTOS</p>
             <h2 id="service-projects-title">Experiencia que toma forma.</h2>
           </div>
-          <a href="/#proyectos">Ver portafolio completo <span aria-hidden="true">↗</span></a>
+          <a href="/#proyectos">Ver portafolio completo <Icon name="arrowUpRight" /></a>
         </header>
         <div class="service-detail__project-grid">
           {projects.map((project) => (
@@ -88,7 +89,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
             </article>
           ))}
         </div>
-        <a class="service-detail__back" href="/#servicios">Volver a servicios <span aria-hidden="true">↗</span></a>
+        <a class="service-detail__back" href="/#servicios">Volver a servicios <Icon name="arrowUpRight" /></a>
       </section>
     )}
   </main>
@@ -136,7 +137,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
   .service-detail__content > p:first-child {
     margin: 0 0 20px;
     color: var(--bg);
-    font: 400 12px / 1.4 var(--font-mono);
+    font: 400 var(--text-small) / 1.5 var(--font-body);
     letter-spacing: 0.14em;
   }
 
@@ -171,7 +172,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
     padding-bottom: 8px;
     border-bottom: 1px solid rgba(246, 243, 236, 0.6);
     color: var(--bg);
-    font-size: 14px;
+    font-size: var(--text-label);
   }
 
   .service-detail__content > a span,
@@ -198,8 +199,8 @@ const { title, category, description, image, imageAlt, services, projects = [], 
   .service-detail__section-heading > p,
   .service-detail__projects-heading > div > p {
     margin: 0 0 12px;
-    color: var(--brand-orange);
-    font: 700 11px / 1.4 var(--font-mono);
+    color: var(--accent-text);
+    font: 700 var(--text-small) / 1.5 var(--font-body);
     letter-spacing: 0.14em;
   }
 
@@ -262,8 +263,8 @@ const { title, category, description, image, imageAlt, services, projects = [], 
 
   .service-detail__number {
     padding-top: 3px;
-    color: var(--brand-orange);
-    font: 700 12px / 1.5 var(--font-mono);
+    color: var(--accent-text);
+    font: 700 var(--text-small) / 1.5 var(--font-body);
     letter-spacing: 0.08em;
   }
 
@@ -334,7 +335,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
     margin: 0;
     padding: 0 18px 22px 54px;
     color: var(--ink-secondary);
-    font: 400 14px / 1.7 Arial, Helvetica, sans-serif;
+    font: 400 var(--text-body) / 1.65 var(--font-body);
     font-weight: 400;
     animation: service-copy-enter 0.32s ease both;
   }
@@ -362,7 +363,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
     padding-bottom: 7px;
     border-bottom: 1px solid rgba(19, 36, 67, 0.5);
     color: var(--brand-navy);
-    font-size: 14px;
+    font-size: var(--text-label);
   }
 
   .service-detail__project-grid {
@@ -456,7 +457,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
     gap: 12px;
     border: 1px dashed rgba(19, 36, 67, 0.28);
     color: rgba(19, 36, 67, 0.58);
-    font: 700 10px / 1.4 var(--font-mono);
+    font: 700 var(--text-small) / 1.5 var(--font-body);
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
@@ -493,6 +494,11 @@ const { title, category, description, image, imageAlt, services, projects = [], 
       padding-inline: 7vw;
     }
 
+    .service-detail__hero h1 {
+      font-size: clamp(2.25rem, 11.8vw, 4rem);
+      line-height: 1.05;
+    }
+
     .service-detail__approach,
     .service-detail__projects {
       padding-inline: 7vw;
@@ -507,7 +513,7 @@ const { title, category, description, image, imageAlt, services, projects = [], 
 
     .service-detail__service-copy p {
       padding-left: 54px;
-      font-size: 15px;
+      font-size: 1rem;
     }
 
     .service-detail__project-grid {

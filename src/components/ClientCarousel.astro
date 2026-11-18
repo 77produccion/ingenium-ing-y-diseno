@@ -56,7 +56,7 @@ const clients = [
 <style>
   .client-strip {
     overflow: hidden;
-    padding: clamp(70px, 8vw, 112px) 0 clamp(76px, 8vw, 116px);
+    padding: clamp(70px, 8vw, 112px) 0 clamp(32px, 4vw, 48px);
     color: var(--brand-navy);
     background: var(--bg);
   }
@@ -76,7 +76,7 @@ const clients = [
   .client-strip__heading p {
     margin: 14px 0 0;
     color: var(--ink-secondary);
-    font-size: clamp(14px, 1.35vw, 17px);
+    font-size: var(--text-body);
   }
 
   .client-strip__viewport {
@@ -213,6 +213,10 @@ const clients = [
   .client-strip__viewport.is-paused .client-strip__track {
     animation-play-state: paused;
   }
+  .client-strip__viewport.is-offscreen .client-strip__track {
+    animation-play-state: paused;
+    will-change: auto;
+  }
 
   @keyframes client-strip-scroll {
     from { transform: translateX(0); }
@@ -249,6 +253,15 @@ const clients = [
       const buttons = Array.from(carousel.querySelectorAll<HTMLButtonElement>('.client-logo'));
       const track = carousel.querySelector<HTMLElement>('.client-strip__track');
       const firstGroup = carousel.querySelector<HTMLElement>('.client-strip__group');
+      let visible = false;
+      const syncAnimation = () => carousel.classList.toggle('is-offscreen', !visible || document.hidden);
+      const visibilityObserver = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncAnimation();
+      });
+      carousel.classList.add('is-offscreen');
+      visibilityObserver.observe(carousel);
+      document.addEventListener('visibilitychange', syncAnimation);
 
       let activePointer: number | null = null;
       let dragStartX = 0;
@@ -364,6 +377,8 @@ const clients = [
       carousel.addEventListener('keydown', closeSelection);
 
       document.addEventListener('astro:before-swap', () => {
+        visibilityObserver.disconnect();
+        document.removeEventListener('visibilitychange', syncAnimation);
         if (activePointer !== null) finishDrag();
         carousel.removeEventListener('pointerdown', startDrag);
         carousel.removeEventListener('pointermove', moveDrag);

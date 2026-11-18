@@ -1,842 +1,131 @@
 ---
-interface Education {
-  degree: string;
-  university: string;
-  logo?: string;
-}
-
-interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  description: string;
-  photo: string;
-  education: Education[];
-}
-
-const members: TeamMember[] = [
-  {
-    id: "julian",
-    name: "Julián Alfonso Ruge",
-    role: "Gerente General",
-    description: "Lidera la visión estratégica y la toma de decisiones técnicas, garantizando soluciones constructivas de alto nivel y cumplimiento normativo en cada desarrollo.",
-    photo: "/assets/team/Julian.webp",
-    education: [
-      {
-        degree: "Ingeniero Civil",
-        university: "Universidad del Quindío",
-        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
-      },
-      {
-        degree: "Especialista en Estructuras",
-        university: "Universidad Nacional de Colombia",
-        logo: "/assets/team/logos-universidades/unal-logo.webp",
-      },
-    ],
-  },
-  {
-    id: "leonardo",
-    name: "Leonardo González",
-    role: "Gerente Administrativo",
-    description: "Articula la precisión técnica con la eficiencia operativa y financiera, asegurando una gestión impecable de recursos y procesos corporativos.",
-    photo: "/assets/team/Leonardo.webp",
-    education: [
-      {
-        degree: "Ingeniero Civil",
-        university: "Universidad del Quindío",
-        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
-      },
-      {
-        degree: "Especialista en Estructuras",
-        university: "Universidad Nacional de Colombia",
-        logo: "/assets/team/logos-universidades/unal-logo.webp",
-      },
-    ],
-  },
-  {
-    id: "sebastian",
-    name: "Juan Sebastián Giraldo",
-    role: "Líder Técnico",
-    description: "Coordina y supervisa el análisis y diseño estructural, asegurando que cada cálculo e implementación cumpla los más altos estándares de seguridad y optimización.",
-    photo: "/assets/team/sebastian.webp",
-    education: [
-      {
-        degree: "Ingeniero Civil",
-        university: "Universidad del Quindío",
-        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
-      },
-      {
-        degree: "Especialista en Estructuras",
-        university: "Universidad Nacional de Colombia",
-        logo: "/assets/team/logos-universidades/unal-logo.webp",
-      },
-    ],
-  },
-  {
-    id: "julio",
-    name: "Julio Alberto Toro",
-    role: "Ingeniero Junior",
-    description: "Aporta enfoque analítico y rigor investigativo en el modelado y cálculo estructural, apoyando la entrega precisa de memorias técnicas.",
-    photo: "/assets/team/julio.webp",
-    education: [
-      {
-        degree: "Ingeniero Civil",
-        university: "Universidad del Quindío",
-        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
-      },
-      {
-        degree: "Candidato a Especialista",
-        university: "Universidad del Valle",
-        logo: "/assets/team/logos-universidades/univalle-logo.webp",
-      },
-    ],
-  },
-  {
-    id: "anderson-duvan",
-    name: "Anderson Duvan Mesa",
-    role: "Ingeniero Junior",
-    description: "Apoya el desarrollo de modelos y cálculos estructurales con atención al detalle, la seguridad y la viabilidad constructiva.",
-    photo: "/assets/team/duvan.webp",
-    education: [
-      {
-        degree: "Ingeniero Civil",
-        university: "Universidad del Quindío",
-        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
-      },
-    ],
-  },
-  {
-    id: "jefry-daniel",
-    name: "Jefry Daniel Monsalve",
-    role: "Ingeniero Junior",
-    description: "Contribuye a la revisión de diseños y a la coordinación técnica para resolver retos de obra con precisión.",
-    photo: "/assets/team/daniel.webp",
-    education: [
-      {
-        degree: "Ingeniero Civil",
-        university: "Universidad del Quindío",
-        logo: "/assets/team/logos-universidades/uniquindio-logo.webp",
-      },
-    ],
-  },
-  {
-    id: "tatiana-rendon",
-    name: "Tatiana Rendón",
-    role: "Auxiliar Administrativa",
-    description: "Coordina procesos administrativos y documentales para que cada frente de trabajo avance con orden y continuidad.",
-    photo: "/assets/team/tatiana.webp",
-    education: [
-      {
-        degree: "Administradora de Empresas",
-        university: "Universidad EAM",
-        logo: "/assets/team/logos-universidades/logo-eam.webp",
-      },
-    ],
-  },
-  {
-    id: "camilo-londono",
-    name: "Camilo Londoño",
-    role: "Modelador BIM",
-    description: "Convierte la información del proyecto en modelos BIM que facilitan la coordinación entre disciplinas y la detección temprana de interferencias.",
-    photo: "/assets/team/camilo.webp",
-    education: [
-      {
-        degree: "Candidato a Ingeniero Civil",
-        university: "",
-      },
-    ],
-  },
+import ResponsiveImage from './ResponsiveImage.astro';
+const quindio = { degree: 'Ingeniero Civil', university: 'Universidad del Quindío', logo: 'uniquindio-logo.webp' };
+const structures = { degree: 'Especialista en Estructuras', university: 'Universidad Nacional de Colombia', logo: 'unal-logo.webp' };
+const members = [
+  { id: 'julian', name: 'Julián Alfonso Ruge', role: 'Gerente General', photo: 'Julian.webp', education: [quindio, structures] },
+  { id: 'leonardo', name: 'Leonardo González', role: 'Gerente Administrativo', photo: 'Leonardo.webp', education: [quindio, structures] },
+  { id: 'sebastian', name: 'Juan Sebastián Giraldo', role: 'Líder Técnico', photo: 'sebastian.webp', education: [quindio, structures] },
+  { id: 'julio', name: 'Julio Alberto Toro', role: 'Ingeniero Junior', photo: 'julio.webp', education: [quindio, { degree: 'Candidato a Especialista', university: 'Universidad del Valle', logo: 'univalle-logo.webp' }] },
+  { id: 'duvan', name: 'Anderson Duvan Mesa', role: 'Ingeniero Junior', photo: 'duvan.webp', education: [quindio] },
+  { id: 'daniel', name: 'Jefry Daniel Monsalve', role: 'Ingeniero Junior', photo: 'daniel.webp', education: [quindio] },
+  { id: 'tatiana', name: 'Tatiana Rendón', role: 'Auxiliar Administrativa', photo: 'tatiana.webp', education: [{ degree: 'Administradora de Empresas', university: 'Universidad EAM', logo: 'logo-eam.webp' }] },
+  { id: 'camilo', name: 'Camilo Londoño', role: 'Modelador BIM', photo: 'camilo.webp', education: [] },
 ];
-
-const selectedMember = members.find((member) => member.id === "leonardo") ?? members[0];
 ---
-
-<section class="team-section" id="equipo" data-header-theme="light" aria-labelledby="team-title">
-  <div class="team-board">
-    <div class="team-visual">
-      <div class="team-photo-area" data-scroll-reveal>
-        <div class="team-brand-mark" aria-hidden="true">
-          <img src="/assets/logos/021026 INGENIUM - LOGO_2026-01.webp" alt="" />
-        </div>
-        <img class="team-feature-photo" data-team-photo src={selectedMember.photo} alt={`Retrato de ${selectedMember.name}`} />
-      </div>
-
-      <div class="team-member-picker" role="group" aria-label="Seleccionar integrante del equipo" data-reveal-children>
-        {members.map((member) => (
-          <button
-            class:list={["team-member-button", { "is-selected": member.id === selectedMember.id }]}
-            type="button"
-            aria-label={`Ver perfil de ${member.name}`}
-            aria-pressed={member.id === selectedMember.id ? "true" : "false"}
-            data-team-member-id={member.id}
-          >
-            <img src={member.photo} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          </button>
-        ))}
-      </div>
+<section class="team-section section-shell" id="equipo" aria-label="Nuestro equipo" data-team>
+  <div class="team-stage">
+    <div class="team-empty" data-team-empty>
+      <h2>Nuestro equipo.</h2>
+      <p>Experiencia técnica y compromiso para llevar tu proyecto del diseño a la construcción.</p>
     </div>
-
-    <div class="team-content">
-      <header class="team-heading" data-scroll-reveal>
-        <p class="team-kicker">04 — EQUIPO</p>
-        <h2 id="team-title">Conoce a nuestro equipo</h2>
-        <p>Combinamos rigor técnico, especialización estructural y gestión estratégica para convertir proyectos ambiciosos en obras sólidas y seguras.</p>
-      </header>
-
-      <div class="team-profile-deck" data-scroll-reveal aria-live="polite">
-        {members.map((member) => (
-          <article
-            class="team-profile"
-            data-team-profile={member.id}
-            data-photo={member.photo}
-            aria-hidden={member.id === selectedMember.id ? "false" : "true"}
-          >
-            <div class="team-profile__identity" data-profile-reveal>
-              <h3 class="team-profile__name">{member.name}</h3>
-              <p class="team-profile__role">{member.role}</p>
-            </div>
-            <p class="team-profile__description" data-profile-reveal>{member.description}</p>
-            <div
-              class:list={["team-education", { "team-education--single": member.education.length === 1 }]}
-              data-profile-reveal
-            >
-              {member.education.map((education) => (
-                <article class:list={["team-education__item", { "team-education__item--solo": !education.university }]}>
-                  <span class="team-education__degree">{education.degree}</span>
-                  {education.university && (
-                    <span class="team-education__logo">
-                      {education.logo ? (
-                        <img src={education.logo} alt={education.university} loading="lazy" decoding="async" />
-                      ) : (
-                        <span class="team-education__university">{education.university}</span>
-                      )}
-                    </span>
-                  )}
-                </article>
-              ))}
-            </div>
-          </article>
-        ))}
+    {members.map(member => <article class="team-profile" id={`profile-${member.id}`} hidden>
+      <span class="team-outline" aria-hidden="true">{member.name}</span>
+      <ResponsiveImage class="team-photo" src={`/assets/team/${member.photo}`} alt={`Retrato de ${member.name}`} widths={[360,720]} sizes="(max-width: 767px) 80vw, 480px" />
+      <div class="team-identity">
+        <h3>{member.name}</h3><p>{member.role}</p>
       </div>
-    </div>
+        {member.education.length > 0 && <div class="team-credentials" aria-label="Formación profesional">
+          {member.education.map((education, index) => <div class="credential">
+            <button type="button" aria-label={`${education.degree}, ${education.university}`} aria-expanded="false" aria-describedby={`degree-${member.id}-${index}`}>
+              <ResponsiveImage src={`/assets/team/logos-universidades/${education.logo}`} alt={education.university} widths={[72,144]} sizes="36px" />
+            </button>
+            <span class="credential-tooltip" role="tooltip" id={`degree-${member.id}-${index}`}>{education.degree}<small>{education.university}</small></span>
+          </div>)}
+        </div>}
+    </article>)}
+  </div>
+  <div class="team-picker" role="group" aria-label="Seleccionar integrante del equipo">
+    {members.map(member => <button type="button" data-team-select={member.id} aria-controls={`profile-${member.id}`} aria-pressed="false" aria-label={`Ver a ${member.name}, ${member.role}`}>
+      <ResponsiveImage src={`/assets/team/${member.photo}`} alt="" widths={[180,360]} sizes="(max-width: 767px) 76px, 108px" />
+    </button>)}
   </div>
 </section>
-
 <style>
-  .team-section {
-    --team-header-clearance: clamp(108px, 12svh, 128px);
-    min-height: 100svh;
-    padding: var(--team-header-clearance) 0 0;
-    background: var(--bg-subtle);
-  }
-
-  .team-board {
-    display: grid;
-    width: 100%;
-    height: calc(100svh - var(--team-header-clearance));
-    min-height: 0;
-    grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
-    overflow: hidden;
-    background: var(--bg-subtle);
-    border: 0;
-  }
-
-  .team-visual {
-    position: relative;
-    z-index: 0;
-    display: grid;
-    min-width: 0;
-    min-height: 0;
-    grid-template-rows: minmax(0, 1fr) clamp(88px, 13svh, 116px);
-    overflow: hidden;
-    background: var(--bg);
-  }
-
-  .team-photo-area {
-    position: relative;
-    min-height: 0;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .team-brand-mark {
-    position: absolute;
-    z-index: 0;
-    top: 50%;
-    left: -140px;
-    width: min(54vw, 600px);
-    height: min(31vw, 350px);
-    overflow: hidden;
-    transform: translateY(-50%) rotate(90deg);
-    transform-origin: center;
-    pointer-events: none;
-  }
-
-  .team-brand-mark img {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    clip-path: inset(20% 0 40% 0);
-  }
-
-  .team-feature-photo {
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-    will-change: transform, opacity;
-  }
-
-  .team-member-picker {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-auto-columns: minmax(56px, 1fr);
-    grid-auto-flow: column;
-    grid-template-columns: none;
-    gap: 1px;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: thin;
-    scroll-snap-type: x proximity;
-    background: var(--line-dark);
-  }
-
-  .team-member-button {
-    position: relative;
-    display: grid;
-    min-width: 0;
-    min-height: 44px;
-    place-items: end center;
-    overflow: hidden;
-    padding: 0 4px;
-    border: 0;
-    border-top: 3px solid transparent;
-    background: var(--brand-navy);
-    cursor: pointer;
-    scroll-snap-align: start;
-    opacity: 0.72;
-    transition: opacity 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
-  }
-
-  .team-member-button:hover,
-  .team-member-button.is-selected {
-    opacity: 1;
-  }
-
-  .team-member-button.is-selected {
-    border-top-color: var(--accent);
-    background: #21366e;
-  }
-
-  .team-member-button:focus-visible {
-    z-index: 1;
-    outline: 2px solid var(--accent);
-    outline-offset: -3px;
-  }
-
-  .team-member-button img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-height: 110px;
-    object-fit: contain;
-    object-position: center bottom;
-  }
-
-  .team-content {
-    display: flex;
-    min-width: 0;
-    min-height: 0;
-    flex-direction: column;
-    justify-content: center;
-    gap: clamp(16px, 2svh, 24px);
-    padding: clamp(20px, 2.5svh, 32px) clamp(24px, 3vw, 56px);
-  }
-
-  .team-heading {
-    text-align: right;
-  }
-
-  .team-kicker {
-    margin: 0 0 10px;
-    color: var(--accent);
-    font: 700 15px / 1.2 var(--font-heading);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .team-heading h2 {
-    margin: 0 0 12px;
-    color: #000;
-    font: 700 clamp(32px, 3.4vw, 52px) / 1.04 var(--font-heading);
-    letter-spacing: -0.035em;
-    text-wrap: balance;
-  }
-
-  .team-heading > p:last-child {
-    max-width: 760px;
-    margin: 0 0 0 auto;
-    color: var(--ink);
-    font: 400 clamp(15px, 1.2vw, 18px) / 1.35 var(--font-body);
-  }
-
-  .team-profile-deck {
-    position: relative;
-    display: grid;
-    width: 100%;
-    min-height: 0;
-    flex: 1 1 auto;
-    align-content: center;
-  }
-
-  .team-profile {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    grid-area: 1 / 1;
-    grid-template-rows: 0 auto minmax(56px, 1fr) auto;
-    align-items: center;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .team-profile__identity {
-    display: flex;
-    grid-row: 2;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .team-profile[aria-hidden="true"] {
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .team-profile__name {
-    max-width: 100%;
-    margin: 0;
-    padding: clamp(9px, 1vw, 14px) clamp(16px, 1.6vw, 24px);
-    color: var(--bg);
-    background: var(--brand-navy);
-    font: 700 clamp(30px, 3.4vw, 52px) / 1.08 var(--font-heading);
-    letter-spacing: -0.025em;
-    text-wrap: balance;
-  }
-
-  .team-profile__role {
-    width: min(76%, 520px);
-    margin: 0;
-    padding: 4px 14px 6px;
-    color: #fff;
-    background: var(--accent);
-    font: 700 clamp(17px, 1.6vw, 24px) / 1.1 var(--font-heading);
-    text-wrap: balance;
-  }
-
-  .team-profile__description {
-    grid-row: 3;
-    align-self: start;
-    max-width: 640px;
-    margin: clamp(18px, 2.4svh, 26px) auto 0;
-    color: var(--ink);
-    font: 400 clamp(15px, 1.1vw, 17px) / 1.4 var(--font-body);
-    text-wrap: balance;
-  }
-
-  .team-education {
-    display: grid;
-    grid-row: 4;
-    align-self: end;
-    justify-self: center;
-    width: min(100%, 760px);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(14px, 2.5vw, 32px);
-    min-height: 68px;
-    margin-top: clamp(18px, 2.4svh, 26px);
-  }
-
-  .team-education--single {
-    grid-template-columns: minmax(0, min(420px, 100%));
-    justify-content: center;
-  }
-
-  .team-education:empty {
-    display: none;
-  }
-
-  .team-education__item {
-    display: grid;
-    min-width: 0;
-    min-height: 64px;
-    grid-template-columns: minmax(0, 1fr) minmax(76px, 0.8fr);
-    background: #fff;
-  }
-
-  .team-education__item--solo {
-    width: min(100%, 420px);
-    grid-column: 1 / -1;
-    grid-template-columns: 1fr;
-    justify-self: center;
-  }
-
-  .team-education__degree {
-    display: flex;
-    align-items: center;
-    padding: 12px clamp(10px, 1vw, 16px);
-    color: #fff;
-    background: var(--accent);
-    font: 700 clamp(13px, 1.3vw, 17px) / 1.15 var(--font-heading);
-    text-align: left;
-    text-transform: uppercase;
-  }
-
-  .team-education__item--solo .team-education__degree {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .team-education__logo {
-    display: grid;
-    min-width: 0;
-    place-items: center;
-    padding: 8px;
-    background: #fff;
-  }
-
-  .team-education__logo img {
-    display: block;
-    width: 100%;
-    max-width: 118px;
-    max-height: 58px;
-    object-fit: contain;
-  }
-
-  .team-education__university {
-    color: var(--brand-navy);
-    font: 400 clamp(10px, 0.95vw, 13px) / 1.2 var(--font-body);
-    text-align: center;
-  }
-
-  @media (max-width: 900px) {
-    .team-board {
-      grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.22fr);
-    }
-
-    .team-visual {
-      grid-template-rows: minmax(0, 1fr) auto;
-    }
-
-    .team-member-picker {
-      grid-auto-flow: row;
-      grid-auto-columns: auto;
-      grid-auto-rows: clamp(68px, 9svh, 82px);
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      overflow-x: hidden;
-    }
-
-    .team-content {
-      padding: 20px 24px;
-    }
-
-    .team-heading h2 {
-      font-size: clamp(32px, 4.5vw, 46px);
-    }
-
-    .team-profile__name {
-      font-size: clamp(30px, 4vw, 44px);
-    }
-
-    .team-profile__role {
-      width: 84%;
-      font-size: clamp(17px, 2.2vw, 22px);
-    }
-
-    .team-education {
-      gap: 12px;
-    }
-  }
-
-  @media (max-height: 760px) and (min-width: 701px) {
-    .team-content {
-      padding: 16px clamp(18px, 2.4vw, 32px);
-      gap: 12px;
-    }
-
-    .team-heading h2 {
-      font-size: clamp(30px, 3vw, 44px);
-    }
-
-    .team-heading > p:last-child {
-      font-size: 15px;
-    }
-
-    .team-profile {
-      margin-top: 0;
-    }
-
-    .team-profile__name {
-      padding: 8px 14px;
-      font-size: clamp(28px, 3vw, 42px);
-    }
-
-    .team-profile__role {
-      font-size: clamp(16px, 1.5vw, 21px);
-    }
-
-    .team-profile__description {
-      margin-top: 14px;
-      font-size: 15px;
-    }
-
-    .team-education {
-      min-height: 58px;
-      margin-top: 16px;
-    }
-
-    .team-education__item {
-      min-height: 58px;
-    }
-  }
-
-  @media (max-width: 700px) {
-    .team-section {
-      --team-header-clearance: 92px;
-      min-height: 0;
-      padding: var(--team-header-clearance) 0 20px;
-    }
-
-    .team-board {
-      display: grid;
-      height: auto;
-      min-height: 0;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto auto;
-      overflow: visible;
-    }
-
-    .team-content {
-      display: contents;
-    }
-
-    .team-heading {
-      grid-row: 1;
-      padding: 24px 7vw 22px;
-      text-align: left;
-    }
-
-    .team-heading .team-kicker {
-      margin-bottom: 8px;
-      font-size: 12px;
-    }
-
-    .team-heading h2 {
-      margin-bottom: 8px;
-      font-size: clamp(30px, 7.4vw, 38px);
-      line-height: 1.06;
-    }
-
-    .team-heading > p:last-child {
-      max-width: 38ch;
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .team-visual {
-      grid-row: 2;
-      min-height: 0;
-      height: auto;
-      grid-template-rows: clamp(300px, 95vw, 400px) 62px;
-    }
-
-    .team-member-picker {
-      display: flex;
-      height: 62px;
-      flex-flow: row nowrap;
-      gap: 1px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      overscroll-behavior-x: contain;
-      scrollbar-width: none;
-      scroll-snap-type: x mandatory;
-    }
-
-    .team-member-picker::-webkit-scrollbar {
-      display: none;
-    }
-
-    .team-member-button {
-      flex: 0 0 clamp(48px, 14vw, 60px);
-      width: clamp(48px, 14vw, 60px);
-      height: 62px;
-      min-height: 0;
-      padding-inline: 2px;
-      scroll-snap-align: start;
-    }
-
-    .team-member-button img {
-      max-height: 55px;
-    }
-
-    .team-brand-mark {
-      left: -82px;
-      width: min(72vw, 330px);
-      height: min(50vw, 220px);
-    }
-
-    .team-profile-deck {
-      grid-row: 3;
-      width: 100%;
-      min-height: 0;
-      padding: 24px 7vw 32px;
-    }
-
-    .team-profile {
-      height: auto;
-      grid-template-rows: auto;
-      margin-top: 0;
-    }
-
-    .team-profile__identity,
-    .team-profile__description,
-    .team-education {
-      grid-row: auto;
-    }
-
-    .team-profile__description {
-      align-self: auto;
-    }
-
-    .team-profile__name {
-      font-size: clamp(26px, 7vw, 36px);
-    }
-
-    .team-profile__role {
-      width: min(92%, 380px);
-      font-size: 16px;
-    }
-
-    .team-profile__description {
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .team-education {
-      gap: 10px;
-    }
-
-    .team-education__item {
-      min-height: 64px;
-      grid-template-columns: minmax(0, 1fr) minmax(50px, 0.8fr);
-    }
-
-    .team-education__item--solo {
-      grid-template-columns: 1fr;
-    }
-
-    .team-education__degree {
-      padding: 8px;
-      font-size: 10px;
-    }
-
-    .team-education__logo {
-      padding: 5px;
-    }
-  }
+  .team-section { padding-block: 32px; }
+  .team-stage { position: relative; height: 430px; isolation: isolate; }
+  .team-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center; }
+  .team-empty h2 { margin: 0; font: 700 clamp(34px,6vw,80px)/1.08 var(--font-heading); letter-spacing: -.05em; text-wrap: balance; }
+  .team-empty > p { max-width: 56ch; margin: 0; color: var(--ink-secondary); font: 400 var(--text-body)/1.6 var(--font-body); }
+  .team-profile { position: absolute; inset: 0; }
+  .team-profile.is-entering { animation: profile-in .5s ease both; }
+  .team-profile.is-leaving, .team-empty.is-leaving { animation: profile-out .2s ease both; }
+  .team-outline { position: absolute; z-index: -1; top: 15px; left: 0; right: 0; text-align: center; color: transparent; -webkit-text-stroke: 1px var(--brand-navy); opacity: .13; font: 700 clamp(40px,6.5vw,100px)/1 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
+  .team-stage :global(.team-photo) { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 420px; width: min(100%,500px); object-fit: contain; object-position: center bottom; }
+  .team-identity { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; z-index: 1; }
+  h3 { margin: 0; color: #fff; font-size: clamp(28px,3.5vw,48px); line-height: 1.06; letter-spacing: -.05em; text-shadow: 0 2px 5px #10151bc4, 0 1px 16px #10151b80; }
+  .team-identity > p { display: inline-block; max-width: 100%; margin: 8px 0 0; padding: 7px 20px; background: var(--brand-orange); color: #fff; font: 700 var(--text-label)/1.4 var(--font-body); }
+  .team-credentials { position: absolute; right: max(0px, calc((100% - 864px) / 2)); bottom: 12px; z-index: 2; display: flex; gap: 8px; }
+  .credential { position: relative; }
+  .credential button { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; padding: 5px; border: 1px solid var(--line); background: #fff; cursor: pointer; overflow: hidden; }
+  .credential :global(img) { display: block; width: 28px; height: 28px; max-width: 100%; max-height: 100%; min-width: 0; min-height: 0; object-fit: contain; }
+  .credential-tooltip { position: absolute; z-index: 2; bottom: calc(100% + 10px); right: 0; width: 220px; transform: translateY(5px); background: #111; color: #fff; padding: 12px; font-size: var(--text-small); line-height: 1.5; opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s; pointer-events: none; }
+  .credential-tooltip small { display: block; color: #d3d3d3; margin-top: 4px; font-size: var(--text-small); }
+  .credential:hover .credential-tooltip, .credential:focus-within .credential-tooltip, .credential button[aria-expanded="true"] + .credential-tooltip { opacity: 1; visibility: visible; transform: translateY(0); }
+  .team-picker { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); width: min(100%,864px); margin: 0 auto; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .team-picker button { min-width: 0; position: relative; padding: 4px 0 0; border: 0; background: var(--bg-subtle); cursor: pointer; overflow: hidden; color: var(--brand-navy); transition: background .3s; }
+  .team-picker :global(img) { display: block; width: 100%; height: 92px; object-fit: contain; object-position: center bottom; transform-origin: center bottom; filter: grayscale(.8); transition: filter .35s,transform .4s; }
+  .team-picker button:hover :global(img), .team-picker button[aria-pressed="true"] :global(img) { filter: grayscale(0); transform: scale(1.035); }
+  .team-picker button[aria-pressed="true"] { background: var(--panel); box-shadow: inset 0 -3px var(--brand-orange); }
+  @keyframes profile-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes profile-out { to { opacity: 0; transform: translateY(5px); } }
+  @media(max-width:767px) { .team-section { padding-block: 24px; } .team-stage { height: 370px; } .team-stage :global(.team-photo) { height: 360px; } .team-outline { font-size: clamp(32px,9vw,56px); } h3 { font-size: clamp(26px,7vw,38px); } .team-identity { bottom: 64px; } .team-identity > p { padding: 6px 14px; font-size: var(--text-label); } .team-picker { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; } .team-picker button { flex: 0 0 76px; scroll-snap-align: start; } .team-picker :global(img) { height: 76px; } .credential-tooltip { width: 190px; } }
 </style>
-
 <script>
-  import { gsap } from "gsap";
-
-  const sections = document.querySelectorAll<HTMLElement>(".team-section");
-
-  sections.forEach((section) => {
-    const photo = section.querySelector<HTMLImageElement>("[data-team-photo]");
-    const profiles = Array.from(section.querySelectorAll<HTMLElement>("[data-team-profile]"));
-    const buttons = Array.from(section.querySelectorAll<HTMLButtonElement>("[data-team-member-id]"));
-
-    if (!photo || profiles.length === 0 || buttons.length === 0) return;
-
-    const context = gsap.context(() => {}, section);
-    let isSwitching = false;
-
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        if (isSwitching || button.getAttribute("aria-pressed") === "true") return;
-
-        const nextProfile = profiles.find((profile) => profile.dataset.teamProfile === button.dataset.teamMemberId);
-        const currentProfile = profiles.find((profile) => profile.getAttribute("aria-hidden") === "false");
-        if (!nextProfile || !currentProfile) return;
-
-        isSwitching = true;
-        buttons.forEach((candidate) => {
-          const selected = candidate === button;
-          candidate.setAttribute("aria-pressed", String(selected));
-          candidate.classList.toggle("is-selected", selected);
-        });
-
-        context.add(() => {
-          const timeline = gsap.timeline({
-            onComplete: () => { isSwitching = false; },
-          });
-
-          timeline.to([photo, currentProfile], {
-            autoAlpha: 0,
-            y: -10,
-            duration: 0.2,
-            ease: "power1.in",
-          });
-          timeline.call(() => {
-            const profileName = nextProfile.querySelector<HTMLElement>(".team-profile__name")?.textContent ?? "integrante del equipo";
-            photo.src = nextProfile.dataset.photo ?? "";
-            photo.alt = `Retrato de ${profileName}`;
-            currentProfile.setAttribute("aria-hidden", "true");
-            nextProfile.setAttribute("aria-hidden", "false");
-            gsap.set(nextProfile, { autoAlpha: 0, y: 16 });
-          });
-          timeline.to(photo, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.52,
-            ease: "power2.out",
-          });
-
-          const textTargets = Array.from(nextProfile.querySelectorAll<HTMLElement>("[data-profile-reveal]"))
-            .filter((element) => !element.classList.contains("team-education") || element.childElementCount > 0);
-
-          timeline.to(nextProfile, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.48,
-            ease: "power2.out",
-          }, "<");
-          timeline.fromTo(
-            textTargets,
-            { autoAlpha: 0, y: 18 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.48,
-              stagger: { each: 0.075, from: "end" },
-              ease: "power2.out",
-              clearProps: "transform,opacity,visibility",
-            },
-            "<+0.02",
-          );
-        });
+  document.querySelectorAll<HTMLElement>('[data-team]').forEach(team => {
+    const empty = team.querySelector<HTMLElement>('[data-team-empty]')!;
+    const buttons = Array.from(team.querySelectorAll<HTMLButtonElement>('[data-team-select]'));
+    let current: HTMLElement = empty;
+    let selected = '';
+    let changing = false;
+    let requested = '';
+    let pinned = false;
+    const select = async (id: string) => {
+      requested = id;
+      if (changing || selected === id) return;
+      changing = true;
+      current.classList.add('is-leaving');
+      await new Promise(resolve => setTimeout(resolve, 200));
+      const nextId = requested;
+      const next = nextId ? team.querySelector<HTMLElement>(`#profile-${nextId}`)! : empty;
+      current.hidden = true; current.classList.remove('is-leaving', 'is-entering');
+      team.querySelectorAll('.credential button').forEach(button => button.setAttribute('aria-expanded', 'false'));
+      next.hidden = false; next.classList.add('is-entering'); current = next; selected = nextId;
+      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.teamSelect === selected)));
+      changing = false;
+      if (requested !== selected) void select(requested);
+    };
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => { pinned = true; void select(button.dataset.teamSelect!); });
+      button.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'mouse') { pinned = false; void select(button.dataset.teamSelect!); }
+      });
+      button.addEventListener('focus', () => {
+        if (button.matches(':focus-visible')) void select(button.dataset.teamSelect!);
+      });
+      button.addEventListener('keydown', event => {
+        let next = index;
+        if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
+        else if (event.key === 'ArrowLeft') next = (index + buttons.length - 1) % buttons.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = buttons.length - 1;
+        else return;
+        event.preventDefault(); buttons[next].focus();
       });
     });
-
-    document.addEventListener("astro:before-swap", () => context.revert(), { once: true });
-    import.meta.hot?.dispose(() => context.revert());
+    const reset = () => { pinned = false; void select(''); };
+    team.querySelector('.team-picker')?.addEventListener('pointerleave', () => { if (!pinned) reset(); });
+    team.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') reset(); });
+    team.querySelectorAll<HTMLButtonElement>('.credential button').forEach(button => button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      team.querySelectorAll('.credential button').forEach(other => other.setAttribute('aria-expanded', 'false'));
+      button.setAttribute('aria-expanded', String(open));
+    }));
+    document.addEventListener('click', event => {
+      if (!(event.target instanceof Element)) return;
+      if (!team.contains(event.target)) reset();
+      if (!event.target.closest('.credential')) team.querySelectorAll('.credential button').forEach(button => button.setAttribute('aria-expanded', 'false'));
+    });
+    team.addEventListener('keydown', event => { if (event.key === 'Escape') { reset(); (document.activeElement as HTMLElement)?.blur(); } });
   });
 </script>

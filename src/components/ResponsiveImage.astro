@@ -1,0 +1,16 @@
+---
+import { responsiveImage } from '../lib/images';
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'alt'> {
+  src: string;
+  alt: string;
+  sizes?: string;
+  widths?: number[];
+  priority?: boolean;
+  aspectRatio?: number;
+  class?: string;
+}
+const { src, alt, sizes = '100vw', widths, aspectRatio, priority = false, class: className, ...rest } = Astro.props;
+const image = await responsiveImage(src, widths, aspectRatio);
+---
+<img {...rest} {...image} alt={alt} sizes={sizes} class={className} loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : 'auto'} decoding="async" />

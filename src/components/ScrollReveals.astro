@@ -1,0 +1,59 @@
+<script>
+  import { gsap } from 'gsap';
+
+  // Progressive enhancement: server-rendered text remains readable without JS.
+  const contexts: gsap.Context[] = [];
+  const textTargets = new WeakSet<HTMLElement>();
+  const splitWords = (element: HTMLElement) => {
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    const nodes: Text[] = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode as Text);
+    nodes.forEach(node => {
+      if (!node.textContent?.trim() || node.parentElement?.closest('[data-reveal-word], .icon')) return;
+      const fragment = document.createDocumentFragment();
+      for (const token of node.textContent.match(/\S+|\s+/g) ?? []) {
+        if (!token.trim()) { fragment.append(document.createTextNode(token)); continue; }
+        const word = document.createElement('span');
+        word.dataset.revealWord = '';
+        word.style.display = 'inline-block';
+        word.textContent = token;
+        fragment.append(word);
+      }
+      node.replaceWith(fragment);
+    });
+  };
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const element = entry.target as HTMLElement;
+      observer.unobserve(element);
+      // Only split visible text. The hero already owns its entrance animation.
+      if (textTargets.has(element)) splitWords(element);
+      const words = element.querySelectorAll<HTMLElement>('[data-reveal-word]');
+      const grouped = element.hasAttribute('data-reveal-children');
+      const targets = words.length ? words : grouped ? Array.from(element.children) : element;
+      contexts.push(gsap.context(() => {
+        gsap.fromTo(targets, { opacity: 0, y: words.length ? 12 : 16 }, {
+          opacity: 1, y: 0, duration: .7,
+          delay: Number(element.dataset.revealDelay) || 0,
+          stagger: words.length ? Math.min(.045, .8 / words.length) : grouped ? .1 : 0,
+          ease: 'power2.out', clearProps: 'transform,opacity',
+        });
+      }, element));
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -4% 0px' });
+
+  document.querySelectorAll<HTMLElement>('main h1, main h2, main h3, main p').forEach(element => {
+    // Interactive names, fixed card titles, counters and modal text have their own transitions.
+    if (element.closest('.architecture-hero, .team-section, .service-panel, .metric, .project-modal, [hidden]')) return;
+    textTargets.add(element);
+    observer.observe(element);
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-scroll-reveal], [data-reveal-children]').forEach(element => {
+    if (!element.querySelector('[data-reveal-word]')) observer.observe(element);
+  });
+  const cleanup = () => { observer.disconnect(); contexts.forEach(context => context.revert()); };
+  document.addEventListener('astro:before-swap', cleanup, { once: true });
+  import.meta.hot?.dispose(cleanup);
+</script>

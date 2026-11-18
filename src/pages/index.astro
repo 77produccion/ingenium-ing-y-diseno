@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
+import Hero from '../components/ArchitecturalHero.astro';
 import ServicesShowcase from '../components/ServicesShowcase.astro';
 import MetricsSection from '../components/MetricsSection.astro';
 import ClientCarousel from '../components/ClientCarousel.astro';
@@ -30,7 +30,6 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script>
-  import { gsap } from 'gsap';
 
   // Smoothly scroll hero calls to action to their sections, regardless of reduced-motion preference.
   document.querySelectorAll<HTMLAnchorElement>('[data-smooth-scroll]').forEach((link) => {
@@ -98,69 +97,4 @@ import Footer from '../components/Footer.astro';
   observeHeaderTheme();
   window.addEventListener('resize', observeHeaderTheme, { passive: true });
 
-  let revealObserver: IntersectionObserver | undefined;
-  let revealContexts: gsap.Context[] = [];
-
-  function mountScrollReveals() {
-    revealObserver?.disconnect();
-    revealContexts.forEach((context) => context.revert());
-    revealContexts = [];
-
-    const revealTargets = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-scroll-reveal], [data-reveal-children]'),
-    );
-    if (!('IntersectionObserver' in window) || revealTargets.length === 0) return;
-
-    revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const element = entry.target as HTMLElement;
-        const grouped = element.hasAttribute('data-reveal-children');
-        const targets = grouped
-          ? Array.from(element.children).filter((child): child is HTMLElement => child instanceof HTMLElement)
-          : [element];
-        revealObserver?.unobserve(element);
-        if (targets.length === 0) return;
-
-        const delay = Number(element.dataset.revealDelay) || 0;
-        const revealStyle = element.dataset.revealStyle || 'rise';
-        const startState = revealStyle === 'pop'
-          ? { autoAlpha: 0, y: 16, scale: 0.94 }
-          : revealStyle === 'sweep'
-            ? { autoAlpha: 0, x: -26 }
-            : { autoAlpha: 0, y: 22 };
-        const context = gsap.context(() => {
-          gsap.fromTo(targets,
-            startState,
-            {
-              autoAlpha: 1,
-              x: 0,
-              y: 0,
-              scale: 1,
-              duration: 0.82,
-              delay,
-              stagger: grouped ? 0.12 : 0,
-              ease: 'power2.out',
-              clearProps: 'transform,opacity,visibility',
-            },
-          );
-        }, element);
-        revealContexts.push(context);
-      });
-    }, { threshold: 0.16, rootMargin: '0px 0px -7% 0px' });
-
-    revealTargets.forEach((target) => revealObserver?.observe(target));
-  }
-
-  function unmountScrollReveals() {
-    revealObserver?.disconnect();
-    revealContexts.forEach((context) => context.revert());
-    revealContexts = [];
-  }
-
-  mountScrollReveals();
-  document.addEventListener('astro:page-load', mountScrollReveals);
-  document.addEventListener('astro:before-swap', unmountScrollReveals);
-  import.meta.hot?.dispose(unmountScrollReveals);
 </script>

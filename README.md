@@ -44,3 +44,18 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Videos y despliegue de INGENIUM
+
+Los cinco videos publicados del hero y las tarjetas de servicios se versionan con **Git LFS**. Los posters se guardan en Git normal. Antes de compilar un clon nuevo:
+
+```sh
+git lfs install
+git lfs pull
+npm ci
+npm run build
+```
+
+El proveedor de despliegue debe tener Git LFS habilitado y descargar sus archivos antes del build. De lo contrario, se publicarán punteros de texto en lugar de videos. Revisar también la cuota de almacenamiento y transferencia LFS de GitHub.
+
+Los originales de cámara (`public/videos/`), previews antiguos (`public/assets/services/`) y renders no utilizados permanecen solo en local y se excluyen del repositorio. Los scripts de renderizado necesitan esos originales; una compilación normal usa los videos ya publicados y no requiere regenerarlos.

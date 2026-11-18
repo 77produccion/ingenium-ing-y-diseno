@@ -1,0 +1,181 @@
+---
+import Icon from './Icon.astro';
+import { heroFilm } from '../lib/hero-film.mjs';
+const scenes = ['El contexto', 'La ejecución', 'La estructura', 'La transformación'];
+const media = Object.fromEntries(Object.entries(heroFilm).map(([variant, film]) => [variant, `/assets/hero-videos/${film.file}`]));
+---
+<section class="architecture-hero" aria-labelledby="hero-title" data-hero-film data-film-media={JSON.stringify(media)}>
+  <div class="hero-film" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 767px)" srcset={`${media.mobile}-poster.webp`} />
+      <img src={`${media.desktop}-poster.webp`} alt="" width="3840" height="2160" fetchpriority="high" />
+    </picture>
+    <video data-film-player muted playsinline loop preload="none" disablepictureinpicture tabindex="-1"></video>
+  </div>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="hero-intro">
+    <p class="hero-signature">Ingeniería & diseño</p>
+    <h1 id="hero-title"><span>De la visión.</span><span>A lo real.</span></h1>
+    <a class="hero-projects" href="#proyectos" aria-label="Explora nuestros proyectos" aria-describedby="hero-projects-tooltip" data-smooth-scroll>
+      <span class="hero-projects__tooltip" id="hero-projects-tooltip" role="tooltip">Explora nuestros proyectos</span><span class="hero-projects__arrow"><Icon name="arrowUpRight" /></span>
+    </a>
+  </div>
+  <div class="hero-film-controls" aria-label="Controles del video de presentación">
+    <div class="hero-scenes" role="group" aria-label="Escenas del video">
+      {scenes.map((scene, index) => (
+        <button class:list={['hero-scene', { 'is-current': index === 0 }]} data-film-scene={index} aria-pressed={index === 0 ? 'true' : 'false'}>
+          <span class="hero-scene__label">{scene}</span>
+          <span class="hero-scene__track"><span></span></span>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .architecture-hero { position: relative; isolation: isolate; height: min(860px, 100svh); min-height: 540px; display: grid; grid-template-rows: 1fr auto; padding: 136px 5vw 28px; overflow: hidden; background: #111820; color: #fff; }
+  .hero-film, .hero-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .hero-film { overflow: hidden; animation: film-enter 1.6s cubic-bezier(.16,1,.3,1) both; }
+  .hero-film picture, .hero-film img, .hero-film video { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .hero-film video { opacity: 0; transition: opacity .8s ease; }
+  .hero-film video.is-ready { opacity: 1; }
+  .hero-shade { background: linear-gradient(180deg, #08111e66, transparent 32%, #08111e26 48%, #08111ee6), linear-gradient(90deg, #08111e55, transparent 70%); }
+  .hero-intro { align-self: end; position: relative; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding-bottom: clamp(32px, 6vh, 64px); }
+  .hero-signature { grid-column: 1 / -1; margin: 0; font: 700 var(--text-small)/1.4 var(--font-heading); letter-spacing: .08em; animation: copy-enter .8s .15s both; }
+  h1 { margin: 0; color: inherit; font: 700 clamp(64px, 7.6vw, 124px)/1.03 var(--font-heading); letter-spacing: -.055em; }
+  h1 span { display: block; animation: copy-enter 1s .3s cubic-bezier(.16,1,.3,1) both; }
+  h1 span + span { animation-delay: .48s; }
+  .hero-projects { position: relative; display: inline-flex; align-items: center; margin-bottom: 8px; font: 700 var(--text-label)/1.4 var(--font-heading); white-space: nowrap; animation: copy-enter 1s .65s both; }
+  .hero-projects__arrow { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: #ffffff14; border: 1px solid #ffffff70; transition: transform .35s, background .35s; }
+  .hero-projects__tooltip { position: absolute; right: calc(100% + 16px); top: 50%; padding: 12px 18px; border: 1px solid #ffffff26; border-radius: 999px; background: #142034e6; box-shadow: 0 8px 24px #08111e26, inset 0 1px 0 #ffffff1f; color: #fff; opacity: 0; visibility: hidden; transform: translate(8px, -50%); pointer-events: none; transition: opacity .25s ease, transform .3s ease, visibility .3s; }
+  .hero-projects:hover .hero-projects__tooltip, .hero-projects:focus-visible .hero-projects__tooltip { opacity: 1; visibility: visible; transform: translate(0, -50%); }
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .hero-projects__tooltip { background: #14203480; -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); } }
+  @media(prefers-reduced-transparency: reduce) { .hero-projects__tooltip { background: #142034; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+  .hero-projects:hover .hero-projects__arrow { transform: translate(3px, -3px); background: #ffffff30; }
+  .hero-projects:active .hero-projects__arrow { transform: scale(.96); }
+  .hero-film-controls { display: flex; align-items: end; gap: 32px; }
+  .hero-scenes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; flex: 1; }
+  .hero-scene { --scene-progress: 0; position: relative; min-height: 52px; padding: 10px 0; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+  .hero-scene__label { display: flex; gap: 12px; font: 400 var(--text-small)/1.4 var(--font-body); opacity: .64; transition: opacity .3s; }
+  .hero-scene.is-current .hero-scene__label, .hero-scene:hover .hero-scene__label { opacity: 1; }
+  .hero-scene__track { display: block; position: relative; height: 2px; margin-top: 13px; overflow: hidden; background: #ffffff38; }
+  .hero-scene__track > span { display: block; height: 100%; background: #fff; transform: scaleX(var(--scene-progress)); transform-origin: left; transition: transform .25s linear; }
+  .hero-projects:focus-visible, .hero-scene:focus-visible { outline: 2px solid #fff; outline-offset: 6px; border-radius: 4px; }
+  @keyframes film-enter { from { opacity: .4; transform: scale(1.035); } to { opacity: 1; transform: scale(1); } }
+  @keyframes copy-enter { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @media(max-width: 1023px) { .hero-scenes { gap: 16px; } .hero-scene__label { font-size: 12px; } }
+  @media(max-width: 767px) {
+    .architecture-hero { height: min(820px, 100svh); min-height: 520px; padding: 116px 24px 20px; }
+    .hero-intro { grid-template-columns: 1fr; gap: 18px; padding-bottom: 28px; }
+    .hero-signature { font-size: 12px; }
+    h1 { font-size: clamp(52px, 12vw, 84px); }
+    .hero-projects { justify-self: start; margin: 8px 0 0; font-size: 13px; }
+    .hero-projects__tooltip { left: calc(100% + 12px); right: auto; padding: 10px 14px; }
+    .hero-projects__arrow { width: 44px; height: 44px; }
+    .hero-film-controls { gap: 16px; }
+    .hero-scenes { gap: 10px; }
+    .hero-scene__label { font-size: clamp(9px, 2.35vw, 12px); white-space: nowrap; }
+    .hero-shade { background: linear-gradient(180deg, #08111e66, transparent 30%, #08111e33 45%, #08111ef2); }
+  }
+</style>
+<script>
+  import { registerViewportMedia } from '../lib/viewport-media';
+  import { selectDesktopVideo } from '../lib/video-source';
+  const hero = document.querySelector<HTMLElement>('[data-hero-film]');
+  if (hero) {
+    const player = hero.querySelector<HTMLVideoElement>('[data-film-player]')!;
+    const scenes = Array.from(hero.querySelectorAll<HTMLButtonElement>('[data-film-scene]'));
+    const mobile = window.matchMedia('(max-width: 767px)');
+    const media: Record<string, string> = JSON.parse(hero.dataset.filmMedia || '{}');
+    let visible = false;
+    let disposed = false;
+    let sourceRevision = 0;
+    let currentScene = -1;
+    let loadedVariant = '';
+    let fallbackSource = '';
+    const update = () => {
+      const duration = Number.isFinite(player.duration) && player.duration > 0 ? player.duration : 16.8;
+      const length = duration / scenes.length;
+      const current = Math.min(scenes.length - 1, Math.floor(player.currentTime / length));
+      if (current !== currentScene) {
+        scenes.forEach((scene, index) => {
+          scene.classList.toggle('is-current', index === current);
+          scene.setAttribute('aria-pressed', String(index === current));
+          scene.style.setProperty('--scene-progress', index < current ? '1' : '0');
+        });
+        currentScene = current;
+      }
+      scenes[current].style.setProperty('--scene-progress', String(Math.max(0, Math.min(1, (player.currentTime - current * length) / length))));
+    };
+    const sync = () => {
+      if (disposed) return;
+      if (!visible || document.hidden) {
+        player.pause();
+        player.preload = 'metadata';
+      } else if (player.getAttribute('src')) {
+        player.preload = 'auto';
+        void player.play().then(() => {
+          if (!visible || document.hidden || disposed) player.pause();
+        }).catch(() => { /* Keep the sharp poster if autoplay is unavailable. */ });
+      }
+    };
+    const loadFilm = async () => {
+      if (!visible || disposed) return;
+      const variant = mobile.matches ? 'mobile' : 'desktop';
+      if (loadedVariant === variant) { sync(); return; }
+      loadedVariant = variant;
+      const revision = ++sourceRevision;
+      currentScene = -1;
+      player.classList.remove('is-ready');
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+      const source = media[variant];
+      const preferredSource = variant === 'desktop' ? selectDesktopVideo(source) : Promise.resolve(`${source}.mp4`);
+      player.poster = `${source}-poster.webp`;
+      // Paint the sharp opening frame before the large 4K download competes
+      // for bandwidth. Quality stays identical; only download priority changes.
+      try { await hero.querySelector<HTMLImageElement>('picture img')!.decode(); } catch { /* Video remains a fallback if the poster fails. */ }
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      const selectedSource = await preferredSource;
+      if (disposed || revision !== sourceRevision) return;
+      // The owner may have changed while the poster was decoding.
+      if (!visible || document.hidden) { loadedVariant = ''; return; }
+      player.preload = 'auto';
+      fallbackSource = `${source}.mp4`;
+      player.src = selectedSource;
+      player.load();
+      sync();
+    };
+    player.addEventListener('playing', () => {
+      player.classList.add('is-ready');
+      update();
+    });
+    player.addEventListener('timeupdate', () => { if (visible && !document.hidden) update(); });
+    player.addEventListener('loadeddata', update);
+    player.addEventListener('seeked', update);
+    player.addEventListener('error', () => {
+      player.classList.remove('is-ready');
+      if (disposed || !fallbackSource || !player.getAttribute('src')?.endsWith('-hevc.mp4')) return;
+      // Decoder support can differ from the capability estimate on some PCs.
+      player.src = fallbackSource; player.load(); sync();
+    });
+    scenes.forEach((scene, index) => scene.addEventListener('click', () => {
+      if (!Number.isFinite(player.duration)) return;
+      player.currentTime = index * player.duration / scenes.length + .25;
+      update();
+    }));
+    const playback = registerViewportMedia({
+      element: hero, video: player, minRatio: .35, priority: 2,
+      onActiveChange(active) { visible = active; if (active) void loadFilm(); else sync(); },
+    });
+    mobile.addEventListener('change', loadFilm);
+    const cleanup = () => {
+      disposed = true;
+      playback.dispose();
+      mobile.removeEventListener('change', loadFilm);
+      player.pause(); player.removeAttribute('src'); player.load();
+    };
+    document.addEventListener('astro:before-swap', cleanup, { once: true });
+    import.meta.hot?.dispose(cleanup);
+  }
+</script>

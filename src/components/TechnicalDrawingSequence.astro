@@ -4,6 +4,7 @@ interface Props {
   duration?: number;
   fadeDuration?: number;
   holdDuration?: number;
+  fadeBlur?: number;
   label?: string;
 }
 
@@ -12,6 +13,7 @@ const {
   duration = 3,
   fadeDuration = 0.65,
   holdDuration = 0,
+  fadeBlur = 0,
   label = "Secuencia de dibujos técnicos",
 } = Astro.props;
 ---
@@ -22,6 +24,7 @@ const {
   data-duration={duration}
   data-fade-duration={fadeDuration}
   data-hold-duration={holdDuration}
+  data-fade-blur={fadeBlur}
   role="img"
   aria-label={label}
 >
@@ -31,7 +34,7 @@ const {
 <style>
   .technical-drawing-sequence {
     width: 100%;
-    height: clamp(340px, 38vw, 500px);
+    height: var(--drawing-height, clamp(340px, 38vw, 500px));
     overflow: hidden;
   }
 
@@ -53,8 +56,8 @@ const {
 
   @media (max-width: 600px) {
     .technical-drawing-sequence {
-      height: min(112vw, 430px);
-      min-height: 300px;
+      height: var(--drawing-height, min(112vw, 430px));
+      min-height: var(--drawing-height, 300px);
     }
   }
 </style>
@@ -68,7 +71,38 @@ const {
     bottom: number;
   };
 
+  const svgCache = new Map<string, Promise<SVGSVGElement>>();
+  const geometryCache = new Map<string, { index: number; length: number; bottom: number }[]>();
+  type SequenceState = {
+    visible: boolean;
+    disposed: boolean;
+    tween?: gsap.core.Tween;
+    waiters: Set<() => void>;
+  };
+  const states = new Map<HTMLDivElement, SequenceState>();
+  const canAnimate = (state: SequenceState) => state.visible && !document.hidden && !state.disposed;
+  const waitUntilVisible = (state: SequenceState) => canAnimate(state) || state.disposed
+    ? Promise.resolve()
+    : new Promise<void>(resolve => state.waiters.add(resolve));
+  const syncState = (state: SequenceState) => {
+    state.tween?.paused(!canAnimate(state));
+    if (canAnimate(state) || state.disposed) {
+      state.waiters.forEach(resolve => resolve());
+      state.waiters.clear();
+    }
+  };
+
   async function loadSvg(source: string): Promise<SVGSVGElement> {
+    let cached = svgCache.get(source);
+    if (!cached) {
+      cached = fetchSvg(source);
+      svgCache.set(source, cached);
+      void cached.catch(() => svgCache.delete(source));
+    }
+    return (await cached).cloneNode(true) as SVGSVGElement;
+  }
+
+  async function fetchSvg(source: string): Promise<SVGSVGElement> {
     const response = await fetch(source);
     if (!response.ok) throw new Error(`No se pudo cargar ${source}`);
     const markup = await response.text();
@@ -79,7 +113,7 @@ const {
     return window.document.importNode(parsed.documentElement, true) as unknown as SVGSVGElement;
   }
 
-  async function animateSequence(host: HTMLDivElement) {
+  async function animateSequence(host: HTMLDivElement, state: SequenceState) {
     if (host.dataset.running === "true") return;
     host.dataset.running = "true";
 
@@ -88,6 +122,7 @@ const {
     const duration = Number(host.dataset.duration) || 3;
     const fadeDuration = Number(host.dataset.fadeDuration) || 0.65;
     const holdDuration = Number(host.dataset.holdDuration) || 0;
+    const fadeBlur = Number(host.dataset.fadeBlur) || 0;
     const hero = host.closest<HTMLElement>(".technical-hero");
     const background = hero?.querySelector<HTMLElement>(".hero-background");
     const backgroundSources = JSON.parse(background?.dataset.images ?? "[]") as string[];
@@ -125,9 +160,10 @@ const {
       return promise;
     }
 
-    while (host.isConnected) {
+    while (host.isConnected && !state.disposed) {
       for (const [index, source] of sources.entries()) {
-        if (!host.isConnected) return;
+        await waitUntilVisible(state);
+        if (!host.isConnected || state.disposed) return;
 
         try {
           const backgroundSource = backgroundSources[index % backgroundSources.length];
@@ -140,6 +176,8 @@ const {
               ? preloadBackground(backgroundSource).then(() => true, () => false)
               : Promise.resolve(false),
           ]);
+          await waitUntilVisible(state);
+          if (!host.isConnected || state.disposed) return;
 
           if (backgroundSource && backgroundLoaded && backgroundSource !== activeBackgroundSource && backgroundLayers.length > 1) {
             const nextLayerIndex = activeBackgroundLayer === 0 ? 1 : 0;
@@ -151,24 +189,46 @@ const {
             activeBackgroundSource = backgroundSource;
           }
 
+          // Geometry must be attached for getBBox(), but don't flash all lines
+          // while its preparation is spread across short, responsive batches.
+          svg.style.opacity = '0';
           stage.replaceChildren(svg);
           const strokes = Array.from(svg.querySelectorAll<SVGGeometryElement>(".draw-stroke"));
-          const measured: Stroke[] = strokes.flatMap((element) => {
-            try {
-              const length = element.getTotalLength();
-              const box = element.getBBox();
-              return length > 0 ? [{ element, length, bottom: box.y + box.height }] : [];
-            } catch {
-              return [];
+          let geometry = geometryCache.get(source);
+          if (!geometry) {
+            geometry = [];
+            let sliceStart = performance.now();
+            for (const [index, element] of strokes.entries()) {
+              try {
+                const length = element.getTotalLength();
+                const box = element.getBBox();
+                if (length > 0) geometry.push({ index, length, bottom: box.y + box.height });
+              } catch { /* Ignore non-measurable geometry. */ }
+              if (performance.now() - sliceStart > 6) {
+                await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+                await waitUntilVisible(state);
+                if (state.disposed) return;
+                sliceStart = performance.now();
+              }
             }
-          }).sort((a, b) => b.bottom - a.bottom);
+            geometry.sort((a, b) => b.bottom - a.bottom);
+            geometryCache.set(source, geometry);
+          }
+          const measured: Stroke[] = geometry.map(({ index, length, bottom }) => ({ element: strokes[index], length, bottom }));
 
+          let sliceStart = performance.now();
           for (const { element, length } of measured) {
             element.style.strokeDasharray = `${length} ${length}`;
             element.style.strokeDashoffset = `${length}`;
+            if (performance.now() - sliceStart > 6) {
+              await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+              await waitUntilVisible(state);
+              if (state.disposed) return;
+              sliceStart = performance.now();
+            }
           }
 
-          gsap.set(svg, { opacity: 1 });
+          gsap.set(svg, { opacity: 1, filter: 'blur(0px)' });
 
           const lineDuration = Math.min(0.16, duration / 8);
           const stagger = measured.length > 1
@@ -180,25 +240,37 @@ const {
               resolve();
               return;
             }
-            gsap.to(measured.map(({ element }) => element), {
+            state.tween = gsap.to(measured.map(({ element }) => element), {
               strokeDashoffset: 0,
               duration: lineDuration,
               ease: "none",
               stagger,
-              onComplete: resolve,
+              paused: !canAnimate(state),
+              onComplete: () => { state.tween = undefined; resolve(); },
+              onInterrupt: resolve,
             });
           });
 
+          if (state.disposed) return;
           if (holdDuration > 0) {
-            await new Promise<void>((resolve) => window.setTimeout(resolve, holdDuration * 1000));
+            await new Promise<void>((resolve) => {
+              state.tween = gsap.delayedCall(holdDuration, () => { state.tween = undefined; resolve(); });
+              state.tween.eventCallback('onInterrupt', resolve);
+              syncState(state);
+            });
           }
+          await waitUntilVisible(state);
+          if (state.disposed) return;
 
           await new Promise<void>((resolve) => {
-            gsap.to(svg, {
+            state.tween = gsap.to(svg, {
               opacity: 0,
+              filter: `blur(${fadeBlur}px)`,
               duration: fadeDuration,
               ease: "power1.inOut",
-              onComplete: resolve,
+              paused: !canAnimate(state),
+              onComplete: () => { state.tween = undefined; resolve(); },
+              onInterrupt: resolve,
             });
           });
         } catch (error) {
@@ -208,7 +280,38 @@ const {
     }
   }
 
-  document.querySelectorAll<HTMLDivElement>(".technical-drawing-sequence").forEach((host) => {
-    void animateSequence(host);
+  const visibilityObserver = new IntersectionObserver(changes => {
+    for (const entry of changes) {
+      const host = entry.target as HTMLDivElement;
+      const state = states.get(host);
+      if (!state) continue;
+      state.visible = entry.isIntersecting && entry.intersectionRatio >= .05;
+      syncState(state);
+      if (canAnimate(state)) void animateSequence(host, state);
+    }
+  }, { threshold: [0, .05] });
+  document.querySelectorAll<HTMLDivElement>('.technical-drawing-sequence').forEach(host => {
+    states.set(host, { visible: false, disposed: false, waiters: new Set() });
+    visibilityObserver.observe(host);
   });
+  const syncVisibility = () => {
+    states.forEach((state, host) => {
+      syncState(state);
+      if (canAnimate(state)) void animateSequence(host, state);
+    });
+  };
+  document.addEventListener('visibilitychange', syncVisibility);
+  const cleanup = () => {
+    visibilityObserver.disconnect();
+    document.removeEventListener('visibilitychange', syncVisibility);
+    states.forEach((state, host) => {
+      state.disposed = true;
+      state.tween?.kill();
+      syncState(state);
+      delete host.dataset.running;
+    });
+    states.clear();
+  };
+  document.addEventListener('astro:before-swap', cleanup, { once: true });
+  import.meta.hot?.dispose(cleanup);
 </script>

@@ -1,97 +1,48 @@
-<section class="brand-statement" id="nosotros" data-header-theme="light" aria-labelledby="brand-statement-title">
-  <div class="brand-statement__inner">
-    <div class="brand-statement__copy" data-scroll-reveal data-reveal-style="sweep">
-      <h2 id="brand-statement-title">No diseñamos en el vacío.</h2>
-      <p>Leemos el contexto, hacemos las preguntas correctas y conectamos cada decisión con la realidad del proyecto.</p>
+---
+import TechnicalDrawingSequence from './TechnicalDrawingSequence.astro';
+
+const technicalDrawings = [
+  '/drawings/torre-macura-1.svg',
+  '/drawings/torre-macura-2.svg',
+  '/drawings/torre-macura-3.svg',
+  '/drawings/casa-59-campo-madero.svg',
+  '/drawings/casa-59-campo-madero-2.svg',
+  '/drawings/casa-el-carmelo.svg',
+  '/drawings/casa-el-carmelo-2.svg',
+  '/drawings/casa-el-carmelo-3.svg',
+  '/drawings/casa-el-carmelo-4.svg',
+  '/drawings/edificio-calle-39.svg',
+  '/drawings/edificio-calle-39-2.svg',
+  '/drawings/edificio-calle-39-3.svg',
+];
+---
+
+<section class="brand-statement" id="nosotros" data-header-theme="dark" aria-labelledby="brand-statement-title">
+  <div class="brand-statement__inner" data-scroll-reveal>
+    <div class="brand-statement__copy">
+    <h2 id="brand-statement-title">No diseñamos<br />en el vacío.</h2>
+    <p>Leemos el contexto, hacemos las preguntas correctas y conectamos cada decisión con la realidad del proyecto.</p>
     </div>
-    <div class="brand-statement__brand" aria-hidden="true" data-scroll-reveal data-reveal-style="pop">
-      <img src="/assets/logos/021026 INGENIUM - LOGO_2026-01.webp" alt="" loading="lazy" decoding="async" />
+    <div class="brand-statement__drawing">
+      <TechnicalDrawingSequence
+        sources={technicalDrawings}
+        duration={1.1}
+        holdDuration={2.55}
+        fadeDuration={0.35}
+        fadeBlur={4}
+        label="Planos arquitectónicos blancos que se dibujan y difuminan en ciclos de cuatro segundos"
+      />
     </div>
   </div>
 </section>
-
 <style>
-  .brand-statement {
-    margin-bottom: clamp(24px, 3vw, 40px);
-    padding: clamp(36px, 4vw, 52px) clamp(24px, 7vw, 112px);
-    color: var(--brand-navy);
-    background: #fff;
-    border-bottom: 1px solid rgba(19, 36, 67, 0.08);
-  }
-
-  .brand-statement__inner {
-    display: grid;
-    width: min(100%, 1450px);
-    grid-template-columns: minmax(0, 1fr) clamp(120px, 16vw, 190px);
-    align-items: center;
-    gap: clamp(24px, 5vw, 76px);
-    margin-inline: auto;
-  }
-
-  .brand-statement__copy {
-    max-width: 940px;
-  }
-
-  .brand-statement__copy h2 {
-    margin: 0 0 14px;
-    color: var(--brand-navy);
-    font: 700 clamp(32px, 4.2vw, 56px) / 1.04 var(--font-heading);
-    letter-spacing: -0.05em;
-  }
-
-  .brand-statement__copy p {
-    max-width: 68ch;
-    margin: 0;
-    color: var(--ink-secondary);
-    font: 700 clamp(16px, 1.6vw, 21px) / 1.45 var(--font-body);
-  }
-
-  .brand-statement__brand {
-    display: grid;
-    min-height: 150px;
-    place-items: center;
-    overflow: hidden;
-  }
-
-  .brand-statement__brand img {
-    display: block;
-    width: clamp(170px, 20vw, 250px);
-    max-width: none;
-    height: auto;
-    object-fit: contain;
-    mix-blend-mode: multiply;
-    transform: rotate(-90deg);
-  }
-
-  @media (max-width: 700px) {
-    .brand-statement {
-      margin-bottom: 24px;
-      padding: 30px 22px;
-    }
-
-    .brand-statement__inner {
-      min-height: 0;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-
-    .brand-statement__copy h2 {
-      margin-bottom: 10px;
-      font-size: clamp(27px, 7vw, 34px);
-    }
-
-    .brand-statement__copy p {
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .brand-statement__brand {
-      min-height: 68px;
-      justify-content: start;
-    }
-
-    .brand-statement__brand img {
-      width: 132px;
-    }
-  }
+  .brand-statement { position: relative; overflow: hidden; padding: 64px 6vw; background: #080808; color: #fff; scroll-margin-top: 110px; }
+  .brand-statement__inner { position: relative; max-width: 1450px; margin: auto; }
+  .brand-statement__copy { position: relative; z-index: 1; width: 58%; }
+  .brand-statement__copy, .brand-statement__drawing { min-width: 0; }
+  .brand-statement__drawing { position: absolute; top: 50%; right: 0; width: 40%; transform: translateY(-50%); pointer-events: none; --drawing-height: clamp(260px, 29vw, 400px); }
+  .brand-statement__drawing :global(.draw-stroke) { stroke: #fff; }
+  h2 { margin: 0; color: #fff; font: 700 clamp(44px,6.2vw,88px)/1.04 var(--font-heading); letter-spacing: -.05em; }
+  p { max-width: 52ch; margin: 24px 0 0; color: #d2d2d2; font: 400 var(--text-body)/1.65 var(--font-body); }
+  @media(max-width:767px) { .brand-statement { padding: 40px 20px; } .brand-statement__copy { width: 100%; } .brand-statement__drawing { top: 0; right: -20px; width: 36%; opacity: .16; transform: none; --drawing-height: 140px; mask-image: linear-gradient(to bottom, #000 45%, transparent); } h2 { font-size: clamp(40px,10vw,64px); } }
 </style>

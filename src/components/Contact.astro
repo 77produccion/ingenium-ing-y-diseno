@@ -1,8 +1,8 @@
 ---
+import Icon from './Icon.astro';
 ---
 <section class="contact-panel" id="contacto" data-header-theme="light" aria-labelledby="contact-title">
   <div class="contact-side" data-scroll-reveal>
-    <div class="section-id mono">[ 05 — CONTACTO ]</div>
     <img
       class="contact-brand-img"
       src="/assets/logos/021026 INGENIUM - LOGO_2026-01.webp"
@@ -13,13 +13,13 @@
   </div>
 
   <div class="contact-intro" data-scroll-reveal>
-    <p class="mono eyebrow">¿EN QUÉ ETAPA ESTÁS?</p>
+    <p class="eyebrow">¿En qué etapa estás?</p>
     <h2 id="contact-title">Empecemos por entender el reto.</h2>
     <p class="contact-intro__copy">
       Cuéntanos sobre tu idea y conversemos sobre el acompañamiento que necesita.
     </p>
     <a class="contact-whatsapp" href="https://api.whatsapp.com/send?phone=573244934941" target="_blank" rel="noreferrer">
-      ¿Prefieres WhatsApp? <span>+57 324 493 4941 ↗</span>
+      <span>¿Prefieres WhatsApp?</span><Icon name="arrowUpRight" />
     </a>
   </div>
 
@@ -50,7 +50,7 @@
     </div>
     <div class="contact-form__actions">
       <p>Usaremos tus datos únicamente para responder a tu consulta sobre el proyecto.</p>
-      <button class="contact-submit" type="submit">Enviar información <span aria-hidden="true">↗</span></button>
+      <button class="contact-submit" type="submit">Enviar información <Icon name="arrowUpRight" /></button>
     </div>
   </form>
 </section>

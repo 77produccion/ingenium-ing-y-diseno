@@ -36,3 +36,17 @@ coverage/
 
 # jetbrains setting folder
 .idea/
+
+# Camera originals and unused renders stay local; do not deploy or version them.
+/public/videos/
+/public/assets/services/
+/public/assets/hero-videos/*
+!/public/assets/hero-videos/film-desktop.mp4
+!/public/assets/hero-videos/film-desktop-hevc.mp4
+!/public/assets/hero-videos/film-mobile-v2.mp4
+!/public/assets/hero-videos/preview-consultoria-hd.mp4
+!/public/assets/hero-videos/preview-construccion-hd.mp4
+!/public/assets/hero-videos/film-desktop-poster.webp
+!/public/assets/hero-videos/film-mobile-v2-poster.webp
+!/public/assets/hero-videos/preview-consultoria-hd-poster.webp
+!/public/assets/hero-videos/preview-construccion-hd-poster.webp

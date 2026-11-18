@@ -9,10 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "optimize:assets": "node scripts/optimize-media.mjs",
+    "prepare:hero-videos": "node scripts/prepare-hero-videos.mjs",
+    "verify:hero-videos": "node scripts/verify-hero-videos.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@tabler/icons": "^3.51.0",
     "astro": "^7.3.5",
     "gsap": "^3.15.0"
   },

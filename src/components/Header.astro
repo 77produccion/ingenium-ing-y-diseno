@@ -1,94 +1,181 @@
 ---
-const homePrefix = Astro.url.pathname === "/" ? "" : "/";
-const aboutHref = Astro.url.pathname === "/" ? "#nosotros" : "/nosotros";
+import Icon from './Icon.astro';
+const homePrefix = Astro.url.pathname === '/' ? '' : '/';
 ---
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand-link" href={`${homePrefix}#inicio`} aria-label="INGENIUM — Inicio">
-      <img
-        src="/assets/logos/021026 INGENIUM - LOGO_2026-03.webp"
-        alt=""
-        aria-hidden="true"
-        class="brand-logo-img brand-logo-img--light"
-      />
-      <img
-        src="/assets/logos/021026 INGENIUM - LOGO_2026-04.webp"
-        alt=""
-        aria-hidden="true"
-        class="brand-logo-img brand-logo-img--dark"
-      />
+{!homePrefix && <span class="header-scroll-marker" data-header-scroll-marker aria-hidden="true"></span>}
+<header class:list={['site-header', { 'site-header--home': !homePrefix }]}>
+  <div class="site-header__inner">
+    <a class="home-link" href="/" aria-label="INGENIUM, inicio">
+      <img src="/assets/logos/ingenium-header-white.webp" alt="INGENIUM Ingeniería y Diseño" width="144" height="36" />
     </a>
-
-    <button class="menu-toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="site-navigation">
-      <span></span><span></span>
-    </button>
-
+    <button class="header-menu-toggle" aria-expanded="false" aria-controls="site-navigation">Menú <Icon name="chevronDown" /></button>
     <nav id="site-navigation" aria-label="Navegación principal">
-      <a href={`${homePrefix}#servicios`}>Servicios</a>
+      <div class="service-menu">
+        <button class="service-trigger" aria-expanded="false" aria-controls="service-submenu">Servicios <Icon name="chevronDown" /></button>
+        <div class="service-menu__panel" id="service-submenu" inert>
+          <a href="/consultoria">Consultoría</a>
+          <a href="/construccion">Construcción</a>
+          <a href={`${homePrefix}#servicios`}>Todos los servicios</a>
+        </div>
+      </div>
       <a href={`${homePrefix}#clientes`}>Clientes</a>
       <a href={`${homePrefix}#proyectos`}>Proyectos</a>
-      <a href={aboutHref}>Nosotros</a>
-      <a href={`${homePrefix}#equipo`}>Equipo</a>
+      <div class="service-menu">
+        <button class="service-trigger" aria-expanded="false" aria-controls="about-submenu">Nosotros <Icon name="chevronDown" /></button>
+        <div class="service-menu__panel" id="about-submenu" inert>
+          <a href="/nosotros">Conoce INGENIUM</a>
+          <a href={`${homePrefix}#equipo`}>Nuestro equipo</a>
+        </div>
+      </div>
       <a href={`${homePrefix}#contacto`}>Contacto</a>
-      <a href={`${homePrefix}#contacto`} class="nav-cta">¡Hablemos!</a>
+      <button class="talk-trigger" data-contact-open>Hablemos <Icon name="arrowRight" /></button>
     </nav>
   </div>
 </header>
-
-<div class="header-intro" aria-hidden="true">
-  <span class="header-intro__capsule">
-    <img src="/assets/logos/021026 INGENIUM - LOGO_2026-03.webp" alt="" />
-  </span>
-</div>
-
+<dialog class="contact-dialog" aria-labelledby="contact-dialog-title">
+  <button class="dialog-close" aria-label="Cerrar" data-contact-close><Icon name="x" /></button>
+  <h2 id="contact-dialog-title">¿Cómo quieres<br />comunicarte?</h2>
+  <div class="contact-options">
+    <a href={`${homePrefix}#contacto`} data-contact-email><Icon name="mail" /><span>Rellenar formulario</span><Icon name="arrowRight" /></a>
+    <a href="https://api.whatsapp.com/send?phone=573244934941" target="_blank" rel="noreferrer" data-contact-whatsapp><Icon name="whatsapp" /><span>WhatsApp</span><Icon name="arrowRight" /></a>
+  </div>
+</dialog>
 <script>
-  const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
-  const navigation = document.querySelector<HTMLElement>("#site-navigation");
-  const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
-
-  navigation?.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
-    const linkUrl = new URL(link.href, window.location.href);
-    const linkPath = linkUrl.pathname.replace(/\/$/, "") || "/";
-    if (linkPath === currentPath && !linkUrl.hash) link.setAttribute("aria-current", "page");
-  });
-
-  function setMenuOpen(isOpen: boolean) {
-    navigation?.classList.toggle("open", isOpen);
-    menuButton?.setAttribute("aria-expanded", String(isOpen));
-    menuButton?.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
-  }
-
-  menuButton?.addEventListener("click", () => {
-    setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || menuButton?.getAttribute("aria-expanded") !== "true") return;
-    setMenuOpen(false);
-    menuButton?.focus();
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!(event.target instanceof Element) || event.target.closest(".topbar")) return;
-    setMenuOpen(false);
-  });
-
-  navigation?.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      setMenuOpen(false);
+  const header = document.querySelector<HTMLElement>('.site-header')!;
+  const scrollMarker = document.querySelector('[data-header-scroll-marker]');
+  if (scrollMarker) {
+    const scrollObserver = new IntersectionObserver(([entry]) => {
+      header.classList.toggle('is-scrolled', !entry.isIntersecting);
     });
-  });
-</script>
-
-<script is:inline>
-  const root = document.documentElement;
-  if (root.dataset.headerIntro === 'true') {
-    const intro = document.querySelector('.header-intro');
-    window.setTimeout(() => root.classList.add('header-expanded'), 850);
-    window.setTimeout(() => {
-      root.classList.add('header-ready');
-      intro?.setAttribute('hidden', '');
-      root.removeAttribute('data-header-intro');
-    }, 1700);
+    scrollObserver.observe(scrollMarker);
+    document.addEventListener('astro:before-swap', () => scrollObserver.disconnect(), { once: true });
+    import.meta.hot?.dispose(() => scrollObserver.disconnect());
   }
+  const nav = document.querySelector<HTMLElement>('#site-navigation')!;
+  const toggle = document.querySelector<HTMLButtonElement>('.header-menu-toggle')!;
+  const menus = Array.from(nav.querySelectorAll<HTMLElement>('.service-menu')).map(menu => ({
+    menu, trigger: menu.querySelector<HTMLButtonElement>('.service-trigger')!, panel: menu.querySelector<HTMLElement>('.service-menu__panel')!, timer: undefined as ReturnType<typeof setTimeout> | undefined,
+  }));
+  const dialog = document.querySelector<HTMLDialogElement>('.contact-dialog')!;
+  let closing = false;
+  const setSubmenu = (item: typeof menus[number], open: boolean) => { clearTimeout(item.timer); item.trigger.setAttribute('aria-expanded', String(open)); item.panel.inert = !open; };
+  const setMenu = (open: boolean) => { toggle.setAttribute('aria-expanded', String(open)); nav.classList.toggle('open', open); if (!open) menus.forEach(item => setSubmenu(item, false)); };
+  toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+  const desktopHover = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
+  menus.forEach(item => {
+    const open = () => { menus.forEach(other => setSubmenu(other, other === item)); };
+    item.trigger.addEventListener('click', () => { if (item.panel.inert) open(); else setSubmenu(item, false); });
+    item.menu.addEventListener('pointerenter', () => { if (desktopHover.matches) open(); });
+    item.menu.addEventListener('pointerleave', () => { if (desktopHover.matches) item.timer = setTimeout(() => setSubmenu(item, false), 180); });
+    item.menu.addEventListener('focusout', event => { if (!item.menu.contains(event.relatedTarget as Node | null)) setSubmenu(item, false); });
+  });
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('click', event => { if (event.target instanceof Element && !event.target.closest('.site-header')) setMenu(false); });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || dialog.open) return;
+    const active = menus.find(item => !item.panel.inert);
+    if (active) { setSubmenu(active, false); active.trigger.focus(); }
+    else { setMenu(false); toggle.focus(); }
+  });
+  const closeDialog = async () => {
+    if (closing || !dialog.open) return;
+    closing = true;
+    dialog.classList.add('is-closing');
+    await new Promise(resolve => setTimeout(resolve, 240));
+    dialog.close(); dialog.classList.remove('is-closing'); document.documentElement.style.overflow = ''; closing = false;
+  };
+  document.addEventListener('click', event => {
+    if (!(event.target instanceof Element)) return;
+    const trigger = event.target.closest<HTMLElement>('[data-contact-open], a[href]');
+    if (!trigger || trigger.hasAttribute('data-contact-email')) return;
+    const isContactLink = trigger instanceof HTMLAnchorElement && new URL(trigger.href, location.href).hash === '#contacto';
+    if (!trigger.hasAttribute('data-contact-open') && !isContactLink) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    document.dispatchEvent(new CustomEvent('ingenium:before-contact'));
+    setMenu(false);
+    if (!dialog.open) dialog.showModal();
+    document.documentElement.style.overflow = 'hidden';
+  }, true);
+  dialog.querySelector('[data-contact-close]')?.addEventListener('click', closeDialog);
+  dialog.addEventListener('cancel', event => { event.preventDefault(); void closeDialog(); });
+  dialog.addEventListener('click', event => { const box = dialog.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) void closeDialog(); });
+  dialog.querySelector('[data-contact-email]')?.addEventListener('click', async event => {
+    if (!document.querySelector('#contacto')) { void closeDialog(); return; }
+    event.preventDefault(); await closeDialog();
+    document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector<HTMLInputElement>('#contact-name')?.focus({ preventScroll: true });
+    history.replaceState(null, '', '#contacto');
+  });
+  dialog.querySelector('[data-contact-whatsapp]')?.addEventListener('click', closeDialog);
 </script>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 100; height: 104px; margin-bottom: -104px; padding: 20px 24px; background: transparent; }
+  .header-scroll-marker { position: absolute; top: 0; left: 0; width: 1px; height: 40px; pointer-events: none; }
+  /* Web approximation of Liquid Glass: translucent material and refractive edges. */
+  .site-header__inner, .service-menu__panel, nav {
+    --glass-fill: rgba(13, 23, 39, .56);
+  }
+  .site-header__inner { position: relative; isolation: isolate; height: 64px; max-width: 1120px; margin: auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border: 0; border-radius: 999px; background: transparent; color: #fff; }
+  .site-header__inner::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; background: #162238; box-shadow: 0 12px 32px #08111e1f; opacity: 1; transform: scale(1); transition: opacity .65s ease, transform .65s cubic-bezier(.16,1,.3,1); }
+  .site-header--home:not(.is-scrolled) .site-header__inner::before { opacity: 0; transform: scale(.985); }
+  .home-link { flex: 0 0 144px; }
+  .home-link img { display: block; width: 144px; height: 36px; object-fit: contain; }
+  nav { display: flex; gap: clamp(14px,1.6vw,24px); align-items: center; color: #fff; font-family: var(--font-heading); }
+  button { border: 0; background: transparent; color: inherit; cursor: pointer; padding: 0; font: inherit; }
+  nav > a, nav button, .home-link { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: var(--text-label); white-space: nowrap; }
+  nav > a::after, nav button::after { content: ''; position: absolute; left: 0; bottom: 5px; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+  nav > a:hover::after, nav button:hover::after, nav > a:focus-visible::after, nav button:focus-visible::after { transform: scaleX(1); }
+  .site-header a:focus-visible, .site-header button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 8px; }
+  .service-menu { position: relative; }
+  .service-trigger :global(.icon) { width: 16px; height: 16px; transition: transform .3s; }
+  .service-trigger[aria-expanded="true"] :global(.icon) { transform: rotate(180deg); }
+  .service-menu__panel { position: absolute; top: calc(100% + 20px); left: -20px; width: 240px; background: #162238; border: 0; border-radius: 20px; box-shadow: 0 16px 36px #08111e26; padding: 12px 20px; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .25s, transform .3s, visibility .3s; }
+  .service-trigger[aria-expanded="true"] + .service-menu__panel { opacity: 1; visibility: visible; transform: translateY(0); }
+  .service-menu__panel a { display: block; padding: 12px 0; font-size: var(--text-label); transition: color .25s, transform .25s; }
+  .service-menu__panel a:hover { color: var(--accent-on-dark); transform: translateX(4px); }
+  .talk-trigger :global(.icon) { transition: transform .3s; }
+  .talk-trigger:hover :global(.icon) { transform: translateX(4px); }
+  nav .talk-trigger { min-height: 40px; padding: 0 16px; border: 1px solid #ffffff30; border-radius: 999px; background: var(--brand-navy); color: #fff; box-shadow: inset 0 1px 0 #ffffff30, 0 3px 8px #1a2b5114; transition: background .3s, transform .3s; }
+  nav .talk-trigger:hover { background: var(--accent-text); }
+  nav .talk-trigger:active, .header-menu-toggle:active { transform: scale(.97); }
+  nav .talk-trigger::after { display: none; }
+  .header-menu-toggle { display: none; }
+  .contact-dialog { width: min(560px,calc(100% - 40px)); padding: 56px 40px 40px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); max-height: calc(100dvh - 40px); overflow: auto; }
+  .contact-dialog[open] { animation: dialog-in .35s ease both; }
+  .contact-dialog::backdrop { background: #080b13a6; backdrop-filter: blur(5px); animation: backdrop-in .35s ease both; }
+  .contact-dialog.is-closing { animation: dialog-out .24s ease both; }
+  .contact-dialog.is-closing::backdrop { animation: backdrop-out .24s ease both; }
+  .dialog-close { position: absolute; right: 16px; top: 12px; width: 44px; height: 44px; display: grid; place-items: center; }
+  h2 { margin: 0 0 32px; font-size: clamp(32px,4vw,48px); line-height: 1.05; letter-spacing: -.05em; }
+  .contact-options { display: grid; gap: 12px; }
+  .contact-options a { display: flex; align-items: center; gap: 16px; padding: 20px; border: 1px solid var(--line-strong); transition: background .25s, transform .25s; }
+  .contact-options a span { flex: 1; font-size: 19px; }
+  .contact-options a:hover { background: var(--bg-subtle); transform: translateX(3px); }
+  @keyframes dialog-in { from { opacity: 0; transform: translateY(20px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes dialog-out { to { opacity: 0; transform: translateY(12px) scale(.98); } }
+  @keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes backdrop-out { to { opacity: 0; } }
+  @media(max-width: 1023px) {
+    .site-header { height: 88px; margin-bottom: -88px; padding: 14px 16px; }
+    .site-header__inner { height: 60px; padding-inline: 20px; }
+    .header-menu-toggle { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; min-height: 44px; padding-inline: 12px; border: 0; border-radius: 999px; background: transparent; color: #fff; transition: transform .3s; }
+    .header-menu-toggle :global(.icon) { transition: transform .3s; }
+    .header-menu-toggle[aria-expanded="true"] :global(.icon) { transform: rotate(180deg); }
+    nav { position: absolute; top: calc(100% + 12px); left: 0; right: 0; padding: 16px 24px 24px; flex-direction: column; gap: 8px; align-items: stretch; background: #162238; border: 0; border-radius: 24px; box-shadow: 0 16px 36px #08111e26; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .25s,transform .25s,visibility .25s; max-height: calc(100dvh - 108px); overflow: auto; }
+    nav.open { opacity: 1; visibility: visible; transform: none; }
+    nav > a, nav button { width: 100%; justify-content: space-between; font-size: 17px; }
+    .service-menu__panel { position: static; width: 100%; max-height: 0; overflow: hidden; padding-block: 0; border: 0; border-left: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; transition: max-height .3s ease, opacity .25s, transform .3s, visibility .3s; }
+    .service-trigger[aria-expanded="true"] + .service-menu__panel { max-height: 220px; }
+    .contact-dialog { padding: 56px 24px 24px; }
+  }
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header__inner::before, .service-menu__panel { background: var(--glass-fill); -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+    @media(max-width: 1023px) {
+      nav { background: var(--glass-fill); -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%); }
+      .service-menu__panel { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    }
+  }
+  @media(prefers-reduced-transparency: reduce) {
+    .site-header__inner::before, .service-menu__panel, nav { --glass-fill: #162238; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+</style>

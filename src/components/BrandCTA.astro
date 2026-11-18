@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 const projectImages = [
   {
     src: '/assets/hero/viviendas-campestre-2/SaveClip.App_656680485_18177460969387297_7419713545172435694_n.webp',
@@ -44,8 +45,8 @@ const projectImages = [
 
     <div class="brand-cta__closing" data-scroll-reveal>
       <p>¿Tienes un proyecto en mente?</p>
-      <a href="#contacto" data-smooth-scroll>
-        Hablemos de tu proyecto <span aria-hidden="true">↗</span>
+      <a href="#contacto">
+        Hablemos de tu proyecto <Icon name="arrowUpRight" />
       </a>
     </div>
   </div>
@@ -71,19 +72,21 @@ const projectImages = [
 
   .brand-cta__heading > p {
     margin: 0 0 16px;
-    color: var(--brand-orange);
-    font: 400 10px / 1.4 var(--font-mono);
-    letter-spacing: 0.16em;
+    color: var(--accent-on-dark);
+    font: 400 var(--text-small) / 1.5 var(--font-body);
+    letter-spacing: 0.08em;
     text-align: center;
   }
 
   .brand-cta__heading h2 {
     margin: 0;
     color: var(--bg);
-    font: 700 clamp(12px, 3.5vw, 42px) / 1.1 var(--font-heading);
+    max-width: 28ch;
+    margin-inline: auto;
+    font: 700 clamp(2rem, 3.5vw, 3rem) / 1.15 var(--font-heading);
     letter-spacing: -0.055em;
     text-align: center;
-    white-space: nowrap;
+    text-wrap: balance;
   }
 
   .brand-cta__gallery {
@@ -145,14 +148,15 @@ const projectImages = [
     padding: 0 17px;
     border: 1px solid rgba(246, 243, 236, 0.56);
     color: var(--bg);
-    font: 700 12px / 1 var(--font-heading);
+    font: 700 var(--text-label) / 1.3 var(--font-heading);
+    white-space: nowrap;
     transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
   }
 
   .brand-cta__closing a:hover {
     border-color: var(--brand-orange);
     background: var(--brand-orange);
-    color: white;
+    color: var(--brand-navy);
   }
 
   .brand-cta__closing a span {
@@ -162,7 +166,7 @@ const projectImages = [
   }
 
   .brand-cta__closing a:hover span {
-    color: white;
+    color: var(--brand-navy);
   }
 
   .brand-cta__mark {
@@ -183,7 +187,7 @@ const projectImages = [
     }
 
     .brand-cta__heading h2 {
-      font-size: clamp(12px, 3.5vw, 24px);
+      font-size: clamp(1.875rem, 7vw, 2.5rem);
     }
 
     .brand-cta__gallery {
@@ -198,7 +202,7 @@ const projectImages = [
     .brand-cta__image {
       width: 100%;
       height: auto;
-      aspect-ratio: 1;
+      aspect-ratio: 5 / 4;
       min-width: 0;
     }
 

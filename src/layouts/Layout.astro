@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ScrollReveals from '../components/ScrollReveals.astro';
 
 interface Props {
   title?: string;
@@ -26,11 +27,9 @@ const {
     <link rel="manifest" href="/favicon_io/site.webmanifest" />
     <title>{title}</title>
 
-    <script is:inline>
-      document.documentElement.dataset.headerIntro = 'true';
-    </script>
   </head>
   <body>
     <slot />
+    <ScrollReveals />
   </body>
 </html>

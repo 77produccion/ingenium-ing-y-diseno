@@ -18,7 +18,13 @@ const projectImage = "/assets/section-vacío/casa-guacana-la-tebaida-quindio.web
     <p class="proposal-value__eyebrow">CÓMO APORTAMOS</p>
     <h2 id="proposal-title">Propuesta de valor</h2>
     <p class="proposal-value__body">
-      Integramos el diseño estructural y la ejecución de obra bajo una misma dirección técnica, lo que nos permite acompañar a nuestros clientes con una visión integral del proyecto. No nos limitamos al cálculo estructural: revisamos también decisiones de arquitectura, materiales y costos que impactan directamente el presupuesto final, identificando oportunidades de optimización desde el primer momento. Esta capacidad de anticipar y viabilizar el negocio del cliente, antes de que la inversión esté comprometida, es lo que nos distingue de firmas que solo diseñan o solo construyen.
+      Integramos el diseño estructural y la ejecución de obra bajo una misma dirección técnica, lo que nos permite acompañar a nuestros clientes con una visión integral del proyecto.
+    </p>
+    <p class="proposal-value__body">
+      No nos limitamos al cálculo estructural: revisamos también decisiones de arquitectura, materiales y costos que impactan directamente el presupuesto final, identificando oportunidades de optimización desde el primer momento.
+    </p>
+    <p class="proposal-value__body">
+      Esta capacidad de anticipar y viabilizar el negocio del cliente, antes de que la inversión esté comprometida, es lo que nos distingue de firmas que solo diseñan o solo construyen.
     </p>
   </div>
 </section>
@@ -26,7 +32,6 @@ const projectImage = "/assets/section-vacío/casa-guacana-la-tebaida-quindio.web
 <style>
   .proposal-value {
     display: grid;
-    min-height: min(760px, 88svh);
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     background: var(--bg-subtle);
   }
@@ -36,7 +41,7 @@ const projectImage = "/assets/section-vacío/casa-guacana-la-tebaida-quindio.web
     grid-column: 2;
     grid-row: 1;
     min-width: 0;
-    min-height: 560px;
+    min-height: 400px;
     margin: 0;
     overflow: hidden;
     background: var(--panel);
@@ -78,13 +83,13 @@ const projectImage = "/assets/section-vacío/casa-guacana-la-tebaida-quindio.web
     max-width: 760px;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(72px, 9vw, 128px) clamp(30px, 5vw, 84px);
+    padding: 64px clamp(30px, 5vw, 84px);
   }
 
   .proposal-value__eyebrow {
     margin: 0 0 18px;
     color: var(--muted);
-    font: 700 11px / 1.4 var(--font-heading);
+    font: 700 var(--text-small) / 1.5 var(--font-heading);
     letter-spacing: 0.16em;
   }
 
@@ -100,8 +105,10 @@ const projectImage = "/assets/section-vacío/casa-guacana-la-tebaida-quindio.web
     max-width: 62ch;
     margin: 0;
     color: var(--ink-secondary);
-    font: 400 clamp(16px, 1.25vw, 18px) / 1.72 Arial, Helvetica, sans-serif;
+    font: 400 var(--text-body) / 1.65 var(--font-body);
   }
+
+  .proposal-value__body + .proposal-value__body { margin-top: 16px; }
 
   @media (max-width: 760px) {
     .proposal-value {

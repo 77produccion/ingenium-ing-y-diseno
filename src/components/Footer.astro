@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 const homePrefix = Astro.url.pathname === '/' ? '' : '/';
 ---
 
@@ -29,7 +30,7 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
         <svg class="footer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10.2c0 5-7 11-7 11s-7-6-7-11a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2.2" /></svg>
         <span>Cl 13 N #11-13<br />Oficina 703<br />Armenia, Quindío</span>
       </address>
-      <a class="footer-map-link" href="https://maps.google.com/?q=Cl+13+N+11-13+Oficina+703+Armenia+Quindio" target="_blank" rel="noreferrer">Ver ubicación <span aria-hidden="true">↗</span></a>
+      <a class="footer-map-link" href="https://maps.google.com/?q=Cl+13+N+11-13+Oficina+703+Armenia+Quindio" target="_blank" rel="noreferrer">Ver ubicación <Icon name="arrowUpRight" /></a>
     </div>
 
     <div class="footer-contact">
@@ -61,8 +62,8 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
   <div class="footer-bottom">
     <span>© {new Date().getFullYear()} INGENIUM Ingeniería & Diseño SAS</span>
     <div>
-      <a href={`${homePrefix}#inicio`}>Volver arriba <span aria-hidden="true">↑</span></a>
-      <a href={`${homePrefix}#contacto`}>Conversemos sobre tu proyecto <span aria-hidden="true">↗</span></a>
+      <a href={`${homePrefix}#inicio`}>Volver arriba <Icon name="arrowUp" /></a>
+      <a href={`${homePrefix}#contacto`}>Conversemos sobre tu proyecto <Icon name="arrowUpRight" /></a>
     </div>
   </div>
 </footer>
