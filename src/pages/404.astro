@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
+---
+
+<Layout title="Página no encontrada — INGENIUM" description="No encontramos esta página. Vuelve al inicio o explora los proyectos de INGENIUM." noindex>
+  <Header />
+  <main id="inicio" class="not-found" aria-labelledby="not-found-title">
+    <div class="not-found__backdrop" aria-hidden="true">
+      <ResponsiveImage src="/assets/proyectos/casa-kaam/20250109_160420.webp" alt="" widths={[480,960]} sizes="100vw" priority />
+      <div class="not-found__veil"></div>
+      <span class="not-found__outline">404</span>
+    </div>
+    <section class="not-found__shell">
+      <div class="not-found__copy">
+        <h1 id="not-found-title">Esta ruta no está<br />en nuestros planos.</h1>
+        <p class="not-found__description">No encontramos la página que buscas. Vuelve al inicio y conoce cómo llevamos cada proyecto del diseño a la construcción.</p>
+        <div class="not-found__actions">
+          <a class="not-found__home" href="/">Volver al inicio <Icon name="arrowRight" /></a>
+          <a class="not-found__projects" href="/#proyectos">Ver proyectos <Icon name="arrowUpRight" /></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .not-found { position: relative; isolation: isolate; overflow: hidden; background: #171e23; color: var(--bg); }
+  .not-found__backdrop { position: absolute; inset: 0; z-index: -1; pointer-events: none; user-select: none; }
+  .not-found__backdrop :global(img) { position: absolute; inset: -36px; width: calc(100% + 72px); height: calc(100% + 72px); object-fit: cover; object-position: center 55%; filter: blur(10px) saturate(.6); opacity: .42; }
+  .not-found__veil { position: absolute; inset: 0; background: linear-gradient(180deg, #171e2366, #171e2380 55%, #171e23e6); }
+  .not-found__outline { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -43%); font: 700 clamp(280px, 42vw, 640px)/1 var(--font-heading); letter-spacing: -.065em; white-space: nowrap; color: transparent; -webkit-text-stroke: 2px var(--bg); opacity: .24; }
+  .not-found__shell { width: min(100% - 48px, 1040px); margin-inline: auto; padding-block: 164px 104px; text-align: center; }
+  .not-found__copy { animation: not-found-enter .8s ease both; }
+  h1 { margin: 0; color: inherit; font: 700 clamp(42px, 5.2vw, 76px)/1.08 var(--font-heading); letter-spacing: -.05em; text-wrap: balance; }
+  .not-found__description { max-width: 54ch; margin: 28px auto 0; font-size: var(--text-body); line-height: 1.7; color: #ccd2d6; text-wrap: pretty; }
+  .not-found__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; margin-top: 36px; font: 700 var(--text-label)/1.4 var(--font-heading); }
+  .not-found__actions a { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; white-space: nowrap; transition: transform .3s ease; }
+  .not-found__home { padding: 12px 20px; border-radius: 999px; background: var(--bg); color: var(--brand-navy); }
+  .not-found__projects { color: var(--bg); }
+  .not-found__actions :global(.icon) { width: 20px; height: 20px; transition: transform .3s ease; }
+  .not-found__actions a:hover :global(.icon) { transform: translateX(4px); }
+  .not-found__actions a:active { transform: scale(.97); }
+  .not-found__actions a:focus-visible { outline: 2px solid var(--accent-on-dark); outline-offset: 6px; border-radius: 999px; }
+  @keyframes not-found-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media(max-width: 767px) {
+    .not-found__backdrop :global(img) { filter: blur(8px) saturate(.6); }
+    .not-found__outline { font-size: 65vw; top: 47%; opacity: .22; }
+    .not-found__shell { width: calc(100% - 40px); padding-block: 132px 64px; }
+    h1 { font-size: clamp(30px, 7.2vw, 52px); line-height: 1.13; }
+    .not-found__description { max-width: 34ch; margin-top: 24px; font-size: 16px; }
+    .not-found__actions { margin-top: 28px; font-size: 14px; gap: 12px 24px; }
+  }
+</style>

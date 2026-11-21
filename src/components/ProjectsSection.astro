@@ -11,7 +11,18 @@ const getProjectGallery = (folder: string) => {
     .map((file) => `/assets/proyectos/${encodeURIComponent(folder)}/${encodeURIComponent(file.name)}`);
 };
 
-const residentialProjects = [
+interface Project {
+  title: string;
+  folder: string;
+  subtitle: string;
+  system: string;
+  scope: string;
+  status: string;
+  cover: string;
+  gallery: string[];
+}
+
+const residentialProjects: Project[] = [
   {
     title: 'Casa Tesoro 27 Campestre',
     folder: 'tesoro-27',
@@ -84,7 +95,7 @@ const residentialProjects = [
   },
 ];
 
-const technicalProjects = [
+const technicalProjects: Project[] = [
   {
     title: 'Locales Comerciales Granada',
     folder: 'jorge-castaño',

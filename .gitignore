@@ -39,14 +39,39 @@ coverage/
 
 # Camera originals and unused renders stay local; do not deploy or version them.
 /public/videos/
-/public/assets/services/
+/public/ingenium/
+/public/assets/services/*
+!/public/assets/services/consultoria-stock.mp4
+!/public/assets/services/consultoria-stock-compact.mp4
+!/public/assets/services/construccion-varied.mp4
+!/public/assets/services/construccion-varied-compact.mp4
+!/public/assets/services/construccion-varied-poster.webp
 /public/assets/hero-videos/*
 !/public/assets/hero-videos/film-desktop.mp4
 !/public/assets/hero-videos/film-desktop-hevc.mp4
 !/public/assets/hero-videos/film-mobile-v2.mp4
-!/public/assets/hero-videos/preview-consultoria-hd.mp4
 !/public/assets/hero-videos/preview-construccion-hd.mp4
 !/public/assets/hero-videos/film-desktop-poster.webp
 !/public/assets/hero-videos/film-mobile-v2-poster.webp
-!/public/assets/hero-videos/preview-consultoria-hd-poster.webp
 !/public/assets/hero-videos/preview-construccion-hd-poster.webp
+!/public/assets/hero-videos/consultoria-stock-hero.mp4
+!/public/assets/hero-videos/consultoria-stock-hero-mobile.mp4
+!/public/assets/hero-videos/consultoria-stock-hero-mobile-poster.webp
+!/public/assets/hero-videos/consultoria-stock-hero-poster.webp
+
+# Only the portraits and supporting images currently rendered by the site.
+/public/assets/team/portraits-2026/*
+!/public/assets/team/portraits-2026/team-background.webp
+!/public/assets/team/portraits-2026/waist/
+/public/assets/team/portraits-2026/waist/*
+!/public/assets/team/portraits-2026/waist/camilo.webp
+!/public/assets/team/portraits-2026/waist/camilo2.webp
+!/public/assets/team/portraits-2026/waist/jefry.webp
+!/public/assets/team/portraits-2026/waist/jefry2.webp
+!/public/assets/team/portraits-2026/waist/juan.webp
+!/public/assets/team/portraits-2026/waist/julian.webp
+!/public/assets/team/portraits-2026/waist/julian2.webp
+!/public/assets/team/portraits-2026/waist/julio1.webp
+!/public/assets/team/portraits-2026/waist/julio2.webp
+!/public/assets/team/portraits-2026/waist/leo.webp
+/public/assets/consultoria/working-oficina.webp

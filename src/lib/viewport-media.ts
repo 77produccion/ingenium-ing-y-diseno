@@ -3,6 +3,7 @@ interface ViewportMediaOptions {
   video: HTMLVideoElement;
   minRatio: number;
   priority: number;
+  enabled?: boolean;
   onActiveChange: (active: boolean) => void;
 }
 
@@ -18,7 +19,7 @@ let observer: IntersectionObserver | undefined;
 
 function reconcile() {
   const eligible = document.hidden ? [] : [...entries.values()]
-    .filter(entry => entry.ratio >= entry.minRatio)
+    .filter(entry => entry.enabled !== false && entry.ratio >= entry.minRatio)
     .sort((a, b) => b.priority - a.priority || b.ratio - a.ratio);
   const winner = eligible[0];
   // Pause outgoing decoders before allowing the incoming player to start.
@@ -50,6 +51,7 @@ export function registerViewportMedia(options: ViewportMediaOptions) {
   observer.observe(options.element);
   return {
     setPriority(priority: number) { entry.priority = priority; reconcile(); },
+    setEnabled(enabled: boolean) { entry.enabled = enabled; reconcile(); },
     dispose() {
       observer?.unobserve(entry.element);
       entries.delete(entry.element);

@@ -1,6 +1,9 @@
 ---
 import Icon from './Icon.astro';
 const homePrefix = Astro.url.pathname === '/' ? '' : '/';
+// Verified in Google Maps against the business name, office address and phone 324 4934941.
+// Searching the street alone incorrectly resolves Calle 13 instead of Calle 13 Norte.
+const mapUrl = 'https://www.google.com/maps/search/Ingenium+I%26D+Armenia+Quindio/';
 ---
 
 <footer class="footer" data-header-theme="dark">
@@ -28,9 +31,8 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
       <h2>Ubicación</h2>
       <address>
         <svg class="footer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10.2c0 5-7 11-7 11s-7-6-7-11a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2.2" /></svg>
-        <span>Cl 13 N #11-13<br />Oficina 703<br />Armenia, Quindío</span>
+        <a class="footer-address-link" href={mapUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir en Google Maps: Cl 13 N #11-13 Oficina 703, Armenia, Quindío">Cl 13 N #11-13<br />Oficina 703<br />Armenia, Quindío</a>
       </address>
-      <a class="footer-map-link" href="https://maps.google.com/?q=Cl+13+N+11-13+Oficina+703+Armenia+Quindio" target="_blank" rel="noreferrer">Ver ubicación <Icon name="arrowUpRight" /></a>
     </div>
 
     <div class="footer-contact">

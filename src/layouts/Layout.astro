@@ -1,15 +1,18 @@
 ---
 import '../styles/global.css';
 import ScrollReveals from '../components/ScrollReveals.astro';
+import FloatingSocials from '../components/FloatingSocials.astro';
 
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   title = "INGENIUM — Ingeniería y Diseño",
-  description = "Ingeniería especializada para planear y ejecutar proyectos con claridad y rigor técnico."
+  description = "Ingeniería especializada para planear y ejecutar proyectos con claridad y rigor técnico.",
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -20,6 +23,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f6f3ec" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
     <link rel="shortcut icon" href="/favicon_io/favicon.ico" />
@@ -30,6 +34,7 @@ const {
   </head>
   <body>
     <slot />
+    <FloatingSocials />
     <ScrollReveals />
   </body>
 </html>

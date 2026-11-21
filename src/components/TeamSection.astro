@@ -1,27 +1,35 @@
 ---
 import ResponsiveImage from './ResponsiveImage.astro';
+interface Props { blendFrom?: string }
+const { blendFrom } = Astro.props;
 const quindio = { degree: 'Ingeniero Civil', university: 'Universidad del Quindío', logo: 'uniquindio-logo.webp' };
 const structures = { degree: 'Especialista en Estructuras', university: 'Universidad Nacional de Colombia', logo: 'unal-logo.webp' };
+const portraits = '/assets/team/portraits-2026/waist';
 const members = [
-  { id: 'julian', name: 'Julián Alfonso Ruge', role: 'Gerente General', photo: 'Julian.webp', education: [quindio, structures] },
-  { id: 'leonardo', name: 'Leonardo González', role: 'Gerente Administrativo', photo: 'Leonardo.webp', education: [quindio, structures] },
-  { id: 'sebastian', name: 'Juan Sebastián Giraldo', role: 'Líder Técnico', photo: 'sebastian.webp', education: [quindio, structures] },
-  { id: 'julio', name: 'Julio Alberto Toro', role: 'Ingeniero Junior', photo: 'julio.webp', education: [quindio, { degree: 'Candidato a Especialista', university: 'Universidad del Valle', logo: 'univalle-logo.webp' }] },
-  { id: 'duvan', name: 'Anderson Duvan Mesa', role: 'Ingeniero Junior', photo: 'duvan.webp', education: [quindio] },
-  { id: 'daniel', name: 'Jefry Daniel Monsalve', role: 'Ingeniero Junior', photo: 'daniel.webp', education: [quindio] },
-  { id: 'tatiana', name: 'Tatiana Rendón', role: 'Auxiliar Administrativa', photo: 'tatiana.webp', education: [{ degree: 'Administradora de Empresas', university: 'Universidad EAM', logo: 'logo-eam.webp' }] },
-  { id: 'camilo', name: 'Camilo Londoño', role: 'Modelador BIM', photo: 'camilo.webp', education: [] },
+  { id: 'julian', name: 'Julián Alfonso Ruge', role: 'Gerente General', photo: `${portraits}/julian.webp`, alternate: `${portraits}/julian2.webp`, education: [quindio, structures] },
+  { id: 'leonardo', name: 'Leonardo González', role: 'Gerente Administrativo', photo: `${portraits}/leo.webp`, education: [quindio, structures] },
+  { id: 'sebastian', name: 'Juan Sebastián Giraldo', role: 'Líder Técnico', photo: `${portraits}/juan.webp`, education: [quindio, structures] },
+  { id: 'julio', name: 'Julio Alberto Toro', role: 'Ingeniero Junior', photo: `${portraits}/julio1.webp`, alternate: `${portraits}/julio2.webp`, education: [quindio, { degree: 'Candidato a Especialista', university: 'Universidad del Valle', logo: 'univalle-logo.webp' }] },
+  { id: 'duvan', name: 'Anderson Duvan Mesa', role: 'Ingeniero Junior', photo: '/assets/team/duvan.webp', education: [quindio] },
+  { id: 'daniel', name: 'Jefry Daniel Monsalve', role: 'Ingeniero Junior', photo: `${portraits}/jefry.webp`, alternate: `${portraits}/jefry2.webp`, education: [quindio] },
+  { id: 'tatiana', name: 'Tatiana Rendón', role: 'Auxiliar Administrativa', photo: '/assets/team/tatiana.webp', education: [{ degree: 'Administradora de Empresas', university: 'Universidad EAM', logo: 'logo-eam.webp' }] },
+  { id: 'camilo', name: 'Camilo Londoño', role: 'Modelador BIM', photo: `${portraits}/camilo.webp`, alternate: `${portraits}/camilo2.webp`, education: [] },
 ];
 ---
-<section class="team-section section-shell" id="equipo" aria-label="Nuestro equipo" data-team>
+<section class:list={['team-section', { 'team-section--blend': blendFrom }]} style={blendFrom ? { '--team-blend-from': blendFrom } : undefined} id="equipo" aria-label="Nuestro equipo" data-team>
   <div class="team-stage">
+    <ResponsiveImage class="team-background" src="/assets/team/portraits-2026/team-background.webp" alt="" widths={[640,1080,1600]} sizes="100vw" />
+    <div class="team-stage-shade" aria-hidden="true"></div>
+    {blendFrom && <div class="team-stage-blend" aria-hidden="true"></div>}
     <div class="team-empty" data-team-empty>
       <h2>Nuestro equipo.</h2>
       <p>Experiencia técnica y compromiso para llevar tu proyecto del diseño a la construcción.</p>
     </div>
     {members.map(member => <article class="team-profile" id={`profile-${member.id}`} hidden>
       <span class="team-outline" aria-hidden="true">{member.name}</span>
-      <ResponsiveImage class="team-photo" src={`/assets/team/${member.photo}`} alt={`Retrato de ${member.name}`} widths={[360,720]} sizes="(max-width: 767px) 80vw, 480px" />
+      <div class="team-photo-anchor"><div class="team-portrait">
+        <ResponsiveImage class="team-photo" src={member.alternate ?? member.photo} alt={`Retrato de ${member.name}`} widths={[360,720]} sizes="(max-width: 767px) 80vw, 480px" />
+      </div></div>
       <div class="team-identity">
         <h3>{member.name}</h3><p>{member.role}</p>
       </div>
@@ -37,72 +45,124 @@ const members = [
   </div>
   <div class="team-picker" role="group" aria-label="Seleccionar integrante del equipo">
     {members.map(member => <button type="button" data-team-select={member.id} aria-controls={`profile-${member.id}`} aria-pressed="false" aria-label={`Ver a ${member.name}, ${member.role}`}>
-      <ResponsiveImage src={`/assets/team/${member.photo}`} alt="" widths={[180,360]} sizes="(max-width: 767px) 76px, 108px" />
+      <ResponsiveImage src={member.photo} alt="" widths={[180,360]} sizes="(max-width: 767px) 64px, 80px" />
     </button>)}
   </div>
 </section>
 <style>
-  .team-section { padding-block: 32px; }
-  .team-stage { position: relative; height: 430px; isolation: isolate; }
-  .team-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center; }
-  .team-empty h2 { margin: 0; font: 700 clamp(34px,6vw,80px)/1.08 var(--font-heading); letter-spacing: -.05em; text-wrap: balance; }
-  .team-empty > p { max-width: 56ch; margin: 0; color: var(--ink-secondary); font: 400 var(--text-body)/1.6 var(--font-body); }
+  .team-section { position: relative; width: 100%; margin: 0; padding: 0; }
+  .team-stage { position: relative; width: 100%; height: clamp(560px,43vw,680px); isolation: isolate; contain: layout paint; overflow: hidden; background: var(--brand-navy); }
+  .team-stage :global(.team-background) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .team-stage-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(0deg,rgba(8,20,30,.76),transparent 42%),linear-gradient(90deg,rgba(8,20,30,.16),transparent 65%); }
+  .team-stage-blend { position: absolute; z-index: -1; inset: 0 0 auto; height: clamp(120px,12vw,180px); background: linear-gradient(to bottom,var(--team-blend-from) 0%,color-mix(in srgb,var(--team-blend-from) 94%,transparent) 18%,color-mix(in srgb,var(--team-blend-from) 65%,transparent) 44%,color-mix(in srgb,var(--team-blend-from) 24%,transparent) 73%,transparent 100%); pointer-events: none; }
+  .team-section--blend .team-empty { background: transparent; }
+  .team-section--blend .team-stage:has(.team-empty:not([hidden])) .team-stage-shade::after { position: absolute; inset: 0; background: rgba(8,20,30,.36); content: ''; }
+  .team-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px 24px 106px; text-align: center; background: rgba(8,20,30,.36); }
+  .team-empty h2 { margin: 0; color: #fff; font: 700 clamp(34px,6vw,80px)/1.08 var(--font-heading); letter-spacing: -.05em; text-wrap: balance; }
+  .team-empty > p { max-width: 56ch; margin: 0; color: #fff; font: 400 var(--text-body)/1.6 var(--font-body); }
   .team-profile { position: absolute; inset: 0; }
-  .team-profile.is-entering { animation: profile-in .5s ease both; }
-  .team-profile.is-leaving, .team-empty.is-leaving { animation: profile-out .2s ease both; }
-  .team-outline { position: absolute; z-index: -1; top: 15px; left: 0; right: 0; text-align: center; color: transparent; -webkit-text-stroke: 1px var(--brand-navy); opacity: .13; font: 700 clamp(40px,6.5vw,100px)/1 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
-  .team-stage :global(.team-photo) { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 420px; width: min(100%,500px); object-fit: contain; object-position: center bottom; }
-  .team-identity { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; z-index: 1; }
+  .team-outline { position: absolute; top: 22px; left: 16px; right: 16px; text-align: center; color: transparent; -webkit-text-stroke: 1px #fff; opacity: .22; font: 700 clamp(40px,6.5vw,100px)/1 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
+  .team-photo-anchor { position: absolute; top: 24px; bottom: 96px; left: 50%; transform: translateX(-50%); width: min(calc(100% - 32px),560px); }
+  .team-portrait { width: 100%; height: 100%; }
+  .team-stage :global(.team-photo) { display: block; height: 100%; width: 100%; object-fit: contain; object-position: center bottom; }
+  .team-identity { position: absolute; bottom: 108px; left: 16px; right: 16px; text-align: center; z-index: 1; }
   h3 { margin: 0; color: #fff; font-size: clamp(28px,3.5vw,48px); line-height: 1.06; letter-spacing: -.05em; text-shadow: 0 2px 5px #10151bc4, 0 1px 16px #10151b80; }
   .team-identity > p { display: inline-block; max-width: 100%; margin: 8px 0 0; padding: 7px 20px; background: var(--brand-orange); color: #fff; font: 700 var(--text-label)/1.4 var(--font-body); }
-  .team-credentials { position: absolute; right: max(0px, calc((100% - 864px) / 2)); bottom: 12px; z-index: 2; display: flex; gap: 8px; }
+  .team-credentials { position: absolute; right: clamp(20px,7vw,112px); bottom: 108px; z-index: 2; display: flex; gap: 8px; }
   .credential { position: relative; }
   .credential button { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; padding: 5px; border: 1px solid var(--line); background: #fff; cursor: pointer; overflow: hidden; }
   .credential :global(img) { display: block; width: 28px; height: 28px; max-width: 100%; max-height: 100%; min-width: 0; min-height: 0; object-fit: contain; }
   .credential-tooltip { position: absolute; z-index: 2; bottom: calc(100% + 10px); right: 0; width: 220px; transform: translateY(5px); background: #111; color: #fff; padding: 12px; font-size: var(--text-small); line-height: 1.5; opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s; pointer-events: none; }
   .credential-tooltip small { display: block; color: #d3d3d3; margin-top: 4px; font-size: var(--text-small); }
   .credential:hover .credential-tooltip, .credential:focus-within .credential-tooltip, .credential button[aria-expanded="true"] + .credential-tooltip { opacity: 1; visibility: visible; transform: translateY(0); }
-  .team-picker { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); width: min(100%,864px); margin: 0 auto; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .team-picker { position: absolute; z-index: 3; bottom: 16px; left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); width: min(calc(100% - 40px),640px); margin: 0; gap: 1px; background: var(--line); border: 1px solid var(--line); contain: layout paint; isolation: isolate; }
   .team-picker button { min-width: 0; position: relative; padding: 4px 0 0; border: 0; background: var(--bg-subtle); cursor: pointer; overflow: hidden; color: var(--brand-navy); transition: background .3s; }
-  .team-picker :global(img) { display: block; width: 100%; height: 92px; object-fit: contain; object-position: center bottom; transform-origin: center bottom; filter: grayscale(.8); transition: filter .35s,transform .4s; }
-  .team-picker button:hover :global(img), .team-picker button[aria-pressed="true"] :global(img) { filter: grayscale(0); transform: scale(1.035); }
+  .team-picker :global(img) { display: block; width: 100%; height: 68px; object-fit: contain; object-position: center bottom; filter: grayscale(.8); transition: filter .35s; }
+  .team-picker button:hover :global(img), .team-picker button[aria-pressed="true"] :global(img) { filter: grayscale(0); }
   .team-picker button[aria-pressed="true"] { background: var(--panel); box-shadow: inset 0 -3px var(--brand-orange); }
-  @keyframes profile-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-  @keyframes profile-out { to { opacity: 0; transform: translateY(5px); } }
-  @media(max-width:767px) { .team-section { padding-block: 24px; } .team-stage { height: 370px; } .team-stage :global(.team-photo) { height: 360px; } .team-outline { font-size: clamp(32px,9vw,56px); } h3 { font-size: clamp(26px,7vw,38px); } .team-identity { bottom: 64px; } .team-identity > p { padding: 6px 14px; font-size: var(--text-label); } .team-picker { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; } .team-picker button { flex: 0 0 76px; scroll-snap-align: start; } .team-picker :global(img) { height: 76px; } .credential-tooltip { width: 190px; } }
+  .team-picker button:focus-visible, .credential button:focus-visible { outline: 3px solid var(--brand-orange); outline-offset: -3px; }
+  @media(max-width:767px) { .team-stage { height: 520px; } .team-photo-anchor { top: 28px; } .team-outline { font-size: clamp(32px,9vw,56px); } h3 { font-size: clamp(26px,7vw,38px); } .team-identity { bottom: 108px; } .team-identity > p { padding: 6px 14px; font-size: var(--text-label); } .team-credentials { top: 16px; right: 16px; bottom: auto; } .team-picker { width: calc(100% - 24px); display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; } .team-picker button { flex: 0 0 64px; scroll-snap-align: start; } .team-picker :global(img) { height: 64px; } .credential-tooltip { top: calc(100% + 10px); bottom: auto; width: 190px; } }
 </style>
 <script>
-  document.querySelectorAll<HTMLElement>('[data-team]').forEach(team => {
+  import { gsap } from 'gsap';
+
+  let cleanups: (() => void)[] = [];
+  function mountTeams() {
+    cleanups.forEach(cleanup => cleanup());
+    cleanups = [];
+    document.querySelectorAll<HTMLElement>('[data-team]').forEach(team => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const empty = team.querySelector<HTMLElement>('[data-team-empty]')!;
     const buttons = Array.from(team.querySelectorAll<HTMLButtonElement>('[data-team-select]'));
     let current: HTMLElement = empty;
     let selected = '';
-    let changing = false;
     let requested = '';
     let pinned = false;
-    const select = async (id: string) => {
+    let transition: gsap.core.Timeline | undefined;
+    const profiles = Array.from(team.querySelectorAll<HTMLElement>('.team-profile, .team-empty'));
+    const photos = Array.from(team.querySelectorAll<HTMLImageElement>('.team-photo'));
+    const warmPortraits = () => photos.forEach(photo => {
+      photo.loading = 'eager';
+      void photo.decode().catch(() => {});
+    });
+    // Decode once near the viewport, not on every hover. The picker never waits for GSAP.
+    const warmObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { warmPortraits(); warmObserver.disconnect(); }
+    }, { rootMargin: '600px 0px' });
+    warmObserver.observe(team);
+    team.addEventListener('pointerenter', warmPortraits, { once: true, signal });
+    const directionFor = (id: string) => {
+      const index = buttons.findIndex(button => button.dataset.teamSelect === id);
+      return index < 0 ? 0 : (index / (buttons.length - 1)) * 2 - 1;
+    };
+    const closeCredentials = () => team.querySelectorAll('.credential button').forEach(button => button.setAttribute('aria-expanded', 'false'));
+    const select = (id: string) => {
+      if (requested === id) return;
       requested = id;
-      if (changing || selected === id) return;
-      changing = true;
-      current.classList.add('is-leaving');
-      await new Promise(resolve => setTimeout(resolve, 200));
-      const nextId = requested;
-      const next = nextId ? team.querySelector<HTMLElement>(`#profile-${nextId}`)! : empty;
-      current.hidden = true; current.classList.remove('is-leaving', 'is-entering');
-      team.querySelectorAll('.credential button').forEach(button => button.setAttribute('aria-expanded', 'false'));
-      next.hidden = false; next.classList.add('is-entering'); current = next; selected = nextId;
-      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.teamSelect === selected)));
-      changing = false;
-      if (requested !== selected) void select(requested);
+      const next = id ? team.querySelector<HTMLElement>(`#profile-${id}`)! : empty;
+      const button = buttons.find(button => button.dataset.teamSelect === id);
+      // Update the compact selector immediately, independently of portrait loading or fading.
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      transition?.kill();
+      closeCredentials();
+      const outgoing = current;
+      const direction = Math.sign(directionFor(id) - directionFor(selected)) || Math.sign(directionFor(id)) || 1;
+      selected = id;
+        // Keep at most two profiles composited; never queue transitions while scrubbing.
+        profiles.forEach(profile => {
+          if (profile !== outgoing && profile !== next) profile.hidden = true;
+        });
+        next.hidden = false;
+        current = next;
+        if (outgoing === next) return;
+        outgoing.style.pointerEvents = 'none';
+        next.style.pointerEvents = '';
+        transition = gsap.timeline({ onComplete: () => {
+          outgoing.hidden = true;
+          gsap.set([outgoing, next], { clearProps: 'opacity,pointerEvents' });
+        } });
+        transition.to(outgoing, { opacity: 0, duration: .2, ease: 'power1.out' }, 0);
+        const outgoingPortrait = outgoing.querySelector('.team-portrait');
+        if (outgoingPortrait) transition.to(outgoingPortrait, {
+          x: -direction * 24, duration: .28, ease: 'power2.out',
+        }, 0);
+        transition.fromTo(next, { opacity: 0 }, { opacity: 1, duration: .32, ease: 'power2.out' }, 0);
+        const portrait = next.querySelector('.team-portrait');
+        if (portrait) transition.fromTo(portrait, {
+          x: direction * 32,
+        }, {
+          x: 0, duration: .4, ease: 'power2.out', clearProps: 'transform',
+        }, 0);
     };
     buttons.forEach((button, index) => {
-      button.addEventListener('click', () => { pinned = true; void select(button.dataset.teamSelect!); });
+      button.addEventListener('click', () => { pinned = true; void select(button.dataset.teamSelect!); }, { signal });
       button.addEventListener('pointerenter', event => {
         if (event.pointerType === 'mouse') { pinned = false; void select(button.dataset.teamSelect!); }
-      });
+      }, { signal });
       button.addEventListener('focus', () => {
         if (button.matches(':focus-visible')) void select(button.dataset.teamSelect!);
-      });
+      }, { signal });
       button.addEventListener('keydown', event => {
         let next = index;
         if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
@@ -111,21 +171,31 @@ const members = [
         else if (event.key === 'End') next = buttons.length - 1;
         else return;
         event.preventDefault(); buttons[next].focus();
-      });
+      }, { signal });
     });
     const reset = () => { pinned = false; void select(''); };
-    team.querySelector('.team-picker')?.addEventListener('pointerleave', () => { if (!pinned) reset(); });
-    team.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') reset(); });
+    // Moving from the picker into the portrait must not dismiss its badges.
+    team.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse' && !pinned) reset(); }, { signal });
     team.querySelectorAll<HTMLButtonElement>('.credential button').forEach(button => button.addEventListener('click', () => {
       const open = button.getAttribute('aria-expanded') !== 'true';
       team.querySelectorAll('.credential button').forEach(other => other.setAttribute('aria-expanded', 'false'));
       button.setAttribute('aria-expanded', String(open));
-    }));
+    }, { signal }));
     document.addEventListener('click', event => {
       if (!(event.target instanceof Element)) return;
       if (!team.contains(event.target)) reset();
       if (!event.target.closest('.credential')) team.querySelectorAll('.credential button').forEach(button => button.setAttribute('aria-expanded', 'false'));
+    }, { signal });
+    team.addEventListener('keydown', event => { if (event.key === 'Escape') { reset(); (document.activeElement as HTMLElement)?.blur(); } }, { signal });
+    cleanups.push(() => {
+      controller.abort(); warmObserver.disconnect(); transition?.kill();
+      gsap.set(profiles, { clearProps: 'opacity,pointerEvents' });
+      gsap.set(team.querySelectorAll('.team-portrait'), { clearProps: 'transform' });
     });
-    team.addEventListener('keydown', event => { if (event.key === 'Escape') { reset(); (document.activeElement as HTMLElement)?.blur(); } });
-  });
+    });
+  }
+  mountTeams();
+  document.addEventListener('astro:page-load', mountTeams);
+  document.addEventListener('astro:before-swap', () => cleanups.forEach(cleanup => cleanup()));
+  import.meta.hot?.dispose(() => cleanups.forEach(cleanup => cleanup()));
 </script>

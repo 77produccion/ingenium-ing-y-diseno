@@ -45,7 +45,7 @@
 
   document.querySelectorAll<HTMLElement>('main h1, main h2, main h3, main p').forEach(element => {
     // Interactive names, fixed card titles, counters and modal text have their own transitions.
-    if (element.closest('.architecture-hero, .team-section, .service-panel, .metric, .project-modal, [hidden]')) return;
+    if (element.closest('.architecture-hero, .not-found, .team-section, .service-panel, .metric, .project-modal, [hidden]')) return;
     textTargets.add(element);
     observer.observe(element);
   });

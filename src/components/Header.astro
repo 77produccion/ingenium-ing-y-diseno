@@ -2,13 +2,13 @@
 import Icon from './Icon.astro';
 const homePrefix = Astro.url.pathname === '/' ? '' : '/';
 ---
-{!homePrefix && <span class="header-scroll-marker" data-header-scroll-marker aria-hidden="true"></span>}
-<header class:list={['site-header', { 'site-header--home': !homePrefix }]}>
+<span class="header-scroll-marker" data-header-scroll-marker aria-hidden="true"></span>
+<header class="site-header">
   <div class="site-header__inner">
     <a class="home-link" href="/" aria-label="INGENIUM, inicio">
       <img src="/assets/logos/ingenium-header-white.webp" alt="INGENIUM Ingeniería y Diseño" width="144" height="36" />
     </a>
-    <button class="header-menu-toggle" aria-expanded="false" aria-controls="site-navigation">Menú <Icon name="chevronDown" /></button>
+    <button class="header-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-navigation"><Icon name="menu" /></button>
     <nav id="site-navigation" aria-label="Navegación principal">
       <div class="service-menu">
         <button class="service-trigger" aria-expanded="false" aria-controls="service-submenu">Servicios <Icon name="chevronDown" /></button>
@@ -18,7 +18,6 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
           <a href={`${homePrefix}#servicios`}>Todos los servicios</a>
         </div>
       </div>
-      <a href={`${homePrefix}#clientes`}>Clientes</a>
       <a href={`${homePrefix}#proyectos`}>Proyectos</a>
       <div class="service-menu">
         <button class="service-trigger" aria-expanded="false" aria-controls="about-submenu">Nosotros <Icon name="chevronDown" /></button>
@@ -36,8 +35,8 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
   <button class="dialog-close" aria-label="Cerrar" data-contact-close><Icon name="x" /></button>
   <h2 id="contact-dialog-title">¿Cómo quieres<br />comunicarte?</h2>
   <div class="contact-options">
-    <a href={`${homePrefix}#contacto`} data-contact-email><Icon name="mail" /><span>Rellenar formulario</span><Icon name="arrowRight" /></a>
     <a href="https://api.whatsapp.com/send?phone=573244934941" target="_blank" rel="noreferrer" data-contact-whatsapp><Icon name="whatsapp" /><span>WhatsApp</span><Icon name="arrowRight" /></a>
+    <a href={`${homePrefix}#contacto`} data-contact-email><Icon name="mail" /><span>Rellenar formulario</span><Icon name="arrowRight" /></a>
   </div>
 </dialog>
 <script>
@@ -59,7 +58,7 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
   const dialog = document.querySelector<HTMLDialogElement>('.contact-dialog')!;
   let closing = false;
   const setSubmenu = (item: typeof menus[number], open: boolean) => { clearTimeout(item.timer); item.trigger.setAttribute('aria-expanded', String(open)); item.panel.inert = !open; };
-  const setMenu = (open: boolean) => { toggle.setAttribute('aria-expanded', String(open)); nav.classList.toggle('open', open); if (!open) menus.forEach(item => setSubmenu(item, false)); };
+   const setMenu = (open: boolean) => { toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú'); nav.classList.toggle('open', open); if (!open) menus.forEach(item => setSubmenu(item, false)); };
   toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
   const desktopHover = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
   menus.forEach(item => {
@@ -117,7 +116,7 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
   }
   .site-header__inner { position: relative; isolation: isolate; height: 64px; max-width: 1120px; margin: auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border: 0; border-radius: 999px; background: transparent; color: #fff; }
   .site-header__inner::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; background: #162238; box-shadow: 0 12px 32px #08111e1f; opacity: 1; transform: scale(1); transition: opacity .65s ease, transform .65s cubic-bezier(.16,1,.3,1); }
-  .site-header--home:not(.is-scrolled) .site-header__inner::before { opacity: 0; transform: scale(.985); }
+  .site-header:not(.is-scrolled) .site-header__inner::before { opacity: 0; transform: scale(.985); }
   .home-link { flex: 0 0 144px; }
   .home-link img { display: block; width: 144px; height: 36px; object-fit: contain; }
   nav { display: flex; gap: clamp(14px,1.6vw,24px); align-items: center; color: #fff; font-family: var(--font-heading); }
@@ -158,9 +157,8 @@ const homePrefix = Astro.url.pathname === '/' ? '' : '/';
   @media(max-width: 1023px) {
     .site-header { height: 88px; margin-bottom: -88px; padding: 14px 16px; }
     .site-header__inner { height: 60px; padding-inline: 20px; }
-    .header-menu-toggle { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; min-height: 44px; padding-inline: 12px; border: 0; border-radius: 999px; background: transparent; color: #fff; transition: transform .3s; }
-    .header-menu-toggle :global(.icon) { transition: transform .3s; }
-    .header-menu-toggle[aria-expanded="true"] :global(.icon) { transform: rotate(180deg); }
+    .header-menu-toggle { display: inline-flex; flex: 0 0 44px; align-items: center; justify-content: center; width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 999px; background: transparent; color: #fff; transition: transform .3s; }
+    .header-menu-toggle :global(.icon) { width: 26px; height: 26px; }
     nav { position: absolute; top: calc(100% + 12px); left: 0; right: 0; padding: 16px 24px 24px; flex-direction: column; gap: 8px; align-items: stretch; background: #162238; border: 0; border-radius: 24px; box-shadow: 0 16px 36px #08111e26; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .25s,transform .25s,visibility .25s; max-height: calc(100dvh - 108px); overflow: auto; }
     nav.open { opacity: 1; visibility: visible; transform: none; }
     nav > a, nav button { width: 100%; justify-content: space-between; font-size: 17px; }

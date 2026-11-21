@@ -968,18 +968,10 @@ html.header-expanded[data-header-intro="true"] .header-intro {
   vector-effect: non-scaling-stroke;
 }
 
-.footer-map-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 5px 0 0 29px;
-  color: #a3b2ab;
-  font-size: var(--text-small);
-}
-
-.footer-map-link span {
-  color: var(--brand-orange);
-  font-size: 16px;
+.footer-address-link:hover,
+.footer-address-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .footer-bottom > div {

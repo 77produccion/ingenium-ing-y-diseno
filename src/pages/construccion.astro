@@ -1,28 +1,41 @@
 ---
 import ServiceDetail from '../components/ServiceDetail.astro';
+import { constructionGalleries, constructionHero } from '../lib/construccion-media.mjs';
 ---
 
 <ServiceDetail
   title="Construcción"
   category="EJECUCIÓN DE OBRA"
   description="Llevamos cada proyecto del diseño a la obra con una dirección técnica integrada, cuidando la calidad, los plazos, los recursos y el cumplimiento normativo."
-  image="/assets/hero/campo-madero/SaveClip.App_654719056_18116274964711720_7993319572492128250_n.webp"
+  image={constructionHero.image}
+  heroVideo={constructionHero.video}
   imageAlt="Estructura de vivienda en proceso de construcción"
+  serviceColumns={4}
+  visualServices
   services={[
     {
       title: 'Ejecución de obra',
+      excerpt: 'Del diseño a la realidad, con control de calidad, plazos y recursos.',
+      images: constructionGalleries[0],
+      video: constructionHero.video,
       description: `Construimos el proyecto y llevamos el diseño a la realidad bajo una misma dirección técnica, con control de calidad, plazos y recursos en cada etapa. Nuestra experiencia en diseño nos permite anticipar y resolver detalles técnicos durante la obra para que lo construido corresponda con lo proyectado.`,
     },
     {
       title: 'Supervisión técnica',
+      excerpt: 'Seguimiento a materiales y procesos para construir conforme a los diseños.',
+      images: constructionGalleries[1],
       description: `Acompañamos la ejecución verificando que avance conforme a los diseños, las especificaciones y la normativa aplicable. Hacemos seguimiento a materiales y procesos constructivos en los momentos clave definidos por la normativa, con el propósito de respaldar la calidad de la obra y el proceso requerido para el Certificado Técnico de Ocupación de la edificación.`,
     },
     {
       title: 'Análisis de costos y viabilidad económica',
+      excerpt: 'Presupuestos y análisis para dimensionar tu inversión con realismo.',
+      images: constructionGalleries[2],
       description: `Estructuramos presupuestos y análisis de precios unitarios, y evaluamos la viabilidad económica para dimensionar la inversión con realismo. Entregamos información que respalda las decisiones antes de iniciar y durante la ejecución de la obra.`,
     },
     {
       title: 'Permisos y licenciamientos',
+      excerpt: 'Acompañamiento en los requisitos y trámites necesarios para construir.',
+      images: constructionGalleries[3],
       description: `Acompañamos y gestionamos los trámites de permisos y licencias necesarios para construir. Orientamos al cliente sobre los requisitos y la documentación que debe presentar ante las entidades competentes.`,
     },
   ]}

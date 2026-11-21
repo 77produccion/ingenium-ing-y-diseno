@@ -1,0 +1,217 @@
+---
+import Icon from './Icon.astro';
+
+const socials = [
+  { name: 'WhatsApp', icon: 'whatsapp', href: 'https://api.whatsapp.com/send?phone=573244934941' },
+  { name: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/people/Ingenium-Ingenier%C3%ADa-Dise%C3%B1o/61571403733058/' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/ingenium.inf/' },
+] as const;
+---
+
+<floating-socials class="floating-socials">
+  <div class="floating-socials__reveal">
+    <nav id="floating-social-links" class="floating-socials__card" aria-label="Redes sociales de INGENIUM" inert>
+      {socials.map(({ name, icon, href }, index) => (
+        <a
+          class={`floating-socials__link floating-socials__link--${icon}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${name} de INGENIUM (abre en una pestaña nueva)`}
+          title={name}
+          style={`--social-index: ${index}`}
+        >
+          <Icon name={icon} />
+        </a>
+      ))}
+    </nav>
+  </div>
+  <button class="floating-socials__toggle" type="button" aria-label="Abrir redes sociales" aria-expanded="false" aria-controls="floating-social-links">
+    <span class="floating-socials__whatsapp"><Icon name="whatsapp" /></span>
+    <span class="floating-socials__close"><Icon name="x" /></span>
+  </button>
+</floating-socials>
+
+<script>
+  class FloatingSocials extends HTMLElement {
+    connectedCallback() {
+      const toggle = this.querySelector<HTMLButtonElement>('button')!;
+      const panel = this.querySelector<HTMLElement>('nav')!;
+      const controller = new AbortController();
+      this.controller = controller;
+      const { signal } = controller;
+      let pinned = false;
+      let closeTimer: ReturnType<typeof setTimeout> | undefined;
+
+      const setOpen = (open: boolean) => {
+        clearTimeout(closeTimer);
+        this.dataset.open = String(open);
+        panel.inert = !open;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Cerrar redes sociales' : 'Abrir redes sociales');
+      };
+
+      this.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse') setOpen(true);
+      }, { signal });
+      this.addEventListener('pointerleave', (event) => {
+        if (event.pointerType === 'mouse' && !pinned) {
+          closeTimer = setTimeout(() => {
+            if (!this.contains(document.activeElement)) setOpen(false);
+          }, 180);
+        }
+      }, { signal });
+      toggle.addEventListener('click', () => {
+        pinned = !pinned;
+        setOpen(pinned);
+      }, { signal });
+      this.addEventListener('focusout', (event) => {
+        if (!this.contains(event.relatedTarget as Node | null)) {
+          pinned = false;
+          setOpen(false);
+        }
+      }, { signal });
+      document.addEventListener('pointerdown', (event) => {
+        if (!this.contains(event.target as Node)) {
+          pinned = false;
+          setOpen(false);
+        }
+      }, { signal });
+      this.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          pinned = false;
+          setOpen(false);
+          toggle.focus();
+        }
+        if (event.target === toggle && (event.key === 'ArrowLeft' || event.key === 'ArrowUp')) {
+          event.preventDefault();
+          pinned = true;
+          setOpen(true);
+          panel.querySelector('a')?.focus();
+        }
+      }, { signal });
+      signal.addEventListener('abort', () => clearTimeout(closeTimer), { once: true });
+    }
+
+    private controller?: AbortController;
+
+    disconnectedCallback() {
+      this.controller?.abort();
+    }
+  }
+
+  if (!customElements.get('floating-socials')) customElements.define('floating-socials', FloatingSocials);
+</script>
+
+<style>
+  .floating-socials {
+    /* Above page content, below the sticky header (100) and project overlay (300). */
+    position: fixed;
+    z-index: 90;
+    right: max(24px, env(safe-area-inset-right));
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    display: block;
+    width: 58px;
+    height: 58px;
+  }
+
+  .floating-socials__toggle {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 1px solid #ffffff38;
+    border-radius: 50%;
+    background: #25d366;
+    color: #102e23;
+    box-shadow: 0 6px 22px #102e2329;
+    cursor: pointer;
+    transition: transform .35s cubic-bezier(.16,1,.3,1), background-color .25s, color .25s;
+  }
+
+  .floating-socials__toggle:hover { transform: translateY(-3px); }
+  .floating-socials__toggle:active { transform: scale(.95); }
+  .floating-socials__whatsapp, .floating-socials__close {
+    position: absolute;
+    display: flex;
+    transition: opacity .25s, transform .4s cubic-bezier(.16,1,.3,1);
+  }
+  .floating-socials__whatsapp :global(.icon) { width: 29px; height: 29px; }
+  .floating-socials__close { opacity: 0; transform: rotate(-90deg) scale(.6); }
+  [data-open='true'] .floating-socials__whatsapp { opacity: 0; transform: rotate(90deg) scale(.6); }
+  [data-open='true'] .floating-socials__close { opacity: 1; transform: rotate(0) scale(1); }
+  [data-open='true'] .floating-socials__toggle { background: #1a2c50; color: #f5f7fc; }
+
+  .floating-socials__reveal {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    padding-right: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .floating-socials__card {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #ffffff20;
+    border-radius: 20px;
+    background: #1a2c50;
+    box-shadow: 0 8px 28px #10203926;
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: right center;
+    transform: translateX(14px) scale(.88);
+    transition: opacity .25s ease, transform .45s cubic-bezier(.16,1,.3,1), visibility .45s;
+  }
+  [data-open='true'] .floating-socials__reveal { pointer-events: auto; }
+  [data-open='true'] .floating-socials__card { opacity: 1; visibility: visible; transform: translateX(0) scale(1); }
+
+  .floating-socials__link {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #ffffff40;
+    border-radius: 50%;
+    color: #f5f7fc;
+    opacity: 0;
+    transform: translateX(8px);
+    transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .3s, border-color .25s, color .25s;
+  }
+  .floating-socials__link::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--social-fill);
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  .floating-socials__link--whatsapp { --social-fill: #25d366; }
+  .floating-socials__link--facebook { --social-fill: #0866ff; }
+  .floating-socials__link--instagram { --social-fill: linear-gradient(35deg, #ffcc70, #e1306c 48%, #833ab4); }
+  [data-open='true'] .floating-socials__link {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: calc(60ms + var(--social-index) * 45ms), calc(60ms + var(--social-index) * 45ms), 0s, 0s;
+  }
+  .floating-socials__link:is(:hover, :focus-visible)::before { opacity: 1; }
+  .floating-socials__link:is(:hover, :focus-visible) { border-color: transparent; transform: translateY(-3px); }
+  .floating-socials__link--whatsapp:is(:hover, :focus-visible) { color: #102e23; }
+  .floating-socials__link:active { transform: scale(.94); }
+  .floating-socials :is(a, button):focus-visible { outline: 2px solid #f5f7fc; outline-offset: 4px; }
+
+  @media (max-width: 767px) {
+    .floating-socials { right: max(16px, env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); width: 54px; height: 54px; }
+    .floating-socials__reveal { top: auto; right: 50%; bottom: 100%; padding-right: 0; padding-bottom: 12px; transform: translateX(50%); }
+    .floating-socials__card { flex-direction: column; padding: 10px; border-radius: 18px; transform-origin: center bottom; transform: translateY(14px) scale(.88); }
+    [data-open='true'] .floating-socials__card { transform: translateY(0) scale(1); }
+    .floating-socials__link { transform: translateY(8px); }
+  }
+</style>

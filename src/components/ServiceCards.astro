@@ -1,0 +1,247 @@
+---
+import Icon from './Icon.astro';
+import ResponsiveImage from './ResponsiveImage.astro';
+import { responsiveImage } from '../lib/images';
+
+export interface VisualService {
+  title: string;
+  description: string;
+  excerpt?: string;
+  ctaLabel?: string;
+  images?: string[];
+  video?: string;
+}
+interface Props { services: VisualService[] }
+const { services } = Astro.props;
+const galleries = await Promise.all(services.map(service =>
+  Promise.all((service.images ?? []).map(src => responsiveImage(src, [480, 800, 1280]))),
+));
+---
+
+<div class="service-cards" data-service-cards>
+  {services.map((service, index) => (
+    <>
+      <button class="service-card" type="button" data-service-open={index} aria-haspopup="dialog" aria-controls={`service-stage-${index}`} data-service-card>
+        {service.images?.[0] && <ResponsiveImage class="service-card__image" src={service.images[0]} alt="" widths={[480, 800]} sizes="(min-width: 1101px) 22vw, (min-width: 601px) 44vw, 90vw" />}
+        {service.video && <video class="service-card__video" data-service-video={service.video} muted playsinline loop preload="none" aria-hidden="true"></video>}
+        <span class="service-card__shade"></span>
+        <span class="service-card__copy">
+          <span class="service-card__title">{service.title}</span>
+          <span class="service-card__excerpt">{service.excerpt ?? service.description.split('. ')[0] + '.'}</span>
+        </span>
+      </button>
+      <dialog class="service-stage" id={`service-stage-${index}`} aria-labelledby={`service-stage-title-${index}`} data-service-stage={index}>
+        <article class="service-stage__panel service-panel">
+          <button class="service-stage__close" type="button" aria-label="Cerrar servicio" data-service-close autofocus><Icon name="x" /></button>
+          <div class="service-stage__copy">
+            <h3 id={`service-stage-title-${index}`}>{service.title}</h3>
+            <div class="service-stage__rule"></div>
+            <p>{service.description}</p>
+            {service.ctaLabel && (
+              <a
+                class="service-stage__cta"
+                href={`https://api.whatsapp.com/send?phone=573244934941&text=${encodeURIComponent(`Hola, equipo INGENIUM. Me interesa el servicio de ${service.title.toLocaleLowerCase('es')}. Quisiera recibir asesoría para mi proyecto.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${service.ctaLabel}. Contactar por WhatsApp (abre en una pestaña nueva)`}
+              >
+                <span>{service.ctaLabel}</span>
+                <Icon name="whatsapp" />
+              </a>
+            )}
+          </div>
+          <div class="service-stage__gallery" aria-label={`Imágenes de ${service.title}`}>
+            {service.video && <video class="service-stage__video" data-service-video={service.video} muted playsinline loop preload="none" aria-hidden="true"></video>}
+            <template>
+              {galleries[index].map((image, imageIndex) => (
+                <img {...image} sizes="(max-width: 700px) 92vw, 50vw" alt={`${service.title}, vista ${imageIndex + 1}`} decoding="async" class:list={['service-stage__image', { 'is-active': imageIndex === 0 }]} aria-hidden={imageIndex !== 0 ? 'true' : 'false'} />
+              ))}
+            </template>
+          </div>
+        </article>
+      </dialog>
+    </>
+  ))}
+</div>
+
+<style>
+  .service-cards { display: grid; width: calc(100% - 48px); max-width: 1352px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 0; margin-inline: auto; }
+  .service-card { position: relative; display: block; min-width: 0; height: clamp(320px, 28vw, 400px); overflow: hidden; padding: 24px; border: 0; text-align: left; color: #fff; background: #252525; cursor: pointer; isolation: isolate; }
+   .service-card__image, .service-card__video, .service-card__shade { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+   .service-card__video, .service-stage__video { object-fit: cover; opacity: 0; transition: opacity 500ms ease; }
+   .service-card__video.is-playing, .service-stage__video.is-playing { opacity: 1; }
+   .service-stage__video { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; }
+  .service-card__image { object-fit: cover; transition: transform 700ms cubic-bezier(.2,.7,.2,1); }
+  .service-card__shade { background: linear-gradient(0deg, rgba(0,0,0,.65), transparent 58%); }
+  .service-card__copy { position: absolute; inset: auto 24px 24px; display: grid; gap: 12px; text-shadow: 0 1px 4px rgba(0,0,0,.65); }
+  .service-card__title { display: block; padding-right: 14px; font: 700 clamp(18px, 1.5vw, 23px)/1.15 var(--font-heading); letter-spacing: -.035em; transform: translateY(var(--excerpt-height, 0px)); transition: transform 450ms cubic-bezier(.2,.7,.2,1); }
+  .service-card__excerpt { display: block; font: 400 14px/1.5 var(--font-body); opacity: 0; transform: translateY(18px); transition: opacity 350ms ease, transform 450ms ease; }
+  .service-card:is(:hover, :focus-visible) .service-card__image { transform: scale(1.09); }
+  .service-card:is(:hover, :focus-visible) .service-card__title { transform: translateY(0); }
+  .service-card:is(:hover, :focus-visible) .service-card__excerpt { opacity: 1; transform: translateY(0); }
+  .service-card:active { transform: scale(.985); }
+  .service-card:focus-visible { outline: 3px solid var(--brand-orange); outline-offset: 4px; }
+  .service-stage { width: min(1120px, calc(100% - 64px)); max-width: none; max-height: calc(100dvh - 64px); margin: auto; padding: 0; border: 0; color: var(--brand-navy); background: transparent; overflow: visible; }
+  .service-stage::backdrop { background: rgba(8,20,39,.76); backdrop-filter: blur(7px); animation: stage-backdrop-in 350ms ease both; }
+  .service-stage.is-closing::backdrop { animation: stage-backdrop-out 300ms ease both; }
+  .service-stage__panel { position: relative; display: grid; grid-template-columns: 1fr 1.05fr; grid-template-rows: minmax(0,1fr); height: min(760px,calc(100dvh - 64px)); background: var(--bg); overflow: hidden; box-shadow: 0 28px 90px rgba(8,20,39,.25); }
+  .service-stage__copy { align-self: center; max-height: 100%; overflow-y: auto; padding: clamp(28px, 4vw, 56px); }
+  .service-stage h3 { margin: 0; color: var(--brand-navy); font: 700 clamp(26px, 3vw, 42px)/1.08 var(--font-heading); letter-spacing: -.045em; }
+  .service-stage__rule { width: 48px; height: 3px; margin: 24px 0; background: var(--brand-orange); }
+  .service-stage p { margin: 0; color: var(--ink-secondary); font: 400 clamp(15px, 1.15vw, 17px)/1.75 var(--font-body); }
+  .service-stage__cta { display: inline-flex; align-items: center; justify-content: center; gap: 12px; max-width: 100%; min-height: 48px; margin-top: 28px; padding: 12px 18px; border: 1px solid var(--brand-navy); border-radius: 999px; background: var(--brand-navy); color: #fff; font: 600 14px/1.4 var(--font-body); text-decoration: none; transition: transform .3s ease, background-color .3s, border-color .3s; }
+  .service-stage__cta:hover { background: #293e63; border-color: #293e63; transform: translateY(-2px); }
+  .service-stage__cta:active { transform: scale(.98); }
+  .service-stage__cta:focus-visible { outline: 3px solid var(--brand-orange); outline-offset: 4px; }
+  .service-stage__gallery { position: relative; min-height: 0; height: 100%; overflow: hidden; background: var(--bg-subtle); pointer-events: none; }
+  .service-stage__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.035); transition: opacity 700ms ease, transform 3000ms ease; }
+  .service-stage__image.is-active { opacity: 1; transform: scale(1); }
+  .service-stage__close { position: absolute; z-index: 1; top: 16px; right: 16px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; color: #fff; background: var(--brand-navy); cursor: pointer; transition: transform 250ms ease; }
+  .service-stage__close:hover { transform: rotate(90deg); }
+  .service-stage__close:focus-visible { outline: 3px solid var(--brand-orange); outline-offset: 3px; }
+  @keyframes stage-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes stage-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
+  @media (max-width: 1100px) { .service-cards { width: calc(100% - 16px); grid-template-columns: repeat(2, minmax(0, 1fr)); } .service-card { height: 340px; } }
+  @media (max-width: 700px) {
+    .service-stage { width: calc(100% - 28px); max-height: calc(100dvh - 28px); }
+    .service-stage__panel { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; max-height: calc(100dvh - 28px); overflow-y: auto; }
+    .service-stage__copy { max-height: none; overflow: visible; padding: 32px 24px; }
+    .service-stage__cta { width: 100%; margin-top: 24px; }
+    .service-stage h3 { padding-right: 28px; }
+    .service-stage__gallery { height: clamp(280px,42dvh,380px); }
+  }
+  @media (max-width: 600px) { .service-cards { width: 100%; grid-template-columns: 1fr; row-gap: 14px; } .service-card { height: 300px; } }
+  @media (hover: none) { .service-card__title { transform: none; } .service-card__excerpt { opacity: 1; transform: none; } }
+</style>
+
+<script>
+  import { registerViewportMedia } from '../lib/viewport-media';
+  let cleanup: (() => void) | undefined;
+  function mountServiceCards() {
+    cleanup?.();
+    const root = document.querySelector<HTMLElement>('[data-service-cards]');
+    if (!root) return;
+    const controller = new AbortController();
+    const { signal } = controller;
+    let active: HTMLDialogElement | undefined;
+    let source: HTMLButtonElement | undefined;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    let animation: Animation | undefined;
+    let closing = false;
+    let previousOverflow = '';
+    const videoPlayers = new Map<HTMLVideoElement, ReturnType<typeof registerViewportMedia>>();
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    root.querySelectorAll<HTMLVideoElement>('[data-service-video]').forEach(video => {
+      const card = video.closest<HTMLButtonElement>('.service-card');
+      const player = registerViewportMedia({
+        element: card ?? video.parentElement!, video, minRatio: .25, priority: card ? 2 : 3, enabled: false,
+        onActiveChange(playing) {
+          if (!playing) { video.pause(); video.classList.remove('is-playing'); return; }
+          if (!video.getAttribute('src')) video.src = video.dataset.serviceVideo!;
+          video.muted = true;
+          void video.play().then(() => { if (!video.paused) video.classList.add('is-playing'); }).catch(() => video.classList.remove('is-playing'));
+        },
+      });
+      videoPlayers.set(video, player);
+      if (card) {
+        let hovered = false;
+        const update = () => player.setEnabled(!connection?.saveData && !active && (hovered || card.matches(':focus-visible')));
+        card.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hovered = true; update(); } }, { signal });
+        card.addEventListener('pointerleave', () => { hovered = false; update(); }, { signal });
+        card.addEventListener('focus', update, { signal });
+        card.addEventListener('blur', update, { signal });
+      }
+    });
+    const stopSlides = () => { clearInterval(timer); timer = undefined; };
+    const resize = new ResizeObserver(() => {
+      root.querySelectorAll<HTMLElement>('.service-card').forEach(card => {
+        const excerpt = card.querySelector<HTMLElement>('.service-card__excerpt');
+        card.style.setProperty('--excerpt-height', `${(excerpt?.offsetHeight ?? 0) + 12}px`);
+      });
+    });
+    root.querySelectorAll('.service-card').forEach(card => resize.observe(card));
+
+    function startSlides() {
+      stopSlides();
+      if (!active || closing || document.hidden) return;
+      const dialog = active;
+      const images = Array.from(dialog.querySelectorAll<HTMLImageElement>('.service-stage__image'));
+      if (images.length < 2) return;
+      let pending = false;
+      timer = setInterval(async () => {
+        if (pending) return;
+        pending = true;
+        const current = Math.max(0, images.findIndex(image => image.classList.contains('is-active')));
+        const next = (current + 1) % images.length;
+        try { await images[next].decode(); } catch { pending = false; return; }
+        if (active === dialog && !closing && !document.hidden) {
+          images[current].classList.remove('is-active');
+          images[current].setAttribute('aria-hidden', 'true');
+          images[next].classList.add('is-active');
+          images[next].setAttribute('aria-hidden', 'false');
+        }
+        pending = false;
+      }, 3000);
+    }
+
+    function closeStage() {
+      if (!active || closing) return;
+      closing = true;
+      videoPlayers.forEach(player => player.setEnabled(false));
+      stopSlides();
+      const dialog = active;
+      dialog.classList.add('is-closing');
+      animation?.cancel();
+      const panel = dialog.querySelector<HTMLElement>('.service-stage__panel')!;
+      animation = panel.animate([{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(.92) translateY(12px)' }], { duration: 300, easing: 'ease-in', fill: 'forwards' });
+      animation.finished.then(() => {
+        dialog.close();
+        dialog.classList.remove('is-closing');
+        animation?.cancel();
+        active = undefined;
+        closing = false;
+        document.body.style.overflow = previousOverflow;
+        source?.focus({ preventScroll: true });
+      }).catch(() => {});
+    }
+
+    root.addEventListener('click', event => {
+      if (!(event.target instanceof Element)) return;
+      const button = event.target.closest<HTMLButtonElement>('[data-service-open]');
+      if (button && !active) {
+        const dialog = root.querySelector<HTMLDialogElement>(`[data-service-stage="${button.dataset.serviceOpen}"]`);
+        if (!dialog) return;
+        source = button;
+        active = dialog;
+        const gallery = dialog.querySelector<HTMLElement>('.service-stage__gallery')!;
+        if (!gallery.querySelector('img')) gallery.append(gallery.querySelector('template')!.content.cloneNode(true));
+        const from = button.getBoundingClientRect();
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        dialog.showModal();
+        videoPlayers.forEach((player, video) => player.setEnabled(!connection?.saveData && dialog.contains(video)));
+        const panel = dialog.querySelector<HTMLElement>('.service-stage__panel')!;
+        const to = panel.getBoundingClientRect();
+        animation = panel.animate([
+          { opacity: .25, transform: `translate(${from.x + from.width / 2 - to.x - to.width / 2}px, ${from.y + from.height / 2 - to.y - to.height / 2}px) scale(${from.width / to.width}, ${from.height / to.height})` },
+          { opacity: 1, transform: 'translate(0, 0) scale(1)' },
+        ], { duration: 520, easing: 'cubic-bezier(.16,1,.3,1)' });
+        startSlides();
+      } else if (active && (event.target === active || event.target.closest('[data-service-close]'))) closeStage();
+    }, { signal });
+    root.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('cancel', event => { event.preventDefault(); closeStage(); }, { signal }));
+    document.addEventListener('visibilitychange', startSlides, { signal });
+    cleanup = () => {
+      controller.abort();
+      resize.disconnect();
+      videoPlayers.forEach(player => player.dispose());
+      stopSlides();
+      animation?.cancel();
+      if (active) { active.close(); document.body.style.overflow = previousOverflow; }
+    };
+  }
+  mountServiceCards();
+  document.addEventListener('astro:page-load', mountServiceCards);
+  document.addEventListener('astro:before-swap', () => cleanup?.());
+  import.meta.hot?.dispose(() => cleanup?.());
+</script>

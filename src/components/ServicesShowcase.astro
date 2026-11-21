@@ -1,16 +1,17 @@
 ---
 import Icon from './Icon.astro';
 import ResponsiveImage from './ResponsiveImage.astro';
-import { servicePreviews } from '../lib/hero-film.mjs';
+import { constructionPreview } from '../lib/construccion-media.mjs';
+import { consultingPreview } from '../lib/consultoria-media.mjs';
 const services = [
-  { title: 'Consultoría', href: '/consultoria', image: `/assets/hero-videos/${servicePreviews.consultoria.file}-poster.webp`, alt: 'Vista aérea del entorno urbano de una obra de INGENIUM', video: `/assets/hero-videos/${servicePreviews.consultoria.file}.mp4` },
-  { title: 'Construcción', href: '/construccion', image: `/assets/hero-videos/${servicePreviews.construccion.file}-poster.webp`, alt: 'Construcción de una vivienda', video: `/assets/hero-videos/${servicePreviews.construccion.file}.mp4` },
+  { title: 'Consultoría', href: '/consultoria', ...consultingPreview },
+  { title: 'Construcción', href: '/construccion', ...constructionPreview },
 ];
 ---
 <section class="services-showcase section-shell" id="servicios" aria-labelledby="services-title">
   <h2 id="services-title">Nuestros servicios.</h2>
   <div class="services-grid">
-    {services.map(service => <a class="service-panel" href={service.href} data-service-panel data-preview={service.video} aria-label={`Conoce nuestros servicios de ${service.title.toLowerCase()}`}>
+    {services.map(service => <a class="service-panel" href={service.href} data-service-panel data-preview={service.video} data-preview-compact={'compactVideo' in service ? service.compactVideo : undefined} aria-label={`Conoce nuestros servicios de ${service.title.toLowerCase()}`}>
       <ResponsiveImage src={service.image} alt={service.alt} widths={[480,800,1280]} aspectRatio={1.6} sizes="(max-width: 767px) 90vw, 46vw" />
       <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
       <div class="service-shade" aria-hidden="true"></div>
@@ -38,37 +39,57 @@ const services = [
 </style>
 <script>
   import { registerViewportMedia } from '../lib/viewport-media';
-  document.querySelectorAll<HTMLElement>('[data-service-panel]').forEach(panel => {
+  let cleanups: (() => void)[] = [];
+  function mountServicePreviews() {
+    cleanups.forEach(cleanup => cleanup());
+    cleanups = [];
+    let priority = 3;
+    document.querySelectorAll<HTMLElement>('[data-service-panel]').forEach(panel => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const video = panel.querySelector('video')!;
     let active = false;
+    let hovered = false;
     let disposed = false;
     let run = 0;
     const play = () => {
       const token = ++run;
       if (!active || disposed || document.hidden) return;
-      if (!video.getAttribute('src')) video.src = panel.dataset.preview!;
+      if (!video.getAttribute('src')) {
+        video.src = window.matchMedia('(max-width: 767px)').matches && panel.dataset.previewCompact
+          ? panel.dataset.previewCompact : panel.dataset.preview!;
+      }
+      video.muted = true;
       video.play().then(() => {
         if (active && !document.hidden && !disposed && token === run) panel.classList.add('is-playing');
         else if (!active || document.hidden || disposed) video.pause();
-      }).catch(() => panel.classList.remove('is-playing'));
+      }).catch(() => { if (token === run) panel.classList.remove('is-playing'); });
     };
-    video.addEventListener('error', () => panel.classList.remove('is-playing'));
+    video.addEventListener('error', () => panel.classList.remove('is-playing'), { signal });
     const playback = registerViewportMedia({
-      element: panel, video, minRatio: .4, priority: 1,
+      element: panel, video, minRatio: .4, priority: 1, enabled: false,
       onActiveChange(playing) {
         active = playing;
         if (active) play();
-        else { ++run; video.pause(); } // Keep the last sharp frame, no image flash.
+        else { ++run; panel.classList.remove('is-playing'); video.pause(); }
       },
     });
-    const prefer = () => playback.setPriority(3);
-    const restore = () => playback.setPriority(panel.matches(':hover, :focus-within') ? 3 : 1);
-    panel.addEventListener('pointerenter', prefer);
-    panel.addEventListener('pointerleave', restore);
-    panel.addEventListener('focusin', prefer);
-    panel.addEventListener('focusout', () => queueMicrotask(restore));
-    const cleanup = () => { disposed = true; playback.dispose(); video.removeAttribute('src'); video.load(); };
-    document.addEventListener('astro:before-swap', cleanup, { once: true });
-    import.meta.hot?.dispose(cleanup);
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const update = () => {
+      if (disposed) return;
+      const interested = !connection?.saveData && (hovered || panel.matches(':focus-visible'));
+      if (interested) playback.setPriority(++priority);
+      playback.setEnabled(interested);
+    };
+    panel.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hovered = true; update(); } }, { signal });
+    panel.addEventListener('pointerleave', () => { hovered = false; update(); }, { signal });
+    panel.addEventListener('focusin', update, { signal });
+    panel.addEventListener('focusout', () => queueMicrotask(update), { signal });
+    cleanups.push(() => { disposed = true; controller.abort(); playback.dispose(); panel.classList.remove('is-playing'); video.removeAttribute('src'); video.load(); });
   });
+  }
+  mountServicePreviews();
+  document.addEventListener('astro:page-load', mountServicePreviews);
+  document.addEventListener('astro:before-swap', () => cleanups.forEach(cleanup => cleanup()));
+  import.meta.hot?.dispose(() => cleanups.forEach(cleanup => cleanup()));
 </script>
